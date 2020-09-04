@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
 
             if (!store.get('imgTag')) store.set('imgTag', '')
-            var scopeTemp = ['https://assets.krunker.io/pro_scope.png?build=7FIag', 'https://assets.krunker.io/pro_ads.png?build=7FIag', 'https://cdn.discordapp.com/attachments/693301413740281876/715113505224785980/scope3444_9.gif', 'https://cdn.discordapp.com/attachments/622572567831773205/693614443128684544/Jedi_scope_fixed.png', 'https://cdn.discordapp.com/attachments/693301794654257213/693313047594532934/bluescope.png', 'https://cdn.discordapp.com/attachments/693301794654257213/714155232262750308/animated_scope_2_1.gif', 'https://cdn.discordapp.com/attachments/711330459149140009/715837260917899284/20200524_135724.png', 'https://cdn.discordapp.com/attachments/693301794654257213/710963039385551010/Untitled_drawing_33_4.png', 'https://cdn.discordapp.com/attachments/693302447426371584/699476049507123220/output_r0D1He.gif', 'https://cdn.discordapp.com/attachments/614536815105540116/693318411790450710/blue_neon_scope.png']
+            var scopeTemp = ['https://assets.krunker.io/pro_scope.png?build=7FIag', 'https://assets.krunker.io/pro_ads.png?build=7FIag', 'https://cdn.discordapp.com/attachments/747410238944051271/751464889205391470/scope3444_9.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465128486240407/Jedi_scope_fixed.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465296677699634/bluescope.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png']
             if (!store.get('scopesCurrent')) store.set('scopesCurrent', scopeTemp)
 
 
@@ -142,11 +142,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // *** Things to Do if Page Loads **
 
             var doIt = () => {
-                getID('mainLogo').src = store.get('imgTag') ? store.get('imgTag') : 'https://cdn.discordapp.com/attachments/720846507946803252/722461935341404233/FIXED.png'
-                getID('mapInfoHolder').children[3].innerHTML += '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
-                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>')
-                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>')
-                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>')
+                getID('mainLogo').src = store.get('imgTag') ? store.get('imgTag') : 'https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png';
+                getID('mapInfoHolder').children[3].innerHTML += '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>';
+                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>');
+                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>');
+                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
             }
         }
 
@@ -192,20 +192,20 @@ window.prompt = importSettings = () => {
 // *** When Scope Bank Button is Pressed, Open Scope Bank ***
 
 window.scopes = () => {
-    scopeLink = store.get('scopesCurrent')
-        // Open Menu
+    scopeLink = store.get('scopesCurrent');
+    // Open Menu
     openHostWindow();
     // Create Parent Window
-    getID('menuWindow').innerHTML = '<div class="skinList" id="oo"></div>'
-    var i = 0
+    getID('menuWindow').innerHTML = '<div class="skinList" id="oo"></div>';
+    var i = 0;
     var a;
-    var oh = parseInt(scopeLink.length)
-        // Set the Scopes Using for Loop
-    for (i = 0; i < oh; i++) {
-        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/720846507946803252/734438348495650826/imageedit_2_5132595995.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i)
+    var scopeSize = parseInt(scopeLink.length);
+    // Set the Scopes Using for Loop
+    for (i = 0; i < scopeSize; i++) {
+        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/720846507946803252/734438348495650826/imageedit_2_5132595995.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i); //Checkpoint
         getID('oo').innerHTML = getID('oo').innerHTML + a;
     }
-    var a = '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Plus_symbol.svg/1200px-Plus_symbol.svg.png"></div>'
+    var a = '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
     getID('oo').insertAdjacentHTML('beforeend', a);
 }
 
@@ -250,7 +250,7 @@ window.Css = importCss = () => {
     getID('changeBttt').addEventListener('click', () => {
         if (!getID('logosp').value) {
             store.set('imgTag', '')
-            getID('mainLogo').src = 'https://cdn.discordapp.com/attachments/720846507946803252/722461935341404233/FIXED.png'
+            getID('mainLogo').src = 'https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png'
         } else {
             store.set('imgTag', getID('logosp').value)
             getID('mainLogo').src = getID('logosp').value;
