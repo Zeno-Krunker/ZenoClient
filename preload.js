@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // *** Inject CSS **
             readFile(__dirname + '/style.css', "utf-8", (error, data) => {
                 if (!error) {
-                    document.getElementsByTagName("head")[0].innerHTML += "<style id='injected'>" + data.replace(/\s{2,10}/g, ' ').trim() + "</style>"
+                    document.getElementsByTagName("head")[0].insertAdjacentHTML('beforeend', "<style id='injected'>" + data.replace(/\s{2,10}/g, ' ').trim() + "</style>")
                 } else {
                     console.log(error)
                 }
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             var doIt = () => {
                 getID('mainLogo').src = store.get('imgTag') ? store.get('imgTag') : 'https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png';
-                getID('mapInfoHolder').children[3].innerHTML += '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>';
+                getID('mapInfoHolder').children[3].insertAdjacentHTML('beforeend', '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>')
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
@@ -202,8 +202,8 @@ window.scopes = () => {
     var scopeSize = parseInt(scopeLink.length);
     // Set the Scopes Using for Loop
     for (i = 0; i < scopeSize; i++) {
-        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i); //Checkpoint
-        getID('oo').innerHTML = getID('oo').innerHTML + a;
+        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i);
+        getID('oo').insertAdjacentHTML('beforeend', a)
     }
     var a = '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
     getID('oo').insertAdjacentHTML('beforeend', a);
@@ -308,7 +308,7 @@ window.Css = importCss = () => {
     var parseCSS = (string) => {
         if (string) {
             try {
-                document.getElementsByTagName("head")[0].innerHTML += "<style>" + string.replace(/\s{2,10}/g, ' ').trim() + "</style>"
+                document.getElementsByTagName("head")[0].insertAdjacentHTML('beforeend', "<style>" + string.replace(/\s{2,10}/g, ' ').trim() + "</style>")
             } catch (err) {
                 console.error(err);
                 alert('Error importing CSS');
