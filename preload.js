@@ -4,9 +4,16 @@
 */
 
 // *** Include Modules ***
-const { ipcRenderer: ipcRenderer, remote } = require('electron');
-const { readFile } = require('fs');
-const { copy } = require("fs-extra");
+const {
+    ipcRenderer: ipcRenderer,
+    remote
+} = require('electron');
+const {
+    readFile
+} = require('fs');
+const {
+    copy
+} = require("fs-extra");
 const Store = require('electron-store');
 const store = new Store();
 
@@ -89,7 +96,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     observer.disconnect();
                     doIt();
                 }
-            }).observe(document, { childList: true, subtree: true, characterDataOldValue: true });
+            }).observe(document, {
+                childList: true,
+                subtree: true,
+                characterDataOldValue: true
+            });
 
             // *** Badges Features ***
 
@@ -108,7 +119,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 if (document.getElementsByClassName('menuClassPlayerName')[0]) {
                     checkPlayer()
                 }
-            }).observe(document, { chatList: true, subtree: true, attributes: true })
+            }).observe(document, {
+                chatList: true,
+                subtree: true,
+                attributes: true
+            })
 
             // *** Mute Feature ***
 
@@ -134,10 +149,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             window.muteList.includes(b) && a[0].addedNodes[0].remove()
                         }
                     };
-                    window.playerlistObserver = new MutationObserver(() => window.playerlistHandler()).observe(getID("windowHeader"), { attributes: !0, subtree: !0, childList: !0 })
-                    window.chatObserver = new MutationObserver(a => window.chatHandler(a)).observe(getID("chatList"), { childList: !0 });
+                    window.playerlistObserver = new MutationObserver(() => window.playerlistHandler()).observe(getID("windowHeader"), {
+                        attributes: !0,
+                        subtree: !0,
+                        childList: !0
+                    })
+                    window.chatObserver = new MutationObserver(a => window.chatHandler(a)).observe(getID("chatList"), {
+                        childList: !0
+                    });
                 }
-            }).observe(document, { chatList: true, subtree: true, attributes: true })
+            }).observe(document, {
+                chatList: true,
+                subtree: true,
+                attributes: true
+            })
 
             // *** Things to Do if Page Loads **
 
@@ -169,7 +194,9 @@ window.prompt = importSettings = () => {
     <div class="settName" id="importSettings_div" style="display:block">Settings String<input type="url" placeholder="Paste Settings String Here" name="url" class="inputGrey2" id="settingString"></div>
     <a class="+" id="importBtn">Import</a>`
     menuWindow.innerHTML = tempHTML;
-    importBtn.addEventListener('click', () => { parseSettings(settingString.value); });
+    importBtn.addEventListener('click', () => {
+        parseSettings(settingString.value);
+    });
 
     // *** Parse Settings ***
 
@@ -301,7 +328,9 @@ window.Css = importCss = () => {
 
         }
     }
-    importBtnn.addEventListener('click', () => { parseCSS(settingString.value); });
+    importBtnn.addEventListener('click', () => {
+        parseCSS(settingString.value);
+    });
 
     // *** Set the CSS ***
 
@@ -327,7 +356,9 @@ window.addScope = () => {
 
     getID('menuWindow').innerHTML = tempHTML;
     var importBtnnn = getID('importBtnnn')
-    importBtnnn.addEventListener('click', () => { parseScope(settingString.value); });
+    importBtnnn.addEventListener('click', () => {
+        parseScope(settingString.value);
+    });
 
     var parseScope = (string) => {
         var present = store.get('scopesCurrent')
