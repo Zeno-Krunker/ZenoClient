@@ -36,7 +36,6 @@ if (cpus()[0].model.includes('AMD')) {
     app.commandLine.appendSwitch('enable-zero-copy')
 }
 
-
 var win = null;
 
 function createGameWindow() {

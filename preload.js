@@ -172,14 +172,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 getID('mainLogo').src = store.get('imgTag') ? store.get('imgTag') : 'https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png';
                 getID('mapInfoHolder').children[3].insertAdjacentHTML('beforeend', '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>')
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>');
-                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.chat()" onmouseenter="playTick()">Chat Presents</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
                 updateChat()
-            }
-
-            var updateChat = () => {
-
             }
         }
 
@@ -191,12 +186,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         init()
     })();
 });
-
-// *** Chat Presents ***
-
-window.chat = () => {
-
-}
 
 // *** Custom Import Settings Menu ***
 
