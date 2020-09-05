@@ -202,7 +202,7 @@ window.scopes = () => {
     var scopeSize = parseInt(scopeLink.length);
     // Set the Scopes Using for Loop
     for (i = 0; i < scopeSize; i++) {
-        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/720846507946803252/734438348495650826/imageedit_2_5132595995.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i); //Checkpoint
+        var a = '<div class="classCard" onclick="window.selectScope(noHere)"><img class="topRightBoi" onclick="window.removeScope(bruhBois)" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><img class="classImgC" src="hereOi">'.replace('noHere', i).replace('hereOi', scopeLink[i]).replace('bruhBois', i); //Checkpoint
         getID('oo').innerHTML = getID('oo').innerHTML + a;
     }
     var a = '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
