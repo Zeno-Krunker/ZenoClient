@@ -1,8 +1,8 @@
 # ZenoClient
-A Krunker Client.
+A Krunker Client Aim to Have Nice Features for Players.
 
 # How to Set Up
-Clone to a Folder then Do $>npm i
+Clone to a Folder then Do `$>npm i`
 
 # Build 
 Windows : $>npm run package-win
