@@ -10,6 +10,8 @@ const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
 const { register } = require('electron-localshortcut');
 
+const devTools = true;
+
 // *** Do Some FPS Tricks ***
 
 app.commandLine.appendSwitch('disable-frame-rate-limit');
@@ -77,7 +79,7 @@ function createGameWindow() {
                 }
             });
             register(newWin, 'F7', () => {
-                // win.webContents.openDevTools(); // Remove on Build
+                if (devTools) win.webContents.openDevTools();
             });
             newWin.once('ready-to-show', () => newWin.show());
             if (!options.webContents) {
@@ -115,9 +117,9 @@ function createGameWindow() {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
     });
     register(win, 'F7', () => {
-        //win.webContents.openDevTools(); // Remove on Build
+        if (devTools) win.webContents.openDevTools();
     });
-    //win.webContents.openDevTools(); // Remove on Build 
+    if (devTools) win.webContents.openDevTools();
     win.setSimpleFullScreen(true);
     win.loadURL('https://krunker.io');
     win.removeMenu();

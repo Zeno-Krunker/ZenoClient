@@ -81,6 +81,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
 
             if (!store.get('imgTag')) store.set('imgTag', '')
+            var chat = ["GG WP ", "Nice Game ", "Follow me on Krunker"]
+            if (!store.get('chat')) store.set('chat', chat)
             var scopeTemp = ['https://assets.krunker.io/pro_scope.png?build=7FIag', 'https://assets.krunker.io/pro_ads.png?build=7FIag', 'https://cdn.discordapp.com/attachments/747410238944051271/751464889205391470/scope3444_9.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465128486240407/Jedi_scope_fixed.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465296677699634/bluescope.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png']
             if (!store.get('scopesCurrent')) store.set('scopesCurrent', scopeTemp)
 
@@ -170,8 +172,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 getID('mainLogo').src = store.get('imgTag') ? store.get('imgTag') : 'https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png';
                 getID('mapInfoHolder').children[3].insertAdjacentHTML('beforeend', '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>')
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>');
+                getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.chat()" onmouseenter="playTick()">Chat Presents</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
+                updateChat()
+            }
+
+            var updateChat = () => {
+
             }
         }
 
@@ -183,6 +191,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
         init()
     })();
 });
+
+// *** Chat Presents ***
+
+window.chat = () => {
+
+}
 
 // *** Custom Import Settings Menu ***
 
