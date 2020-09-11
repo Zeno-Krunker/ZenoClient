@@ -47,7 +47,7 @@ function createGameWindow() {
         backgroundColor: '#000000',
         webPreferences: {
             nodeIntergration: true,
-            preload: __dirname + '/preload.js',
+            preload: `${__dirname}/preload.js`,
             webSecurity: false
         }
     });
@@ -73,12 +73,12 @@ function createGameWindow() {
                 show: false,
                 webPreferences: {
                     nodeIntergration: true,
-                    preload: __dirname + '/social.js',
+                    preload: `${__dirname}/social.js`,
                     webSecurity: false
                 }
             });
             register(newWin, 'F7', () => {
-                if (devTools) win.webContents.openDevTools();
+                if (devTools) newWin.webContents.openDevTools();
             });
             newWin.once('ready-to-show', () => newWin.show());
             if (!options.webContents) {
@@ -86,7 +86,7 @@ function createGameWindow() {
             }
             event.newGuest = newWin;
             newWin.removeMenu();
-            // newWin.webContents.openDevTools(); // Remove on Build
+            if (devTools) win.webContents.openDevTools();
             newWin.webContents.on('new-window', (event, url, frameName, disposition, options) => {
                 initWin(event, url, frameName, disposition, options);
             });
@@ -125,7 +125,7 @@ function createGameWindow() {
 
     // *** Resource Swapper Code ***
 
-    let sf = app.getPath('documents') + '/ZenoSwapper/';
+    let sf = `${app.getPath('documents')}/ZenoSwapper/`;
 
     try { mkdir(sf, { recursive: true }, e => {}); } catch (e) {};
     let s = { fltr: { urls: [] }, fls: {} };
