@@ -10,7 +10,7 @@ const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
 const { register } = require('electron-localshortcut');
 
-const devTools = true;
+const devTools = false;
 
 // *** Do Some FPS Tricks ***
 
