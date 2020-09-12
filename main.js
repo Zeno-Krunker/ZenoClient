@@ -4,7 +4,7 @@
 */
 
 // *** The Modules ***
-const { screen, app, BrowserWindow, shell } = require('electron');
+const { screen, app, BrowserWindow, shell, globalShortcut } = require('electron');
 var { cpus } = require('os');
 const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
@@ -106,11 +106,23 @@ function createGameWindow() {
     register(win, 'F3', () => {
         win.webContents.send('home');
     });
-    register(win, 'F4', () => {
-        win.webContents.send('findMatch');
+
+    globalShortcut.register('F11', () => {
+        win.setSimpleFullScreen(!win.isSimpleFullScreen());
+    });
+    globalShortcut.register('F3', () => {
+        win.webContents.send('home');
+    });
+    globalShortcut.register('F5', () => {
+        app.relaunch();
+        app.quit()
+    });
+    globalShortcut.register('F7', () => {
+        if (devTools) win.webContents.openDevTools();
     });
     register(win, 'F5', () => {
-        win.webContents.reloadIgnoringCache();
+        app.relaunch();
+        app.quit()
     });
     register(win, 'F11', () => {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
