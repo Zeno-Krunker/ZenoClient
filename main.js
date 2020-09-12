@@ -164,4 +164,15 @@ function createGameWindow() {
 var init = () => {
     createGameWindow();
 }
-app.on('ready', init);
+
+app.whenReady().then(() => {
+    init()
+
+    app.on('activate', function() {
+        if (BrowserWindow.getAllWindows().length === 0) init()
+    })
+})
+
+app.on('window-all-closed', function() {
+    if (process.platform !== 'darwin') app.quit()
+})
