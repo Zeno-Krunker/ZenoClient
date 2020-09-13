@@ -4,16 +4,9 @@
 */
 
 // *** Include Modules ***
-const {
-    ipcRenderer: ipcRenderer,
-    remote
-} = require('electron');
-const {
-    readFile
-} = require('fs');
-const {
-    copy
-} = require("fs-extra");
+const { ipcRenderer: ipcRenderer, remote} = require('electron');
+const { readFile } = require('fs');
+const { copy } = require("fs-extra");
 const Store = require('electron-store');
 const store = new Store();
 

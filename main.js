@@ -1,6 +1,6 @@
 /*
     Main.js Zeno Client
-    By : https://aryaveer.tk/
+    By : https://aryaveer.tk/ and https://hitthemoney.com
 */
 
 // *** The Modules ***
@@ -9,8 +9,10 @@ var { cpus } = require('os');
 const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
 const { register } = require('electron-localshortcut');
+const { readFile } = require('fs');
 
 const devTools = false;
+const fullscreenOnload = true;
 
 // *** Do Some FPS Tricks ***
 
@@ -44,6 +46,8 @@ function createGameWindow() {
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
+        height: Math.round(height * 0.75),
+        width: Math.round(width * 0.75),
         backgroundColor: '#000000',
         webPreferences: {
             nodeIntergration: true,
@@ -67,22 +71,30 @@ function createGameWindow() {
         } else {
             event.preventDefault();
             const newWin = new BrowserWindow({
-                width: width * 0.75,
-                height: height * 0.9,
+                width: Math.round(width * 0.75),
+                height: Math.round(height * 0.8),
                 webContents: options.webContents,
                 show: false,
+                backgroundColor: "#131313",
                 webPreferences: {
                     nodeIntergration: true,
                     preload: `${__dirname}/social.js`,
                     webSecurity: false
                 }
             });
+
             register(newWin, 'F7', () => {
                 if (devTools) newWin.webContents.openDevTools();
             });
-            newWin.once('ready-to-show', () => newWin.show());
+            //newWin.once('ready-to-show', () => newWin.show());
             if (!options.webContents) {
                 newWin.loadURL(url);
+
+                newWin.webContents.once("dom-ready", function () {
+                    setTimeout(() => {
+                        newWin.show();
+                    }, 600);
+                });
             }
             event.newGuest = newWin;
             newWin.removeMenu();
@@ -131,7 +143,7 @@ function createGameWindow() {
         if (devTools) win.webContents.openDevTools();
     });
     if (devTools) win.webContents.openDevTools();
-    win.setSimpleFullScreen(true);
+    win.setSimpleFullScreen(fullscreenOnload);
     win.loadURL('https://krunker.io');
     win.removeMenu();
 
@@ -139,7 +151,7 @@ function createGameWindow() {
 
     let sf = `${app.getPath('documents')}/ZenoSwapper/`;
 
-    try { mkdir(sf, { recursive: true }, e => {}); } catch (e) {};
+    try { mkdir(sf, { recursive: true }, e => { }); } catch (e) { };
     let s = { fltr: { urls: [] }, fls: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach(file => {
@@ -180,11 +192,11 @@ var init = () => {
 app.whenReady().then(() => {
     init()
 
-    app.on('activate', function() {
+    app.on('activate', function () {
         if (BrowserWindow.getAllWindows().length === 0) init()
     })
 })
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit()
 })
