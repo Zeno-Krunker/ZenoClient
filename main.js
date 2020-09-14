@@ -54,6 +54,7 @@ function createGameWindow() {
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
+        icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(height * 0.75),
         width: Math.round(width * 0.75),
         backgroundColor: '#000000',
@@ -184,7 +185,9 @@ function createGameWindow() {
             callback({ cancel: false, redirectURL: s.fls[details.url.replace(/https|http|(\?.*)|(#.*)/gi, '')] || details.url });
         });
     }
-
+    win.webContents.on('did-finish-load', () => {
+        win.setTitle('Krunker - Zeno Client')
+    })
 
 }
 
