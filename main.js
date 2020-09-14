@@ -24,11 +24,18 @@ app.commandLine.appendSwitch('disable-component-update');
 app.commandLine.appendSwitch('disable-print-preview');
 app.commandLine.appendSwitch('disable-metrics');
 app.commandLine.appendSwitch('disable-metrics-repo');
+app.commandLine.appendSwitch('use-angle', 'd3d9');
 app.commandLine.appendSwitch('smooth-scrolling');
 app.commandLine.appendSwitch('enable-javascript-harmony');
 app.commandLine.appendSwitch('enable-future-v8-vm-features');
+app.commandLine.appendSwitch('enable-webgl2-compute-context');
 app.commandLine.appendSwitch('disable-hang-monitor');
 app.commandLine.appendSwitch('no-referrers');
+app.commandLine.appendSwitch('renderer-process-limit', 100);
+app.commandLine.appendSwitch('max-active-webgl-contexts', 100);
+app.commandLine.appendSwitch('enable-quic');
+app.commandLine.appendSwitch('high-dpi-support', 1);
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
 app.commandLine.appendSwitch('disable-2d-canvas-clip-aa');
 app.commandLine.appendSwitch('disable-bundled-ppapi-flash');
 app.commandLine.appendSwitch('disable-logging');
@@ -90,7 +97,7 @@ function createGameWindow() {
             if (!options.webContents) {
                 newWin.loadURL(url);
 
-                newWin.webContents.once("dom-ready", function () {
+                newWin.webContents.once("dom-ready", function() {
                     setTimeout(() => {
                         newWin.show();
                     }, 600);
@@ -151,7 +158,7 @@ function createGameWindow() {
 
     let sf = `${app.getPath('documents')}/ZenoSwapper/`;
 
-    try { mkdir(sf, { recursive: true }, e => { }); } catch (e) { };
+    try { mkdir(sf, { recursive: true }, e => {}); } catch (e) {};
     let s = { fltr: { urls: [] }, fls: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach(file => {
@@ -192,11 +199,11 @@ var init = () => {
 app.whenReady().then(() => {
     init()
 
-    app.on('activate', function () {
+    app.on('activate', function() {
         if (BrowserWindow.getAllWindows().length === 0) init()
     })
 })
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
     if (process.platform !== 'darwin') app.quit()
 })
