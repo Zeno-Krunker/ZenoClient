@@ -4,7 +4,7 @@
 */
 
 // *** Include Modules ***
-const { ipcRenderer: ipcRenderer, remote} = require('electron');
+const { ipcRenderer: ipcRenderer, remote } = require('electron');
 const { readFile } = require('fs');
 const { copy } = require("fs-extra");
 const Store = require('electron-store');
@@ -302,7 +302,7 @@ window.Css = importCss = () => {
             dropArea.classList.remove('highlight')
         }, false)
     })
-    dropArea.addEventListener('drop', () => {
+    dropArea.addEventListener('drop', (e) => {
         let dt = e.dataTransfer
         let files = dt.files
 
@@ -311,15 +311,17 @@ window.Css = importCss = () => {
     var handleFiles = (files) => {
 
         // *** Paste the Folder ***
-
         let sf = remote.app.getPath('documents') + '/ZenoSwapper/'
 
         for (i in files) {
+            console.log(files[i])
+            console.log(sf)
             copy(files[i].path, sf, function(err) {
                 if (err) {
-                    console.log('An error occured while copying the folder.')
+                    console.log(err)
+                } else {
+                    askRestart()
                 }
-                console.log('Copy completed!')
             });
 
         }
@@ -337,6 +339,38 @@ window.Css = importCss = () => {
             } catch (err) {
                 console.error(err);
                 alert('Error importing CSS');
+            }
+        }
+    }
+}
+
+var askRestart = () => {
+    var tempHTML = `<div class="setHed">Restart Needed</div>
+    <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
+    <a class="+" id="notNowMoment">Not Now</a>
+    <a class="+" id="okBoomerMoment" style="color:red;padding-left:10px;">Restart</a>`
+    getID('menuWindow').innerHTML = tempHTML;
+    getID('notNowMoment').addEventListener('click', () => {
+        openHostWindow();
+        openHostWindow();
+    });
+    getID('okBoomerMoment').addEventListener('click', () => {
+        ipcRenderer.send('restart-client')
+    });
+
+    // *** Parse Settings ***
+
+    parseSettings = (string) => {
+        if (string) {
+            try {
+                var json = JSON.parse(string);
+                for (var setting in json) {
+                    setSetting(setting, json[setting]);
+                    showWindow(1);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error importing settings.');
             }
         }
     }

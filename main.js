@@ -4,13 +4,14 @@
 */
 
 // *** The Modules ***
-const { screen, app, BrowserWindow, shell, globalShortcut } = require('electron');
+const { screen, app, BrowserWindow, shell, globalShortcut, ipcMain } = require('electron');
 var { cpus } = require('os');
 const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
-const { register } = require('electron-localshortcut');
 
-const devTools = false;
+// *** Options ***
+
+const devTools = true;
 const fullscreenOnload = true;
 
 // *** Do Some FPS Tricks ***
@@ -90,10 +91,19 @@ function createGameWindow() {
                 }
             });
 
-            register(newWin, 'F7', () => {
-                if (devTools) newWin.webContents.openDevTools();
+            globalShortcut.register('F11', () => {
+                win.setSimpleFullScreen(!win.isSimpleFullScreen());
             });
-            //newWin.once('ready-to-show', () => newWin.show());
+            globalShortcut.register('F3', () => {
+                win.webContents.send('home');
+            });
+            globalShortcut.register('F5', () => {
+                app.relaunch();
+                app.quit();
+            });
+            globalShortcut.register('F7', () => {
+                if (devTools) win.webContents.openDevTools();
+            });
             if (!options.webContents) {
                 newWin.loadURL(url);
 
@@ -119,12 +129,6 @@ function createGameWindow() {
 
     // *** Set the Shortcuts ***
 
-    register(win, 'Esc', () => {
-        win.webContents.send('Escape');
-    });
-    register(win, 'F3', () => {
-        win.webContents.send('home');
-    });
 
     globalShortcut.register('F11', () => {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
@@ -134,21 +138,15 @@ function createGameWindow() {
     });
     globalShortcut.register('F5', () => {
         app.relaunch();
-        app.quit()
+        app.quit();
     });
     globalShortcut.register('F7', () => {
         if (devTools) win.webContents.openDevTools();
     });
-    register(win, 'F5', () => {
-        app.relaunch();
-        app.quit()
-    });
-    register(win, 'F11', () => {
-        win.setSimpleFullScreen(!win.isSimpleFullScreen());
-    });
-    register(win, 'F7', () => {
-        if (devTools) win.webContents.openDevTools();
-    });
+
+    globalShortcut.register('Esc', () => {
+        win.webContents.send('Escape')
+    })
     if (devTools) win.webContents.openDevTools();
     win.setSimpleFullScreen(fullscreenOnload);
     win.loadURL('https://krunker.io');
@@ -202,8 +200,16 @@ app.whenReady().then(() => {
     app.on('activate', function() {
         if (BrowserWindow.getAllWindows().length === 0) init()
     })
-})
+});
 
 app.on('window-all-closed', function() {
-    if (process.platform !== 'darwin') app.quit()
+    if (process.platform !== 'darwin') {
+        app.quit();
+        globalShortcut.unregisterAll();
+    }
+});
+
+ipcMain.on('restart-client', () => {
+    app.relaunch();
+    app.quit();
 })
