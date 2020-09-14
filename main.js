@@ -9,7 +9,6 @@ var { cpus } = require('os');
 const { format } = require('url');
 const { readdirSync, mkdir, statSync } = require('fs');
 const { register } = require('electron-localshortcut');
-const { readFile } = require('fs');
 
 const devTools = false;
 const fullscreenOnload = true;
