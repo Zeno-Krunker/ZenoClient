@@ -7,13 +7,15 @@
         "start": "electron .",
         "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icon/icon.ico --prune=true --out=release-builds --asar=true",
         "package-win": "electron-packager . Zeno --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icon/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Aryaveer --version-string.FileDescription=1.0.0 --version-string.ProductName=\"Zeno\"",
-        "package-linux": "electron-packager . Zeno --overwrite --asar=true --platform=linux --arch=x64 --icon=zenoclient.jpg --prune=true --out=release-builds"
+        "package-linux": "electron-packager . Zeno --overwrite --asar=true --platform=linux --arch=x64 --icon=zenoclient.jpg --prune=true --out=release-builds",
+        "setup": "electron-installer-windows --src release-builds/zeno-win32-x64 --dest installers/win/"
     },
     "author": "AryaveerSR",
     "license": "ISC",
     "devDependencies": {
         "electron": "^8.5.1",
-        "electron-builder": "^22.8.0"
+        "electron-builder": "^22.8.0",
+        "electron-installer-windows": "^3.0.0"
     },
     "dependencies": {
         "electron-packager": "^15.1.0",
