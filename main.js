@@ -14,7 +14,7 @@ const { readdirSync, mkdir, statSync } = require('fs');
 const devTools = false;
 const fullscreenOnload = true;
 
-// *** Do Some FPS Tricks ***
+// Do Some FPS Tricks 
 
 app.commandLine.appendSwitch('disable-frame-rate-limit');
 app.commandLine.appendSwitch('disable-gpu-vsync');
@@ -27,7 +27,6 @@ app.commandLine.appendSwitch('disable-metrics-repo');
 app.commandLine.appendSwitch('use-angle', 'd3d9');
 app.commandLine.appendSwitch('smooth-scrolling');
 app.commandLine.appendSwitch('enable-javascript-harmony');
-app.commandLine.appendSwitch('disable-accelerated-2d-canvas');
 app.commandLine.appendSwitch('enable-future-v8-vm-features');
 app.commandLine.appendSwitch('enable-webgl2-compute-context');
 app.commandLine.appendSwitch('disable-hang-monitor');
