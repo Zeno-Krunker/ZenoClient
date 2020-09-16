@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
 
             if (!store.get('imgTag')) store.set('imgTag', '')
+            if (!store.get('account')) store.set('account', [])
             var chat = ["GG WP ", "Nice Game ", "Follow me on Krunker"]
             if (!store.get('chat')) store.set('chat', chat)
             var scopeTemp = ['https://assets.krunker.io/pro_scope.png?build=7FIag', 'https://assets.krunker.io/pro_ads.png?build=7FIag', 'https://cdn.discordapp.com/attachments/747410238944051271/751464889205391470/scope3444_9.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465128486240407/Jedi_scope_fixed.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465296677699634/bluescope.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png']
@@ -109,6 +110,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     }
                 });
             }
+
+            // *** Alt Manager ***
+            new MutationObserver(() => {
+                if (getID('windowHeader').innerHTML == 'Account') {
+                    getID('menuWindow').insertAdjacentHTML('afterbegin', `<div class="accountButton" onclick="window.openAltManager()">Alt Manager</div>`)
+                }
+            }).observe(getID('menuWindow'), {
+                chatList: true,
+                subtree: true,
+                attributes: true
+            })
 
             new MutationObserver((mutations, observer) => {
                 if (document.getElementsByClassName('menuClassPlayerName')[0]) {
@@ -215,7 +227,7 @@ window.prompt = importSettings = () => {
 // *** When Scope Bank Button is Pressed, Open Scope Bank ***
 
 window.scopes = () => {
-    scopeLink = store.get('scopesCurrent');
+    var scopeLink = store.get('scopesCurrent');
     // Open Menu
     openHostWindow();
     // Create Parent Window
@@ -405,6 +417,59 @@ window.removeScope = (no) => {
     currentScopes.splice(no, 1);
     store.set('scopesCurrent', currentScopes)
     openHostWindow();
+}
+
+// *** Alt Manager ***
+
+window.openAltManager = () => {
+    var account = store.get('account');
+    getID('menuWindow').innerHTML = '<div class="skinList" id="oo"></div>';
+    var i = 0;
+    var a;
+    var accountInt = parseInt(account.length);
+    for (i = 0; i < accountInt; i++) {
+        var a = `<div class="classCard" onclick="window.selectAlt(${i})"><img class="topRightBoi" onclick="window.removeAlt(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><h3>${account[i].name}<br></h3>`;
+        getID('oo').insertAdjacentHTML('beforeend', a)
+    }
+    var a = '<div class="classCard" onclick="window.addAlt()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
+    getID('oo').insertAdjacentHTML('beforeend', a);
+}
+
+window.selectAlt = (i) => {
+    var account = store.get('account');
+    showWindow(5);
+    showWindow(5);
+    getID('accName').value = account[i].name;
+    getID('accPass').value = account[i].pass;
+    loginAcc()
+}
+
+window.removeAlt = (i) => {
+    var account = store.get('account')
+    account.splice(i, 1);
+    store.set('account', account)
+    openAltManager()
+}
+
+window.addAlt = () => {
+    var tempHTML = `<div class="setHed">Add Alt</div>
+    <div class="settName" id="importSettings_div" style="display:block">Account Name <input type="url" placeholder="Account Name" name="url" class="inputGrey2" id="usernameAlt"></div>
+    <div class="settName" id="importSettings_div" style="display:block">Account Password <input type="url" placeholder="Account Password" name="url" class="inputGrey2" id="passwordAlt"></div>
+    <a class="+" id="addAltB">Add</a>
+    </div>`;
+
+    getID('menuWindow').innerHTML = tempHTML;
+    getID('addAltB').addEventListener('click', () => {
+        var account = store.get('account');
+        var newAlt = {
+            name: getID('usernameAlt').value,
+            pass: getID('passwordAlt').value
+        }
+        account.push(newAlt);
+        console.log(account)
+        store.set('account', account)
+        window.openAltManager()
+    });
 }
 
 // *** Simple Get ID Function ***
