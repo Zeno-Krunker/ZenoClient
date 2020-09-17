@@ -61,19 +61,19 @@ for ip in ListOfIconParameters:
     subprocess.call(
         [
             # option 1: sips
-            #"sips",
-            #"-z",
-            #str(ip.width),
-            #str(ip.width),
-            #originalPicture,
-            #"--out",
+            "sips",
+            "-z",
+            str(ip.width),
+            str(ip.width),
+            originalPicture,
+            "--out",
 
             # option 2: ImageMagick
-            "magick",
-            "convert",
-            originalPicture,
-            "-resize",
-            str(ip.width),
+            #"magick",
+            #"convert",
+            #originalPicture,
+            #"-resize",
+            #str(ip.width),
 
             os.path.join(iconsetDir, ip.getIconName())
         ]
