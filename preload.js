@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // *** Alt Manager ***
             new MutationObserver(() => {
                 if (getID('windowHeader').innerHTML == 'Account') {
-                    getID('menuWindow').insertAdjacentHTML('afterbegin', `<div class="accountButton" onclick="window.openAltManager()">Alt Manager</div>`)
+                    getID('menuWindow').insertAdjacentHTML('afterbegin', `<div class="button" onclick="window.openAltManager()">Alt Manager</div>`)
                 }
             }).observe(getID('menuWindow'), {
                 chatList: true,
