@@ -6,7 +6,7 @@
 // *** Include Modules ***
 const { ipcRenderer: ipcRenderer, remote } = require('electron');
 const fs = require('fs');
-const { readFile, readdirSync, lstatSync, existsSync, mkdirSync } = fs;
+const { readFile, readdir, stat, exists, mkdir } = fs;
 const { copy } = require("fs-extra");
 const Store = require('electron-store');
 const store = new Store();
@@ -179,18 +179,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
                 const pluginDIR = remote.app.getPath('documents') + '/ZenoPlugins';
 
-                existsSync(pluginDIR) ? console.log('Exists') : mkdirSync(pluginDIR)
+                exists(pluginDIR, (is) => {
+                    if (is) { console.log('Exists') } else {
+                        mkdir(pluginDIR, (error) => {
+                            if (error) console.log(error)
+                        })
+                    }
+                })
 
-                const isDirectory = source => lstatSync(source).isDirectory()
-                const getDirectories = source =>
-                    readdirSync(source).map(name => source + '/' + name).filter(isDirectory)
+                function getDirectories(path) {
+                    return fs.readdirSync(path).filter(function(file) {
+                        return fs.statSync(path + '/' + file, (error, stat) => {
+                            return stat.isDirectory();
+                        })
+                    }).map(name => pluginDIR + '/' + name)
+                }
 
                 var directories = getDirectories(pluginDIR);
-
+                console.log(directories)
                 directories.forEach((plug) => {
                     readFile(plug + '/package.json', "utf-8", (error, data) => {
                         if (error) console.log(error)
                         var plugConfig = JSON.parse(data);
+                        console.log('rwquiring')
                         require(`${plug}/${plugConfig.main}`).onload({
                             gameURL: () => {
                                 return window.location.href
@@ -202,6 +213,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 ipcRenderer.send('close-client')
                             }
                         })
+                        console.log('requires')
                     })
                 })
 
