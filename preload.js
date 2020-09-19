@@ -5,7 +5,8 @@
 
 // *** Include Modules ***
 const { ipcRenderer: ipcRenderer, remote } = require('electron');
-const { readFile } = require('fs');
+const fs = require('fs');
+const { readFile, readdirSync, lstatSync, existsSync, mkdirSync } = fs;
 const { copy } = require("fs-extra");
 const Store = require('electron-store');
 const store = new Store();
@@ -75,11 +76,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             if (!store.get('imgTag')) store.set('imgTag', '')
             if (!store.get('account')) store.set('account', [])
-            var chat = ["GG WP ", "Nice Game ", "Follow me on Krunker"]
-            if (!store.get('chat')) store.set('chat', chat)
             var scopeTemp = ['https://assets.krunker.io/pro_scope.png?build=7FIag', 'https://assets.krunker.io/pro_ads.png?build=7FIag', 'https://cdn.discordapp.com/attachments/747410238944051271/751464889205391470/scope3444_9.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465128486240407/Jedi_scope_fixed.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465296677699634/bluescope.png', 'https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png']
             if (!store.get('scopesCurrent')) store.set('scopesCurrent', scopeTemp)
-
 
             readFile(badgeFile, "utf-8", (error, data) => {
                 if (error) console.log(error)
@@ -179,7 +177,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>');
                 getID('menuClassContainer').insertAdjacentHTML('beforeend', '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>');
-                //updateChat()
+                const pluginDIR = remote.app.getPath('documents') + '/ZenoPlugins';
+
+                existsSync(pluginDIR) ? console.log('Exists') : mkdirSync(pluginDIR)
+
+                const isDirectory = source => lstatSync(source).isDirectory()
+                const getDirectories = source =>
+                    readdirSync(source).map(name => source + '/' + name).filter(isDirectory)
+
+                var directories = getDirectories(pluginDIR);
+
+                directories.forEach((plug) => {
+                    readFile(plug + '/package.json', "utf-8", (error, data) => {
+                        if (error) console.log(error)
+                        var plugConfig = JSON.parse(data);
+                        require(`${plug}/${plugConfig.main}`).onload({
+                            gameURL: () => {
+                                return window.location.href
+                            },
+                            restart: () => {
+                                ipcRenderer.send('restart-client')
+                            },
+                            close: () => {
+                                ipcRenderer.send('close-client')
+                            }
+                        })
+                    })
+                })
+
             }
         }
 

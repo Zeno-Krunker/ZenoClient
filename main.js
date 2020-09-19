@@ -215,3 +215,7 @@ ipcMain.on('restart-client', () => {
     app.relaunch();
     app.quit();
 })
+
+ipcMain.on('close-client', () => {
+    app.quit();
+})
