@@ -11,7 +11,7 @@ const { readdirSync, mkdir, statSync } = require('fs');
 
 // *** Options ***
 
-const devTools = true;
+const devTools = false;
 const fullscreenOnload = true;
 
 // Do Some FPS Tricks 
@@ -160,7 +160,12 @@ function createGameWindow() {
     let s = { fltr: { urls: [] }, fls: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach(file => {
-            const fp = dir + '/' + file;
+            var fp;
+            if (dir.endsWith('/')) {
+                fp = dir + file;
+            } else {
+                fp = dir + '/' + file;
+            }
             if (statSync(fp).isDirectory()) {
                 if (!(/\\(docs)$/.test(fp)))
                     afs(fp);
@@ -168,7 +173,6 @@ function createGameWindow() {
                 if (!(/\.(html|js)/g.test(file))) {
                     let k = '*://krunker.io' + fp.replace(sf, '').replace(/\\/g, '/') + '*';
                     s.fltr.urls.push(k);
-                    console.log(fp)
                     s.fls[k.replace(/\*/g, '')] = format({
                         pathname: fp,
                         protocol: 'file:',

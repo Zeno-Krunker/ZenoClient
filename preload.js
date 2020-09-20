@@ -275,7 +275,7 @@ window.scopes = () => {
     var scopeSize = parseInt(scopeLink.length);
     // Set the Scopes Using for Loop
     for (i = 0; i < scopeSize; i++) {
-        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><img class="classImgC" src="${scopeLink[i]}">`;
+        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/757255001314820186/Webp.png"><img class="classImgC" src="${scopeLink[i]}">`;
         getID('oo').insertAdjacentHTML('beforeend', a)
     }
     var a = '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
