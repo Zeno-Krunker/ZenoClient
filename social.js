@@ -12,7 +12,7 @@ ipcRenderer.on('home', () => {
 document.addEventListener('DOMContentLoaded', (event) => {
     var socialCSS = "";
 
-    (function () {
+    (function() {
         'use strict';
         // *** Add CSS ***
         var insertCSS = () => {
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 try {
                     darkModeFunc();
                 } catch (err) {
-                    
+
                 }
                 window.document.getElementsByTagName("head")[0].innerHTML += `<style>${data.split("/* Krunker Market Tools CSS */")[1].replace(/\s{2,10}/g, ' ').trim()}</style>`;
             })
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
         init()
     })();
-    
+
     // Krunker Market Tools by hitthemoney
     // The code below is very old and I will have to remake it
 
@@ -87,7 +87,7 @@ body {
     -moz-transform-origin: 0 0;
 }
 			`
-    window.changeUIScale = function (scale) {
+    window.changeUIScale = function(scale) {
         let injectStyle2 = document.getElementById("toolsStyles2");
         injectStyle2.innerHTML = `
 body {
@@ -110,7 +110,7 @@ body {
         }
     }
 
-    window.changeVol = function (v, m) {
+    window.changeVol = function(v, m) {
         if (m == "music") {
             saveVal("musicVol", v.toString())
             window.soundVol1 = parseFloat(v)
@@ -222,19 +222,19 @@ body {
     showPingFunc();
     estValStyleCheckbox.checked = stringToBool(getSavedVal("showEstVal"));
     showEstValFunc();
-    blackStyleCheckbox.onclick = (function () {
+    blackStyleCheckbox.onclick = (function() {
         darkModeFunc();
     });
-    pingStyleCheckbox.onclick = (function () {
+    pingStyleCheckbox.onclick = (function() {
         showPingFunc();
     });
-    estValStyleCheckbox.onclick = (function () {
+    estValStyleCheckbox.onclick = (function() {
         showEstValFunc();
     });
     window.soundVol1 = parseFloat(getSavedVal("musicVol"))
     window.soundVol2 = parseFloat(getSavedVal("UIVol"))
     window.SOUND.play2 = window.SOUND.play;
-    window.SOUND.play = function (e, t, r, n) {
+    window.SOUND.play = function(e, t, r, n) {
         if (e == "ambient_4") {
             if (soundVol1 !== 0) {
                 SOUND.play2(e, (t) * soundVol1, r, n)
@@ -245,7 +245,7 @@ body {
             }
         }
     };
-    window.checkMusic = function (c) {
+    window.checkMusic = function(c) {
         let musicBtn = document.getElementById("musicBtn");
         if (musicBtn.innerText == "volume_off") {
             saveVal("musicVol", "0");
@@ -261,7 +261,7 @@ body {
     }
 
     var musicBtn = document.getElementById("musicBtn");
-    musicBtn.addEventListener('click', function () {
+    musicBtn.addEventListener('click', function() {
         checkMusic(true);
     })
     checkMusic();
@@ -275,7 +275,7 @@ body {
     let settings = document.getElementById("settings")
     settings.style = "opacity: 1;"
 
-    window.showSettings = function () {
+    window.showSettings = function() {
         let toolsHolder = document.getElementById("toolsHolder");
         let settings = document.getElementById("settings");
         let buttons = ["leader", "profile", "maps", "market", "tourney", "blackm"];
@@ -289,7 +289,7 @@ body {
         document.getElementById("loadMessage").style.display = "none"
     }
 
-    pm = function () {
+    pm = function() {
         let musicOn = parseInt(getSavedVal("mrkt_music") || 0);
         if (musicOn == 1) {
             SOUND.stop("ambient_4");
@@ -300,7 +300,7 @@ body {
     if (pParam == "market") pm()
 
     window.updateWindow2 = window.updateWindow;
-    window.updateWindow = function (e, t, a, o, d, c) {
+    window.updateWindow = function(e, t, a, o, d, c) {
         if (e == "market") pm();
         if (e == "settings") {
             updateWindow2("settings")
@@ -327,7 +327,7 @@ body {
         pong();
     };
 
-    window.ws.onmessage = async function (event) {
+    window.ws.onmessage = async function(event) {
         var blob = event.data;
         var arrayBuffer = null;
 
