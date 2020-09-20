@@ -10,6 +10,7 @@ const { readFile, readdir, stat, exists, mkdir } = fs;
 const { copy } = require("fs-extra");
 const Store = require('electron-store');
 const store = new Store();
+const rsData = require('./rsData.json')
 
 var badgeFile = __dirname + '/badgeData.json';
 var badgeObj;
@@ -313,7 +314,7 @@ window.Css = importCss = () => {
     <a class="+" id="changeBttt">Change</a>
     <div id="drop-area">
     <form class="my-form">
-    <p>Drop Your Resource Swapper Folder</p><br><br><br>
+    <p>Drop Your Resource Swapper Files Here</p><br><br><br>
     </form>
     </div>`;
 
@@ -363,9 +364,7 @@ window.Css = importCss = () => {
         let sf = remote.app.getPath('documents') + '/ZenoSwapper/'
 
         for (i in files) {
-            console.log(files[i])
-            console.log(sf)
-            copy(files[i].path, sf, function(err) {
+            copy(files[i].path, sf + rsData[files[i].name].address + files[i].name, function(err) {
                 if (err) {
                     console.log(err)
                 } else {
