@@ -113,7 +113,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             // *** Alt Manager ***
             new MutationObserver(() => {
                 if (getID('windowHeader').innerHTML == 'Account') {
-                    getID('menuWindow').insertAdjacentHTML('afterbegin', `<div class="button" onclick="window.openAltManager()">Alt Manager</div>`)
+                    if (!getID('menuWindow').innerHTML.includes('<div class="button" onclick="window.openAltManager()">Alt Manager</div>') && getID('menuWindow').innerHTML.includes('accountInput')) {
+                        getID('menuWindow').insertAdjacentHTML('afterbegin', `<div class="button" onclick="window.openAltManager()">Alt Manager</div>`)
+                    }
                 }
             }).observe(getID('menuWindow'), {
                 chatList: true,
@@ -490,7 +492,7 @@ window.removeAlt = (i) => {
 window.addAlt = () => {
     var tempHTML = `<div class="setHed">Add Alt</div>
     <div class="settName" id="importSettings_div" style="display:block">Account Name <input type="url" placeholder="Account Name" name="url" class="inputGrey2" id="usernameAlt"></div>
-    <div class="settName" id="importSettings_div" style="display:block">Account Password <input type="url" placeholder="Account Password" name="url" class="inputGrey2" id="passwordAlt"></div>
+    <div class="settName" id="importSettings_div" style="display:block">Account Password <input type="password" placeholder="Account Password" name="url" class="inputGrey2" id="passwordAlt"></div>
     <a class="+" id="addAltB">Add</a>
     </div>`;
 
