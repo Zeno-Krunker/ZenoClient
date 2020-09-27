@@ -233,6 +233,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     "beforeend",
                     '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>'
                 );
+
+                if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
+                    if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
+                        document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
+                    }
+                }
+
                 const pluginDIR = remote.app.getPath("documents") + "/ZenoPlugins";
 
                 exists(pluginDIR, (is) => {
@@ -534,7 +541,10 @@ window.removeScope = (no) => {
 
 // *** Alt Manager ***
 
-window.openAltManager = () => {
+window.openAltManager = (openNew) => {
+    if (openNew) {
+        showWindow(5);
+    }
     var account = store.get("account");
     getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
     var i = 0;
@@ -582,7 +592,7 @@ window.addAlt = () => {
         account.push(newAlt);
         console.log(account);
         store.set("account", account);
-        window.openAltManager();
+        window.openAltManager(false);
     });
 };
 const discordClient = new RPC.Client({ transport: "ipc" });
