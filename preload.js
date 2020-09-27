@@ -585,31 +585,18 @@ window.addAlt = () => {
         window.openAltManager();
     });
 };
-
-// Discord RPC Integration
-// By TheDevKeval - Keval#8167
-
-// tdm_Industry - #mapInfo
-
-//Basic Stuff
-const discordClientID = "758353378547073055";
 const discordClient = new RPC.Client({ transport: "ipc" });
 var mapInfo, menuClassName;
 
 function initDiscord() {
-    //Authorizing the discordClient to the Discord Application
-    try {
-        discordClient.login({ clientId: discordClientID });
-    } catch (err) {
-        console.log(err);
-    }
+
+    // Use Promises instead of Try Catch :kek:
+
+    discordClient.login({ clientId: "758353378547073055" }).then(null, (error) => {
+        console.log(error);
+    })
 
     discordClient.on("ready", () => {
-        console.log(
-            `Authed for user ${discordClient.user.username}#${discordClient.user.discriminator}`
-        );
-
-        //A default activity
         discordClient.setActivity({
             details: `${discordClient.user.username}`,
             state: "Started Playing",
@@ -620,8 +607,6 @@ function initDiscord() {
         });
     });
 
-    //Observing the mapInfo node for changes - and calling the updateDiscord()
-    //if any change is detected.
     mapInfo = getID("mapInfo");
     menuClassName = getID("menuClassName");
     let discordObserver = new MutationObserver(updateDiscord);
@@ -629,7 +614,6 @@ function initDiscord() {
     discordObserver.observe(menuClassName, { childList: true });
 }
 
-//An object so that I can easily derive the full name of the game mode
 const gameModeFull = {
     ffa: "Free For All",
     kc: "Kill Capture",
