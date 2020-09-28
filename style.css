@@ -36,6 +36,28 @@
     background-color: transparent !important;
 }
 
+#chatInputZeno {
+    width: 100%;
+    padding: 5px;
+    padding-left: 10px;
+    color: #fff;
+    font-size: 18px;
+    box-sizing: border-box;
+    border: none;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 6px;
+    pointer-events: all;
+    border-radius: unset
+}
+
+#chatInputZeno::placeholder {
+    color: rgba(255, 255, 255, .7)
+}
+
+.iconZeno {
+    background-image: url('https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png');
+}
+
 .serverHeader {
     background-color: transparent !important;
 }

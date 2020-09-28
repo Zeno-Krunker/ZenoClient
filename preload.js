@@ -239,18 +239,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
                     }
                 }
-
                 const pluginDIR = remote.app.getPath("documents") + "/ZenoPlugins";
 
                 exists(pluginDIR, (is) => {
-                    if (is) {
-                        console.log("Exists");
-                    } else {
+                    if (!is) {
                         mkdir(pluginDIR, (error) => {
                             if (error) console.log(error);
                         });
                     }
                 });
+
+                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
+                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
+                <div class="menuItemIcon iconZeno"></div>
+                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
+                </div>`)
 
                 function getDirectories(path) {
                     return fs
@@ -264,7 +267,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
 
                 var directories = getDirectories(pluginDIR);
-                console.log(directories);
                 directories.forEach((plug) => {
                     readFile(plug + "/package.json", "utf-8", (error, data) => {
                         if (error) console.log(error);
@@ -370,30 +372,14 @@ window.randomClass = () => {
 
 window.Css = importCss = () => {
     openHostWindow();
-    var tempHTML = `<div class="setHed">Import CSS</div>
-    <div class="settName" id="importSettings_div" style="display:block">CSS Text <input type="url" placeholder="Paste Custom CSS Here" name="url" class="inputGrey2" id="settingString"></div>
-    <a class="+" id="importBtnn">Import</a>
-    <div class="setHed">Change Logo</div>
-    <div class="settName" id="importSettings_div" style="display:block">Logo URL <input type="url" placeholder="Logo URL" name="url" class="inputGrey2" id="logosp"></div>
-    <a class="+" id="changeBttt">Change</a>
-    <div id="drop-area">
+    var tempHTML = `
+        <div id="drop-area">
     <form class="my-form">
     <p>Drop Your Resource Swapper Files Here</p><br><br><br>
     </form>
     </div>`;
 
     getID("menuWindow").innerHTML = tempHTML;
-
-    getID("changeBttt").addEventListener("click", () => {
-        if (!getID("logosp").value) {
-            store.set("imgTag", "");
-            getID("mainLogo").src =
-                "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
-        } else {
-            store.set("imgTag", getID("logosp").value);
-            getID("mainLogo").src = getID("logosp").value;
-        }
-    });
 
     // *** Drop Resource Swapper Code ***
 
@@ -659,8 +645,45 @@ function updateDiscord() {
     });
 }
 
+window.openZenoWindow = () => {
+    openHostWindow();
+    getID('menuWindow').innerHTML = `
+    
+    <div class="setHed">Import CSS</div>
+    <div class="settName" id="importSettings_div" style="display:block">CSS Text <input type="url" placeholder="Paste Custom CSS Here" name="url" class="inputGrey2" id="settingString"></div>
+    <a class="+" id="importBtnn">Import</a>
+    <div class="setHed">Change Logo</div><div class="settName" id="importSettings_div" style="display:block">Logo URL <input type="url" placeholder="Logo URL" name="url" class="inputGrey2" id="logosp"></div>
+    <a class="+" id="changeBttt">Change</a>
+    `
+    getID("changeBttt").addEventListener("click", () => {
+        if (!getID("logosp").value) {
+            store.set("imgTag", "");
+            getID("mainLogo").src =
+                "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
+        } else {
+            store.set("imgTag", getID("logosp").value);
+            getID("mainLogo").src = getID("logosp").value;
+        }
+    });
+
+    importBtnn.addEventListener("click", () => {
+        var string = settingString.value;
+        if (string) {
+            try {
+                document
+                    .getElementsByTagName("head")[0]
+                    .insertAdjacentHTML(
+                        "beforeend",
+                        `<style>${string.replace(/\s{2,10}/g, " ").trim()}</style>`
+                    );
+            } catch (err) {
+                console.error(err);
+                alert("Error importing CSS");
+            }
+        }
+    });
+}
+
 // *** Simple Get ID Function ***
 
-var getID = (id) => {
-    return document.getElementById(id);
-};
+var getID = (id) => document.getElementById(id);
