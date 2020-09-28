@@ -497,7 +497,7 @@ var askRestart = () => {
 // *** Add a New Scope to Scope Bank ***
 
 window.addScope = () => {
-    var tempHTML = `div class="setHed">Add Scope</div>
+    var tempHTML = `<div class="setHed">Add Scope</div>
     <div class="settName" id="importSettings_div" style="display:block">Scope URL <input type="url" placeholder="Scope URL" name="url" class="inputGrey2" id="settingString"></div>
     <a class="+" id="importBtnnn">Add</a>
     </div>`;
@@ -621,6 +621,17 @@ const gameModeFull = {
     shrp: "Sharp Shooter",
     stalk: "Stalker",
     boss: "Boss Hunt",
+    bhop: "Parkour",
+hide: "Hide and Seek",
+infect: "Infected",
+race: "Race",
+lms: "Last Man Standing",
+simon: "Simon Says",
+prop: "Prop Hunt",
+oitc: "One in the Chamber",
+trade: "Trade",
+dif: "Diffuse",
+trai: "Traitor",
 };
 
 var gameMode = null;
