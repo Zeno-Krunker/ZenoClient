@@ -277,13 +277,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                                 return window.location.href;
                             },
                             restart: () => {
-                                ipcRenderer.send("restart-discordClient");
+                                ipcRenderer.send("restart-client");
                             },
                             close: () => {
-                                ipcRenderer.send("close-discordClient");
+                                ipcRenderer.send("close-client");
                             },
                         });
-                        console.log("requires");
                     });
                 });
             };
@@ -473,7 +472,7 @@ var askRestart = () => {
         openHostWindow();
     });
     getID("okBoomerMoment").addEventListener("click", () => {
-        ipcRenderer.send("restart-discordClient");
+        ipcRenderer.send("restart-client");
     });
 
     // *** Parse Settings ***
