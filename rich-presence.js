@@ -8,18 +8,6 @@ const discordClient = new RPC.Client({
     transport: "ipc"
 });
 
-function secondsToHms(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
-
-    var hDisplay = h > 0 ? h + (h == 1 ? " hour, " : " hours, ") : "";
-    var mDisplay = m > 0 ? m + (m == 1 ? " minute, " : " minutes, ") : "";
-    var sDisplay = s > 0 ? s + (s == 1 ? " second" : " seconds") : "";
-    return hDisplay + mDisplay + sDisplay;
-}
-
 function initDiscord() {
 
     // Use Promises instead of Try Catch :kek:
@@ -67,7 +55,7 @@ function updateDiscord() {
     discordClient.setActivity({
         details: `Playing ${gameMode}`,
         state: `on ${mapName}`,
-        endTimestamp: Date.now() - timeLeft * 1000,
+        endTimestamp: Date.now() + timeLeft * 1000,
         largeImageKey: "zeno_menu",
         largeImageText: "Zeno Client",
         smallImageKey: `class_${className.toLowerCase()}`,
