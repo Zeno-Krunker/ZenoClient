@@ -19,7 +19,7 @@ const { readdirSync, mkdir, statSync } = require("fs");
 // *** Options ***
 
 const devTools = false;
-const fullscreenOnload = true;
+const fullscreenOnload = false;
 
 // Do Some FPS Tricks
 
@@ -70,7 +70,7 @@ function createGameWindow() {
         },
     });
 
-    win.webContents.openDevTools();
+    if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
 
@@ -118,7 +118,7 @@ function createGameWindow() {
             if (!options.webContents) {
                 newWin.loadURL(url);
 
-                newWin.webContents.once("dom-ready", function() {
+                newWin.webContents.once("dom-ready", function () {
                     setTimeout(() => {
                         newWin.show();
                     }, 600);
@@ -169,8 +169,8 @@ function createGameWindow() {
     let sf = `${app.getPath("documents")}/ZenoSwapper`;
 
     try {
-        mkdir(sf, { recursive: true }, (e) => {});
-    } catch (e) {}
+        mkdir(sf, { recursive: true }, (e) => { });
+    } catch (e) { }
     let s = { fltr: { urls: [] }, fls: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach((file) => {
@@ -224,12 +224,12 @@ var init = () => {
 app.whenReady().then(() => {
     init();
 
-    app.on("activate", function() {
+    app.on("activate", function () {
         if (BrowserWindow.getAllWindows().length === 0) init();
     });
 });
 
-app.on("window-all-closed", function() {
+app.on("window-all-closed", function () {
     if (process.platform !== "darwin") {
         app.quit();
         globalShortcut.unregisterAll();

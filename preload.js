@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // *** Run the Main Function ***
 
         var init = () => {
-            initDiscord(getID("mapInfo"), getID("menuClassName"));
+            initDiscord();
             insertCSS();
         };
         init();
