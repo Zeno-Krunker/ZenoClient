@@ -30,7 +30,8 @@ function initDiscord() {
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
         });
     });
-    console.log('hey')
+
+    discordClient.subscribe("ACTIVITY_INVITE", ({secret}) => joinGame(secret));
 
     setInterval(() => {
         updateDiscord();
@@ -49,6 +50,7 @@ function updateDiscord() {
     mapName = gameActivity.map;
     className = gameActivity.class.name;
     timeLeft = gameActivity.time;
+    gameID = gameActivity.id;
 
     //console.log(timeLeft)
 
@@ -63,7 +65,13 @@ function updateDiscord() {
         largeImageText: "Zeno Client",
         smallImageKey: `class_${className.toLowerCase()}`,
         smallImageText: className,
+        partyId: gameID,
+        joinSecret: gameID,
     });
+}
+
+function joinGame(secret) {
+    window.location.href = `https://krunker.io/?game=${secret}`;
 }
 
 exports.initDiscord = initDiscord;
