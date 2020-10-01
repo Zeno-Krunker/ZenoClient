@@ -1,4 +1,4 @@
-// Disord Rich Presence for Zeno Client
+// Discord Rich Presence for Zeno Client
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
 
@@ -10,7 +10,7 @@ const discordClient = new RPC.Client({
     transport: "ipc"
 });
 
-function initDiscord(mapInfo, menuClassName) {
+function initDiscord() {
 
     // Use Promises instead of Try Catch :kek:
 
@@ -32,54 +32,33 @@ function initDiscord(mapInfo, menuClassName) {
     });
     console.log('hey')
 
-    let discordObserver = new MutationObserver(updateDiscord);
-    discordObserver.observe(mapInfo, {
-        childList: true
-    });
-    discordObserver.observe(menuClassName, {
-        childList: true
-    });
+    setInterval(() => {
+        updateDiscord();
+    }, 1000);
 }
-
-const gameModeFull = {
-    ffa: "Free For All",
-    kc: "Kill Capture",
-    tdm: "Team Deathmatch",
-    ctf: "Capture The Flag",
-    point: "Hardpoint",
-    king: "King Of The Hill",
-    gun: "Gun Game",
-    shrp: "Sharp Shooter",
-    stalk: "Stalker",
-    boss: "Boss Hunt",
-    bhop: "Parkour",
-    hide: "Hide and Seek",
-    infect: "Infected",
-    race: "Race",
-    lms: "Last Man Standing",
-    simon: "Simon Says",
-    prop: "Prop Hunt",
-    oitc: "One in the Chamber",
-    trade: "Trade",
-    dif: "Diffuse",
-    trai: "Traitor",
-};
 
 var gameMode = null;
 var mapName = null;
 var className = null;
+var timeLeft = null;
+var gameActivity = null;
 
 function updateDiscord() {
-    gameMode = mapInfo.innerHTML.split("_")[0];
-    mapName = mapInfo.innerHTML.split("_")[1];
-    className = menuClassName.innerHTML.split(" ").join("");
+    gameActivity = window.getGameActivity();
+    gameMode = gameActivity.mode;
+    mapName = gameActivity.map;
+    className = gameActivity.class.name;
+    timeLeft = gameActivity.time;
+
+    //console.log(timeLeft)
 
     if (gameMode == undefined || mapName == undefined || className == undefined)
         return console.log("Some Value is Undefined");
 
     discordClient.setActivity({
-        details: `Playing ${gameModeFull[gameMode]}`,
-        state: `in ${mapName}`,
+        details: `Playing ${gameMode}`,
+        state: `on ${mapName}`,
+        endTimestamp: Date.now() + timeLeft * 1000,
         largeImageKey: "zeno_menu",
         largeImageText: "Zeno Client",
         smallImageKey: `class_${className.toLowerCase()}`,
@@ -88,3 +67,5 @@ function updateDiscord() {
 }
 
 exports.initDiscord = initDiscord;
+
+//getGameActivity()
