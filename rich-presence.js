@@ -33,6 +33,8 @@ function initDiscord() {
 
     discordClient.subscribe("ACTIVITY_INVITE", ({secret}) => joinGame(secret));
 
+    discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({user}) => handleJoinRequest(user));
+
     setInterval(() => {
         updateDiscord();
     }, 1000);
@@ -72,6 +74,16 @@ function updateDiscord() {
 
 function joinGame(secret) {
     window.location.href = `https://krunker.io/?game=${secret}`;
+}
+
+function handleJoinRequest({id, username, discriminator, avatar}){
+    window.confirm(`${username}#${discriminator} wants to join your game!`)
+        ? () => {
+            discordClient.request("SEND_ACTIVITY_JOIN_INVITE", { user_id: id });
+        }
+        : () => {
+            discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
+        };
 }
 
 exports.initDiscord = initDiscord;
