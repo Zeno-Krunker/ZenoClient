@@ -7,6 +7,8 @@
 const { ipcRenderer: ipcRenderer, remote } = require("electron");
 const fs = require("fs");
 const { readFile, readdir, stat, exists, mkdir } = fs;
+
+const tmi = require('tmi.js');
 const { copy, copySync } = require("fs-extra");
 const Store = require("electron-store");
 const store = new Store();
@@ -293,6 +295,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
         init();
     })();
 });
+
+var initTwitch = (channelName) => {
+    const client = new tmi.Client({
+        connection: {
+            secure: true,
+            reconnect: true
+        },
+        channels: [channelName]
+    });
+
+    client.connect();
+
+    client.on('message', (channel, tags, message, self) => {
+        getID('chatList').insertAdjacentHTML('beforeend', `<div id="chatMsg_0"><div class="chatItem chatTextOutline twitch" style="background-color: rgba(0, 0, 0, 1)">&lrm;${tags['display-name']}&lrm;: <span class="chatMsg">&lrm;${message}&lrm;</span></div><br></div>`)
+    });
+
+}
 
 // *** Custom Import Settings Menu ***
 
@@ -585,6 +604,8 @@ window.openZenoWindow = () => {
     <a class="+" id="importBtnn">Import</a>
     <div class="setHed">Change Logo</div><div class="settName" id="importSettings_div" style="display:block">Logo URL <input type="url" placeholder="Logo URL" name="url" class="inputGrey2" id="logosp"></div>
     <a class="+" id="changeBttt">Change</a>
+    <div class="setHed">Link Twitch</div><div class="settName" id="importSettings_div" style="display:block">Twitch Channel Name <input type="url" placeholder="Twitch Name" name="url" class="inputGrey2" id="twitchChannelName"></div>
+    <a class="+" id="changeBtttww">Link</a>
     `
     getID("changeBttt").addEventListener("click", () => {
         if (!getID("logosp").value) {
@@ -596,6 +617,10 @@ window.openZenoWindow = () => {
             getID("mainLogo").src = getID("logosp").value;
         }
     });
+
+    getID('changeBtttww').addEventListener('click', () => {
+        initTwitch(getID('twitchChannelName').value);
+    })
 
     importBtnn.addEventListener("click", () => {
         var string = settingString.value;

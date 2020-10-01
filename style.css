@@ -183,3 +183,7 @@ p {
     top: 0;
     right: 0;
 }
+
+.twitch {
+    color: purple !important;
+}
