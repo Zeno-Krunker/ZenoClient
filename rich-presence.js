@@ -31,8 +31,11 @@ function initDiscord() {
         });
     });
 
+    // Listens for the local user accepting game invites in chat
     discordClient.subscribe("ACTIVITY_INVITE", ({secret}) => joinGame(secret));
 
+    // Listens for the local user receiving an "Ask to Join Request"
+    // The callback function is called with an object "data" which has a "user" object inside it
     discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({user}) => handleJoinRequest(user));
 
     setInterval(() => {
@@ -54,8 +57,6 @@ function updateDiscord() {
     timeLeft = gameActivity.time;
     gameID = gameActivity.id;
 
-    //console.log(timeLeft)
-
     if (gameMode == undefined || mapName == undefined || className == undefined)
         return console.log("Some Value is Undefined");
 
@@ -72,10 +73,13 @@ function updateDiscord() {
     });
 }
 
+// Secret is the joinSecret of the Rich Presence activity which is set as the gameID
 function joinGame(secret) {
     window.location.href = `https://krunker.io/?game=${secret}`;
 }
 
+// The object passed to this function is the "user" object which is then passed on as the different properties of the function
+// I am currently using a stupid confirm dialog box for testing purposes
 function handleJoinRequest({id, username, discriminator, avatar}){
     window.confirm(`${username}#${discriminator} wants to join your game!`)
         ? () => {
@@ -85,6 +89,9 @@ function handleJoinRequest({id, username, discriminator, avatar}){
             discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
         };
 }
+
+// Note:
+// The RPCClient.request() function is private and now I realize while writing these comments that it won't work
 
 exports.initDiscord = initDiscord;
 
