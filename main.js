@@ -18,7 +18,7 @@ const { readdirSync, mkdir, statSync } = require("fs");
 
 // *** Options ***
 
-const devTools = false;
+const devTools = true;
 const fullscreenOnload = true;
 
 // Do Some FPS Tricks
@@ -70,7 +70,7 @@ function createGameWindow() {
         },
     });
 
-    win.webContents.openDevTools();
+    if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
 
@@ -165,7 +165,6 @@ function createGameWindow() {
     win.removeMenu();
 
     // *** Resource Swapper Code ***
-
     let sf = `${app.getPath("documents")}/ZenoSwapper`;
 
     try {
@@ -180,7 +179,6 @@ function createGameWindow() {
             } else {
                 fp = dir + "/" + file;
             }
-            console.log(fp)
             if (statSync(fp).isDirectory()) {
                 if (!/\\(docs)$/.test(fp)) afs(fp);
             } else {

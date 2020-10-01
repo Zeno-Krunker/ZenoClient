@@ -1,6 +1,8 @@
-// Discrod Rich Presence for Zeno Client
+// Disord Rich Presence for Zeno Client
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
+
+// Inglish Lebel 100
 
 const RPC = require("discord-rpc");
 
@@ -28,6 +30,7 @@ function initDiscord(mapInfo, menuClassName) {
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
         });
     });
+    console.log('hey')
 
     let discordObserver = new MutationObserver(updateDiscord);
     discordObserver.observe(mapInfo, {

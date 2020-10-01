@@ -11,9 +11,7 @@ const { copy, copySync } = require("fs-extra");
 const Store = require("electron-store");
 const store = new Store();
 const rsData = require("./rsData.json");
-const { get } = require("https");
 const { initDiscord } = require("./rich-presence");
-
 var badgeFile = __dirname + "/badgeData.json";
 var badgeObj;
 var badges = ["verified", "content-creators", "dev", "vip", "gfx"];
@@ -120,8 +118,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 badges.forEach((cur) => {
                     if (
                         badgeObj[cur].indexOf(
-                            document.getElementsByClassName("menuClassPlayerName")[0]
-                            .innerHTML
+                            getGameActivity().user
                         ) != -1
                     ) {
                         if (!badgeImplemented[cur]) {
@@ -271,7 +268,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     readFile(plug + "/package.json", "utf-8", (error, data) => {
                         if (error) console.log(error);
                         var plugConfig = JSON.parse(data);
-                        console.log("rwquiring");
                         require(`${plug}/${plugConfig.main}`).onload({
                             gameURL: () => {
                                 return window.location.href;
@@ -575,7 +571,6 @@ window.addAlt = () => {
             pass: getID("passwordAlt").value,
         };
         account.push(newAlt);
-        console.log(account);
         store.set("account", account);
         window.openAltManager(false);
     });
