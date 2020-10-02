@@ -117,23 +117,21 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // *** Badges Features ***
 
             function checkPlayer() {
-                badges.forEach((cur) => {
-                    if (
-                        badgeObj[cur].indexOf(
-                            getGameActivity().user
-                        ) != -1
-                    ) {
-                        if (!badgeImplemented[cur]) {
-                            document
-                                .getElementsByClassName("menuClassPlayerName")[0]
-                                .insertAdjacentHTML(
-                                    "beforebegin",
-                                    `<img style="height:50px" src="` + badgeUrls[cur].url + `">`
-                                );
-                            badgeImplemented[cur] = true;
+                if (typeof window.getGameActivity === 'function') {
+                    badges.forEach((cur) => {
+                        if (badgeObj[cur].indexOf(getGameActivity().user) != -1) {
+                            if (!badgeImplemented[cur]) {
+                                document
+                                    .getElementsByClassName("menuClassPlayerName")[0]
+                                    .insertAdjacentHTML(
+                                        "beforebegin",
+                                        `<img style="height:50px" src="` + badgeUrls[cur].url + `">`
+                                    );
+                                badgeImplemented[cur] = true;
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
             // *** Alt Manager ***

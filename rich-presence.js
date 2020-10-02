@@ -2,8 +2,6 @@
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
 
-// Inglish Lebel 100
-
 const RPC = require("discord-rpc");
 
 const discordClient = new RPC.Client({
@@ -11,9 +9,6 @@ const discordClient = new RPC.Client({
 });
 
 function initDiscord() {
-
-    // Use Promises instead of Try Catch :kek:
-
     discordClient.login({
         clientId: "758353378547073055"
     }).then(null, (error) => {
@@ -31,12 +26,9 @@ function initDiscord() {
         });
     });
 
-    // Listens for the local user accepting game invites in chat
-    discordClient.subscribe("ACTIVITY_INVITE", ({secret}) => joinGame(secret));
+    discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => joinGame(secret));
 
-    // Listens for the local user receiving an "Ask to Join Request"
-    // The callback function is called with an object "data" which has a "user" object inside it
-    discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({user}) => handleJoinRequest(user));
+    discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => handleJoinRequest(user));
 
     setInterval(() => {
         updateDiscord();
@@ -47,51 +39,46 @@ var gameMode = null;
 var mapName = null;
 var className = null;
 var timeLeft = null;
+var time = null;
 var gameActivity = null;
 
 function updateDiscord() {
-    gameActivity = window.getGameActivity();
-    gameMode = gameActivity.mode;
-    mapName = gameActivity.map;
-    className = gameActivity.class.name;
-    timeLeft = gameActivity.time;
-    gameID = gameActivity.id;
+    if (typeof window.getGameActivity === 'function') {
+        gameActivity = window.getGameActivity();
+        gameMode = gameActivity.mode;
+        mapName = gameActivity.map;
+        className = gameActivity.class.name;
+        timeLeft = gameActivity.time;
 
-    if (gameMode == undefined || mapName == undefined || className == undefined)
-        return console.log("Some Value is Undefined");
-
-    discordClient.setActivity({
-        details: `Playing ${gameMode}`,
-        state: `on ${mapName}`,
-        endTimestamp: Date.now() + timeLeft * 1000,
-        largeImageKey: "zeno_menu",
-        largeImageText: "Zeno Client",
-        smallImageKey: `class_${className.toLowerCase()}`,
-        smallImageText: className,
-        partyId: gameID,
-        joinSecret: gameID,
-    });
+        if (gameMode == undefined || mapName == undefined || className == undefined) { return console.log("Not Loaded") } else {
+            discordClient.setActivity({
+                details: `Playing ${game}`,
+                state: `on ${map}`,
+                endTimestamp: Date.now() + time * 1000,
+                largeImageKey: "zeno_menu",
+                largeImageText: "Zeno Client",
+                smallImageKey: `class_${className.toLowerCase()}`,
+                smallImageText: className,
+                partyId: id,
+                joinSecret: id,
+            });
+        }
+    }
 }
 
-// Secret is the joinSecret of the Rich Presence activity which is set as the gameID
 function joinGame(secret) {
     window.location.href = `https://krunker.io/?game=${secret}`;
 }
 
-// The object passed to this function is the "user" object which is then passed on as the different properties of the function
-// I am currently using a stupid confirm dialog box for testing purposes
-function handleJoinRequest({id, username, discriminator, avatar}){
-    window.confirm(`${username}#${discriminator} wants to join your game!`)
-        ? () => {
+function handleJoinRequest({ id, username, discriminator, avatar }) {
+    window.confirm(`${username}#${discriminator} wants to join your game!`) ?
+        () => {
             discordClient.request("SEND_ACTIVITY_JOIN_INVITE", { user_id: id });
-        }
-        : () => {
+        } :
+        () => {
             discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
         };
 }
-
-// Note:
-// The RPCClient.request() function is private and now I realize while writing these comments that it won't work
 
 exports.initDiscord = initDiscord;
 
