@@ -117,6 +117,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // *** Badges Features ***
 
             function checkPlayer() {
+                var checkDat = undefined
+                try {
+                    checkDat = window.getGameActivity()
+                } catch {}
                 if (window.getGameActivity() !== undefined)
                     badges.forEach((cur) => {
                         if (badgeObj[cur].indexOf(window.getGameActivity().user) != -1) {
