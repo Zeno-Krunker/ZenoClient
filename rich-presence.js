@@ -26,7 +26,7 @@ function initDiscord() {
         });
     });
 
-    /*discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
+    discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
         window.location.href = `https://krunker.io/?game=${decrypt(secret)}`;
     });
 
@@ -39,7 +39,7 @@ function initDiscord() {
             () => {
                 discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
             };
-    });*/
+    });
 
     setInterval(() => {
         updateDiscord();

@@ -186,10 +186,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             0 == a[0].removedNodes.length &&
                             a[0].addedNodes[0].innerText.includes(":")
                         ) {
-                            let b = a[0].addedNodes[0].innerHTML
-                                .split(`"chatItem">‎`)[1]
-                                .split(`‎: <span`)[0]
-                                .trim();
+                            let b
+                            if (a[0].addedNodes[0].innerHTML !== undefined) {
+                                b = a[0].addedNodes[0].innerHTML
+                                    .split(`"chatItem">‎`)[1]
+                                    .split(`‎: <span`)[0]
+                                    .trim();
+                            }
                             window.muteList.includes(b) && a[0].addedNodes[0].remove();
                         }
                     };
