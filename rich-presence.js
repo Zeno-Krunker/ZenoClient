@@ -26,9 +26,8 @@ function initDiscord() {
         });
     });
 
-    /*discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
-        console.log(secret)
-        window.location.href = `https://krunker.io/?game=${secret}`;
+    discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
+        window.location.href = `https://krunker.io/?game=${decrypt(secret)}`;
     });
 
     discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
@@ -40,7 +39,7 @@ function initDiscord() {
             () => {
                 discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
             };
-    });*/
+    });
 
     setInterval(() => {
         updateDiscord();
@@ -53,6 +52,7 @@ var className = null;
 var timeLeft = null;
 var time = null;
 var gameActivity = null;
+var id = null;
 
 function updateDiscord() {
     if (typeof window.getGameActivity === 'function') {
@@ -61,23 +61,49 @@ function updateDiscord() {
         mapName = gameActivity.map;
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
+        id = gameActivity.id;
 
         if (gameMode == undefined || mapName == undefined || className == undefined) { return console.log("Not Loaded") } else {
             discordClient.setActivity({
                 details: `Playing ${gameMode}`,
-                state: `on ${map}`,
+                state: `on ${mapName}`,
                 endTimestamp: Date.now() + time * 1000,
                 largeImageKey: "zeno_menu",
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
                 smallImageText: className,
                 partyId: id,
-                joinSecret: id,
+                joinSecret: encrypt(str),
             });
         }
     }
 }
 
-exports.initDiscord = initDiscord;
+var encrypt = (str) => {
+    encrypter(str, 12)
+}
+var decrypt = (str) => {
+    encrypter(str, -12)
+}
 
-//getGameActivity()
+var encrypter = function(str, amount) {
+    if (amount < 0) {
+        return caesarShift(str, amount + 26);
+    }
+    var output = "";
+    for (var i = 0; i < str.length; i++) {
+        var c = str[i];
+        if (c.match(/[a-z]/i)) {
+            var code = str.charCodeAt(i);
+            if (code >= 65 && code <= 90) {
+                c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
+            } else if (code >= 97 && code <= 122) {
+                c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
+            }
+        }
+        output += c;
+    }
+    return output;
+};
+
+exports.initDiscord = initDiscord;

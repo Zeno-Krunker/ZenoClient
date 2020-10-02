@@ -117,9 +117,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // *** Badges Features ***
 
             function checkPlayer() {
-                if (typeof window.getGameActivity === 'function') {
+                if (window.getGameActivity() !== undefined)
                     badges.forEach((cur) => {
-                        if (badgeObj[cur].indexOf(getGameActivity().user) != -1) {
+                        if (badgeObj[cur].indexOf(window.getGameActivity().user) != -1) {
                             if (!badgeImplemented[cur]) {
                                 document
                                     .getElementsByClassName("menuClassPlayerName")[0]
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                             }
                         }
                     });
-                }
+
             }
 
             // *** Alt Manager ***
