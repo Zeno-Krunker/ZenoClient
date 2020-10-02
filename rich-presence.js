@@ -55,7 +55,11 @@ var gameActivity = null;
 var id = null;
 
 function updateDiscord() {
-    if (typeof window.getGameActivity === 'function') {
+    var checkDat = undefined
+    try {
+        checkDat = window.getGameActivity()
+    } catch {}
+    if (window.getGameActivity() !== undefined) {
         gameActivity = window.getGameActivity();
         gameMode = gameActivity.mode;
         mapName = gameActivity.map;
