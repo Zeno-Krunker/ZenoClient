@@ -50,7 +50,6 @@ var gameMode = null;
 var mapName = null;
 var className = null;
 var timeLeft = null;
-var time = null;
 var gameActivity = null;
 var id = null;
 
@@ -71,7 +70,7 @@ function updateDiscord() {
             discordClient.setActivity({
                 details: `Playing ${gameMode}`,
                 state: `on ${mapName}`,
-                endTimestamp: Date.now() + time * 1000,
+                endTimestamp: Date.now() + timeLeft * 1000,
                 largeImageKey: "zeno_menu",
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
