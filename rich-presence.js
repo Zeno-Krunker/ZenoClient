@@ -11,8 +11,6 @@ const discordClient = new RPC.Client({
 function initDiscord() {
     discordClient.login({
         clientId: "758353378547073055"
-    }).then(null, (error) => {
-        console.log(error);
     })
 
     discordClient.on("ready", () => {
