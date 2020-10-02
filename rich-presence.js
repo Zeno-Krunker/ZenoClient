@@ -58,7 +58,7 @@ function updateDiscord() {
     try {
         checkDat = window.getGameActivity()
     } catch {}
-    if (window.getGameActivity() !== undefined) {
+    if (checkDat !== undefined) {
         gameActivity = window.getGameActivity();
         gameMode = gameActivity.mode;
         mapName = gameActivity.map;

@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 try {
                     checkDat = window.getGameActivity()
                 } catch {}
-                if (window.getGameActivity() !== undefined)
+                if (checkDat !== undefined)
                     badges.forEach((cur) => {
                         if (badgeObj[cur].indexOf(window.getGameActivity().user) != -1) {
                             if (!badgeImplemented[cur]) {
