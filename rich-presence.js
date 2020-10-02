@@ -2,16 +2,14 @@
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
 
+const clientID = "758353378547073055"
 const RPC = require("discord-rpc");
-
 const discordClient = new RPC.Client({
     transport: "ipc"
 });
 
 function initDiscord() {
-    discordClient.login({
-        clientId: "758353378547073055"
-    })
+    discordClient.login({ clientId: clientID })
 
     discordClient.on("ready", () => {
         discordClient.setActivity({
@@ -25,7 +23,7 @@ function initDiscord() {
     });
 
     discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
-        window.location.href = `https://krunker.io/?game=${decrypt(secret)}`;
+        window.location.href = `https://krunker.io/?game=${secret}`;
     });
 
     discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
@@ -63,6 +61,7 @@ function updateDiscord() {
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
         id = gameActivity.id;
+        let lobby = discordClient.createLobby(2, 10, {})
 
         if (gameMode == undefined || mapName == undefined || className == undefined) { return console.log("Not Loaded") } else {
             discordClient.setActivity({
@@ -74,37 +73,11 @@ function updateDiscord() {
                 smallImageKey: `class_${className.toLowerCase()}`,
                 smallImageText: className,
                 partyId: id,
-                joinSecret: encrypt(id),
+                joinSecret: id + '-join',
+                matchSecret: id + '-match',
             });
         }
     }
 }
-
-var encrypt = (str) => {
-    encrypter(str, 12)
-}
-var decrypt = (str) => {
-    encrypter(str, -12)
-}
-
-var encrypter = function(str, amount) {
-    if (amount < 0) {
-        return caesarShift(str, amount + 26);
-    }
-    var output = "";
-    for (var i = 0; i < str.length; i++) {
-        var c = str[i];
-        if (c.match(/[a-z]/i)) {
-            var code = str.charCodeAt(i);
-            if (code >= 65 && code <= 90) {
-                c = String.fromCharCode(((code - 65 + amount) % 26) + 65);
-            } else if (code >= 97 && code <= 122) {
-                c = String.fromCharCode(((code - 97 + amount) % 26) + 97);
-            }
-        }
-        output += c;
-    }
-    return output;
-};
 
 exports.initDiscord = initDiscord;
