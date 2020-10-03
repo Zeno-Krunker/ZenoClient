@@ -22,8 +22,8 @@ function initDiscord() {
         });
 
         discordClient.subscribe("ACTIVITY_INVITE", (parameters) => {
-            console.log(parameters)
-            window.location.href = `https://krunker.io/?game=${parameters.secret}`;
+            var theID = parameters.party.id;
+            window.location.href = `https://krunker.io/?game=${theID}`;
         });
 
         discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
