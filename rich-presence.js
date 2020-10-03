@@ -19,10 +19,11 @@ function initDiscord() {
             largeImageText: "Zeno Client",
             smallImageKey: "zeno_menu",
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
-        });        
+        });
 
-        discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
-            window.location.href = `https://krunker.io/?game=${secret}`;
+        discordClient.subscribe("ACTIVITY_INVITE", (parameters) => {
+            console.log(parameters)
+            window.location.href = `https://krunker.io/?game=${parameters.secret}`;
         });
 
         discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
@@ -34,7 +35,7 @@ function initDiscord() {
                 () => {
                     discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
                 };
-        });     
+        });
 
         setInterval(() => {
             updateDiscord();
@@ -72,8 +73,12 @@ function updateDiscord() {
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
                 smallImageText: className,
-                partyId: id + " -party",
-                joinSecret: id,
+                partyId: id,
+                matchSecret: id + '-match',
+                spectateSecret: id + "-spectate",
+                joinSecret: id + "-join",
+                partyMax: 8,
+                partySize: 1,
             });
         }
     }
