@@ -4,6 +4,7 @@
 
 const clientID = "758353378547073055"
 const RPC = require("discord-rpc");
+const { ipcRenderer } = require("electron");
 const discordClient = new RPC.Client({
     transport: "ipc"
 });
@@ -21,9 +22,8 @@ function initDiscord() {
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
         });
 
-        discordClient.subscribe("ACTIVITY_INVITE", (parameters) => {
-            var theID = parameters.party.id;
-            window.location.href = `https://krunker.io/?game=${theID}`;
+        discordClient.subscribe("ACTIVITY_INVITE", (para) => {
+            window.location.href = `https://krunker.io/?game=${para.activity.party.id}`;
         });
 
         discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
