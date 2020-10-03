@@ -49,6 +49,8 @@ var className = null;
 var timeLeft = null;
 var gameActivity = null;
 var id = null;
+var playerCount = null
+var playerMax = null
 
 function updateDiscord() {
     var checkDat = undefined;
@@ -62,7 +64,13 @@ function updateDiscord() {
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
         id = gameActivity.id;
-        let lobby = discordClient.createLobby(2, 10, {})
+        fetch(`https://matchmaker.krunker.io/game-info?game=${id}`)
+            .then(res => res.json())
+            .then(json => {
+                playerCount = json[2];
+                playerMax = json[3];
+            })
+            .catch(console.log);
 
         if (gameMode == undefined || mapName == undefined || className == undefined) { return console.log("Not Loaded") } else {
             discordClient.setActivity({
@@ -77,8 +85,8 @@ function updateDiscord() {
                 matchSecret: id + '-match',
                 spectateSecret: id + "-spectate",
                 joinSecret: id + "-join",
-                partyMax: 8,
-                partySize: 1,
+                partyMax: playerMax,
+                partySize: playerCount,
             });
         }
     }
