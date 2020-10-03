@@ -50,9 +50,9 @@ var gameActivity = null;
 var id = null;
 
 function updateDiscord() {
-    var checkDat = undefined
+    var checkDat = undefined;
     try {
-        checkDat = window.getGameActivity()
+        checkDat = window.getGameActivity();
     } catch {}
     if (checkDat !== undefined) {
         gameActivity = window.getGameActivity();
@@ -72,7 +72,7 @@ function updateDiscord() {
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
                 smallImageText: className,
-                partyId: "bruh",
+                partyId: id + " -party",
                 joinSecret: id,
             });
         }
