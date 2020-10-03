@@ -19,27 +19,27 @@ function initDiscord() {
             largeImageText: "Zeno Client",
             smallImageKey: "zeno_menu",
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
+        });        
+
+        discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
+            window.location.href = `https://krunker.io/?game=${secret}`;
         });
-    });
 
-    discordClient.subscribe("ACTIVITY_INVITE", ({ secret }) => {
-        window.location.href = `https://krunker.io/?game=${secret}`;
-    });
+        discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
+            var { id, username, discriminator, avatar } = user;
+            window.confirm(`${username}#${discriminator} wants to join your game!`) ?
+                () => {
+                    discordClient.request("SEND_ACTIVITY_JOIN_INVITE", { user_id: id });
+                } :
+                () => {
+                    discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
+                };
+        });     
 
-    discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
-        var { id, username, discriminator, avatar } = user;
-        window.confirm(`${username}#${discriminator} wants to join your game!`) ?
-            () => {
-                discordClient.request("SEND_ACTIVITY_JOIN_INVITE", { user_id: id });
-            } :
-            () => {
-                discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
-            };
+        setInterval(() => {
+            updateDiscord();
+        }, 1000);
     });
-
-    setInterval(() => {
-        updateDiscord();
-    }, 1000);
 }
 
 var gameMode = null;
@@ -72,9 +72,8 @@ function updateDiscord() {
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
                 smallImageText: className,
-                partyId: id,
-                joinSecret: id + '-join',
-                matchSecret: id + '-match',
+                partyId: "bruh",
+                joinSecret: id,
             });
         }
     }
