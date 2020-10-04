@@ -189,8 +189,7 @@ p {
 }
 
 .zenoBadge {
-    height: 68px;
+    height: 50px;
     transform: translateY(35%);
     margin-right: 3px;
-    margin-left: 5px;
 }
