@@ -187,3 +187,7 @@ p {
 .twitch {
     color: purple !important;
 }
+
+.zenoBadge {
+    height: 50px;
+}
