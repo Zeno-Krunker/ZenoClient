@@ -14,8 +14,10 @@ const Store = require("electron-store");
 const store = new Store();
 const rsData = require("./rsData.json");
 const { initDiscord } = require("./rich-presence");
-var badgeFile = __dirname + "/badgeData.json";
 var badgeObj;
+fetch("https://zenoupdateapi.web.app/badgeData.json").then((resp) => resp.json()).then((data) => {
+    badgeObj = data;
+}).catch(error => console.error(error));
 var badges = ["verified", "content-creators", "dev", "vip", "gfx"];
 var badgeUrls = {
     verified: {
@@ -96,11 +98,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 "https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png",
             ];
             if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
-
-            readFile(badgeFile, "utf-8", (error, data) => {
-                if (error) console.log(error);
-                badgeObj = JSON.parse(data);
-            });
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
