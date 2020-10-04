@@ -455,27 +455,6 @@ window.Css = importCss = () => {
             );
         }
     };
-    importBtnn.addEventListener("click", () => {
-        parseCSS(settingString.value);
-    });
-
-    // *** Set the CSS ***
-
-    var parseCSS = (string) => {
-        if (string) {
-            try {
-                document
-                    .getElementsByTagName("head")[0]
-                    .insertAdjacentHTML(
-                        "beforeend",
-                        `<style>${string.replace(/\s{2,10}/g, " ").trim()}</style>`
-                    );
-            } catch (err) {
-                console.error(err);
-                alert("Error importing CSS");
-            }
-        }
-    };
 };
 
 var askRestart = () => {
@@ -624,19 +603,17 @@ window.openZenoWindow = () => {
         initTwitch(getID('twitchChannelName').value);
     })
 
-    importBtnn.addEventListener("click", () => {
+    getID('importBtnn').addEventListener("click", () => {
         var string = settingString.value;
         if (string) {
-            try {
-                document
-                    .getElementsByTagName("head")[0]
-                    .insertAdjacentHTML(
-                        "beforeend",
-                        `<style>${string.replace(/\s{2,10}/g, " ").trim()}</style>`
-                    );
-            } catch (err) {
-                console.error(err);
-                alert("Error importing CSS");
+            var path = `${remote.app.getPath("documents")}/ZenoSwapper/css/`;
+            if (fs.existsSync(path)) {
+                fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
+                askRestart();
+            } else {
+                fs.mkdirSync(path)
+                fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
+                askRestart();
             }
         }
     });
