@@ -1,8 +1,7 @@
 // Discord Rich Presence for Zeno Client
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
-const consts = require('../consts.js');
-const clientID = consts.discordClientID;
+const {discordClientID: clientID, gameLoaded, getGame} = require('../consts.js');
 const RPC = require("discord-rpc");
 const discordClient = new RPC.Client({
     transport: "ipc"
@@ -52,18 +51,18 @@ var playerCount = null
 var playerMax = null
 
 function updateDiscord() {
-    var checkDat = undefined;
-    try {
-        checkDat = window.getGameActivity();
-    } catch {}
-    if (checkDat !== undefined) {
+    // var checkDat = undefined;
+    // try {
+    //     checkDat = window.getGameActivity();
+    // } catch {}
+    if (gameLoaded()) {
         gameActivity = window.getGameActivity();
         gameMode = gameActivity.mode;
         mapName = gameActivity.map;
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
         id = gameActivity.id;
-        fetch(consts.getGame(id))
+        fetch(getGame(id))
             .then(res => res.json())
             .then(json => {
                 playerCount = json[2];

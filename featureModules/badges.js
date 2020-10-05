@@ -1,15 +1,11 @@
-const consts = require('../consts.js');
+const {badgeData, gameLoaded, badges, badgeUrls} = require('../consts.js');
 
 var badgeObj;
 
-fetch(consts.badgeData)
+fetch(badgeData)
     .then((resp) => resp.json())
     .then((data) => { badgeObj = data; })
     .catch(error => console.error(error));
-
-var badges = consts.badges;
-
-var badgeUrls = consts.badgeUrls;
 
 var badgeImplemented = {
     verified: false,
@@ -20,11 +16,7 @@ var badgeImplemented = {
 };
 
 function checkPlayer() {
-    var checkDat = undefined
-    try {
-        checkDat = window.getGameActivity()
-    } catch {}
-    if (checkDat !== undefined)
+    if (gameLoaded())
         badges.forEach((cur) => {
             if (badgeObj[cur].indexOf(window.getGameActivity().user) != -1) {
                 if (!badgeImplemented[cur]) {

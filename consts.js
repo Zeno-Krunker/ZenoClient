@@ -47,3 +47,12 @@ module.exports.badgeData = "https://zenoupdateapi.web.app/badgeData.json";
 module.exports.getGame = (id) => {
     return `https://matchmaker.krunker.io/game-info?game=${id}`;
 }
+
+module.exports.gameLoaded = () => {
+    try {
+        window.getGameActivity();
+        return true;
+    } catch {
+        return false;
+    }
+}
