@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     badgeManager.checkPlayer();
                 }
             }).observe(document, {
-                chatList: true,
+                childList: true,
                 subtree: true,
                 attributes: true,
             });
