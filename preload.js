@@ -12,7 +12,7 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const { initMute } = require('./mute.js')
+const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
 const badgeManager = require("./featureModules/badges");
@@ -45,19 +45,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
         var insertCSS = () => {
             // *** Inject CSS **
             fs.readFile(__dirname + "/style.css", "utf-8", (error, data) => {
-                if (!error) {
-                    document
-                        .getElementsByTagName("head")[0]
-                        .insertAdjacentHTML(
-                            "beforeend",
-                            `<style id='injected'>${data
+                    if (!error) {
+                        document
+                            .getElementsByTagName("head")[0]
+                            .insertAdjacentHTML(
+                                "beforeend",
+                                `<style id='injected'>${data
                 .replace(/\s{2,10}/g, " ")
                 .trim()}</style>`
-                        );
-                } else {
-                    console.log(error);
-                }
-            });
+                            );
+
+                    });
+            }
+            else {}
 
             if (!store.get("imgTag")) store.set("imgTag", "");
             if (!store.get("account")) store.set("account", []);
@@ -433,8 +433,7 @@ window.openZenoWindow = () => {
     <div class="setHed">Change Logo</div><div class="settName" id="importSettings_div" style="display:block">Logo URL <input type="url" placeholder="Logo URL" name="url" class="inputGrey2" id="logosp"></div>
     <a class="+" id="changeBttt">Change</a>
     <div class="setHed">Link Twitch</div><div class="settName" id="importSettings_div" style="display:block">Twitch Channel Name <input type="url" placeholder="Twitch Name" name="url" class="inputGrey2" id="twitchChannelName"></div>
-    <a class="+" id="changeBtttww">Link</a>
-    `
+    <a class="+" id="changeBtttww">Link</a>`
     getID("changeBttt").addEventListener("click", () => {
         if (!getID("logosp").value) {
             store.set("imgTag", "");
