@@ -12,6 +12,7 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
+const consts = require('./consts.js')
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
@@ -45,31 +46,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
         var insertCSS = () => {
             // *** Inject CSS **
             fs.readFile(__dirname + "/style.css", "utf-8", (error, data) => {
-                    if (!error) {
-                        document
-                            .getElementsByTagName("head")[0]
-                            .insertAdjacentHTML(
-                                "beforeend",
-                                `<style id='injected'>${data
-                .replace(/\s{2,10}/g, " ")
-                .trim()}</style>`
-                            );
-
-                    });
-            }
-            else {}
-
+                if (!error) {
+                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
+                }
+            });
             if (!store.get("imgTag")) store.set("imgTag", "");
             if (!store.get("account")) store.set("account", []);
-            var scopeTemp = [
-                "https://assets.krunker.io/pro_scope.png?build=7FIag",
-                "https://assets.krunker.io/pro_ads.png?build=7FIag",
-                "https://cdn.discordapp.com/attachments/747410238944051271/751464889205391470/scope3444_9.png",
-                "https://cdn.discordapp.com/attachments/747410238944051271/751465128486240407/Jedi_scope_fixed.png",
-                "https://cdn.discordapp.com/attachments/747410238944051271/751465296677699634/bluescope.png",
-                "https://cdn.discordapp.com/attachments/747410238944051271/751465743744499792/20200524_135724.png",
-            ];
-            if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
+            if (!store.get("scopesCurrent")) store.set("scopesCurrent", consts.scopeTemp);
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
@@ -122,24 +105,24 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>'
                 );
 
+                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
+                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
+                <div class="menuItemIcon iconZeno"></div>
+                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
+                </div>`)
+
                 if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
                     if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
                         document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
                     }
                 }
-                const pluginDIR = remote.app.getPath("documents") + "/ZenoPlugins";
+                const pluginDIR = consts.getPluginDIR(remote);
 
                 if (!fs.existsSync(pluginDIR)) {
                     fs.mkdir(pluginDIR, (error) => {
                         if (error) console.log(error);
                     });
                 }
-
-                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
-                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
-                <div class="menuItemIcon iconZeno"></div>
-                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
-                </div>`)
 
                 function getDirectories(path) {
                     return fs
@@ -276,7 +259,7 @@ window.rs = importCss = () => {
     );
     var handleFiles = (files) => {
         // *** Paste the Folder ***
-        let sf = remote.app.getPath("documents") + "/ZenoSwapper/";
+        let sf = consts.getResourceSwapper(remote);
 
         for (i in files) {
             copy(
@@ -452,15 +435,10 @@ window.openZenoWindow = () => {
     getID('importBtnn').addEventListener("click", () => {
         var string = settingString.value;
         if (string) {
-            var path = `${remote.app.getPath("documents")}/ZenoSwapper/css/`;
-            if (fs.existsSync(path)) {
-                fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
-                askRestart();
-            } else {
-                fs.mkdirSync(path)
-                fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
-                askRestart();
-            }
+            var path = `${consts.getResourceSwapper(remote)}css/`;
+            fs.existsSync(path) ? console.log('Nothing') : fs.mkdirSync(path)
+            fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
+            askRestart();
         }
     });
 }
