@@ -2,7 +2,7 @@ var badgeObj;
 
 fetch("https://zenoupdateapi.web.app/badgeData.json")
     .then((resp) => resp.json())
-    .then((data) => { badgeObj = data;})
+    .then((data) => { badgeObj = data; })
     .catch(error => console.error(error));
 
 var badges = ["verified", "content-creators", "dev", "vip", "gfx"];

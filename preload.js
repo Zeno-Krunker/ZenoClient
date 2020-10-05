@@ -6,16 +6,15 @@
 // *** Include Modules ***
 const { ipcRenderer: ipcRenderer, remote } = require("electron");
 const fs = require("fs");
-const { readFile, readdir, stat, exists, mkdir } = fs;
-
-const tmi = require('tmi.js');
-const { copy, copySync } = require("fs-extra");
+const { copy } = require("fs-extra");
 const Store = require("electron-store");
 const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const { initDiscord } = require("./featureModules/rich-presence");
+const { initMute } = require('./mute.js')
+const { initDiscord } = require("./featureModules/richPresence");
+const { initTwitch } = require('./featureModules/twitch')
 const badgeManager = require("./featureModules/badges");
 
 // *** Do Some Stuff **
@@ -45,7 +44,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // *** Inject CSS **
-            readFile(__dirname + "/style.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/style.css", "utf-8", (error, data) => {
                 if (!error) {
                     document
                         .getElementsByTagName("head")[0]
@@ -98,68 +97,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // *** Mute Feature ***
 
-            window.muteList = [];
-
-            new MutationObserver((mutations, observer) => {
-                if (document.body && getID("windowHeader") && getID("chatList")) {
-                    observer.disconnect();
-
-                    window.mute = (a, b) =>
-                        window.muteList.includes(a) ?
-                        ((window.muteList = window.muteList.filter((b) => b !== a)),
-                            (b.innerText = "Mute")) :
-                        (window.muteList.push(a), (b.innerText = "Unmute"));
-                    window.playerlistHandler = () => {
-                        if ("Player List" == getID("windowHeader").innerText) {
-                            for (const a of[...getID("menuWindow").children[1].children]) {
-                                let b = [...a.children[0].children].filter(
-                                        (a) => "A" == a.nodeName
-                                    ),
-                                    c = b[0] ? b[0].href.split("&q=")[1].trim() : null;
-                                null !== c &&
-                                    a.insertAdjacentHTML(
-                                        "beforeend",
-                                        `<span style="float:right"><span onmouseenter="playTick()" class="punishButton vote" onclick="mute('${c}', this)">${
-                      window.muteList.includes(c) ? "Unmute" : "Mute"
-                    }</span></span>`
-                                    );
-                            }
-                        }
-                    };
-                    window.chatHandler = (a) => {
-                        if (
-                            0 < a[0].addedNodes.length &&
-                            0 == a[0].removedNodes.length &&
-                            a[0].addedNodes[0].innerText.includes(":")
-                        ) {
-                            let b
-                            if (a[0].addedNodes[0].innerHTML !== undefined) {
-                                b = a[0].addedNodes[0].innerHTML
-                                    .split(`"chatItem">‎`)[1]
-                                    .split(`‎: <span`)[0]
-                                    .trim();
-                            }
-                            window.muteList.includes(b) && a[0].addedNodes[0].remove();
-                        }
-                    };
-                    window.playerlistObserver = new MutationObserver(() =>
-                        window.playerlistHandler()
-                    ).observe(getID("windowHeader"), {
-                        attributes: !0,
-                        subtree: !0,
-                        childList: !0,
-                    });
-                    window.chatObserver = new MutationObserver((a) =>
-                        window.chatHandler(a)
-                    ).observe(getID("chatList"), {
-                        childList: !0,
-                    });
-                }
-            }).observe(document, {
-                chatList: true,
-                subtree: true,
-                attributes: true,
-            });
+            initMute();
 
             // *** Things to Do if Page Loads **
 
@@ -177,7 +115,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 );
                 getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
-                    '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.Css()" onmouseenter="playTick()">RS</div>'
+                    '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
                 );
                 getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
@@ -191,13 +129,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
                 const pluginDIR = remote.app.getPath("documents") + "/ZenoPlugins";
 
-                exists(pluginDIR, (is) => {
-                    if (!is) {
-                        mkdir(pluginDIR, (error) => {
-                            if (error) console.log(error);
-                        });
-                    }
-                });
+                if (!fs.existsSync(pluginDIR)) {
+                    fs.mkdir(pluginDIR, (error) => {
+                        if (error) console.log(error);
+                    });
+                }
 
                 getID('menuItemContainer').insertAdjacentHTML('beforeend', `
                 <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
@@ -218,7 +154,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                 var directories = getDirectories(pluginDIR);
                 directories.forEach((plug) => {
-                    readFile(plug + "/package.json", "utf-8", (error, data) => {
+                    fs.readFile(plug + "/package.json", "utf-8", (error, data) => {
                         if (error) console.log(error);
                         var plugConfig = JSON.parse(data);
                         require(`${plug}/${plugConfig.main}`).onload({
@@ -246,23 +182,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         init();
     })();
 });
-
-var initTwitch = (channelName) => {
-    const client = new tmi.Client({
-        connection: {
-            secure: true,
-            reconnect: true
-        },
-        channels: [channelName]
-    });
-
-    client.connect();
-
-    client.on('message', (channel, tags, message, self) => {
-        getID('chatList').insertAdjacentHTML('beforeend', `<div id="chatMsg_0"><div class="chatItem chatTextOutline twitch" style="background-color: rgba(0, 0, 0, 1)">&lrm;${tags['display-name']}&lrm;: <span class="chatMsg">&lrm;${message}&lrm;</span></div><br></div>`)
-    });
-
-}
 
 // *** Custom Import Settings Menu ***
 
@@ -295,47 +214,16 @@ window.prompt = importSettings = () => {
     };
 };
 
-// *** When Scope Bank Button is Pressed, Open Scope Bank ***
-
-window.scopes = () => {
-    var scopeLink = store.get("scopesCurrent");
-    // Open Menu
-    openHostWindow();
-    // Create Parent Window
-    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
-    var i = 0;
-    var a;
-    var scopeSize = parseInt(scopeLink.length);
-    // Set the Scopes Using for Loop
-    for (i = 0; i < scopeSize; i++) {
-        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/757255001314820186/Webp.png"><img class="classImgC" src="${scopeLink[i]}">`;
-        getID("oo").insertAdjacentHTML("beforeend", a);
-    }
-    var a =
-        '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
-    getID("oo").insertAdjacentHTML("beforeend", a);
-};
-
-window.selectScope = (int) => {
-    // If User Clicks a Scope, Set it as Scope Image
-    setSetting("customScope", store.get("scopesCurrent")[int]);
-    openHostWindow();
-};
-
-// *** Random Class Feature ***
+// *** Random Class ***
 
 window.randomClass = () => {
     var rand = Math.floor(Math.random() * (12 - 0 + 1));
     rand == 10 ? randomClass() : selectClass(rand);
 };
 
-// *** Open Resource Swapper and CSS Importer ***
+// *** Resource Swapper ***
 
-// *** Check if its a New Instance ***
-
-// *** Import CSS ***
-
-window.Css = importCss = () => {
+window.rs = importCss = () => {
     openHostWindow();
     var tempHTML = `
         <div id="drop-area">
@@ -406,39 +294,32 @@ window.Css = importCss = () => {
     };
 };
 
-var askRestart = () => {
-    var tempHTML = `<div class="setHed">Restart Needed</div>
-    <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
-    <a class="+" id="notNowMoment">Not Now</a>
-    <a class="+" id="okBoomerMoment" style="color:red;padding-left:10px;">Restart</a>`;
-    getID("menuWindow").innerHTML = tempHTML;
-    getID("notNowMoment").addEventListener("click", () => {
-        openHostWindow();
-        openHostWindow();
-    });
-    getID("okBoomerMoment").addEventListener("click", () => {
-        ipcRenderer.send("restart-client");
-    });
+// *** Scope Bank ***
 
-    // *** Parse Settings ***
-
-    parseSettings = (string) => {
-        if (string) {
-            try {
-                var json = JSON.parse(string);
-                for (var setting in json) {
-                    setSetting(setting, json[setting]);
-                    showWindow(1);
-                }
-            } catch (err) {
-                console.error(err);
-                alert("Error importing settings.");
-            }
-        }
-    };
+window.scopes = () => {
+    var scopeLink = store.get("scopesCurrent");
+    // Open Menu
+    openHostWindow();
+    // Create Parent Window
+    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
+    var i = 0;
+    var a;
+    var scopeSize = parseInt(scopeLink.length);
+    // Set the Scopes Using for Loop
+    for (i = 0; i < scopeSize; i++) {
+        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/757255001314820186/Webp.png"><img class="classImgC" src="${scopeLink[i]}">`;
+        getID("oo").insertAdjacentHTML("beforeend", a);
+    }
+    var a =
+        '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
+    getID("oo").insertAdjacentHTML("beforeend", a);
 };
 
-// *** Add a New Scope to Scope Bank ***
+window.selectScope = (int) => {
+    // If User Clicks a Scope, Set it as Scope Image
+    setSetting("customScope", store.get("scopesCurrent")[int]);
+    openHostWindow();
+};
 
 window.addScope = () => {
     var tempHTML = `<div class="setHed">Add Scope</div>
@@ -460,13 +341,28 @@ window.addScope = () => {
     };
 };
 
-// *** Remove a Scope from Scope Bank ***
-
 window.removeScope = (no) => {
     var currentScopes = store.get("scopesCurrent");
     currentScopes.splice(no, 1);
     store.set("scopesCurrent", currentScopes);
     openHostWindow();
+};
+
+// ** Ask Restart **
+
+var askRestart = () => {
+    var tempHTML = `<div class="setHed">Restart Needed</div>
+    <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
+    <a class="+" id="notNowMoment">Not Now</a>
+    <a class="+" id="okBoomerMoment" style="color:red;padding-left:10px;">Restart</a>`;
+    getID("menuWindow").innerHTML = tempHTML;
+    getID("notNowMoment").addEventListener("click", () => {
+        openHostWindow();
+        openHostWindow();
+    });
+    getID("okBoomerMoment").addEventListener("click", () => {
+        ipcRenderer.send("restart-client");
+    });
 };
 
 // *** Alt Manager ***
@@ -524,6 +420,8 @@ window.addAlt = () => {
         window.openAltManager(false);
     });
 };
+
+// Zeno Window
 
 window.openZenoWindow = () => {
     openHostWindow();
