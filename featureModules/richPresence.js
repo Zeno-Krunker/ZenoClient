@@ -1,10 +1,9 @@
 // Discord Rich Presence for Zeno Client
 // By TheDevKeval - Keval#8167
 // mf don't you dare remove this...
-
-const clientID = "758353378547073055"
+const consts = require('../consts.js');
+const clientID = consts.discordClientID;
 const RPC = require("discord-rpc");
-const { ipcRenderer } = require("electron");
 const discordClient = new RPC.Client({
     transport: "ipc"
 });
@@ -64,7 +63,7 @@ function updateDiscord() {
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
         id = gameActivity.id;
-        fetch(`https://matchmaker.krunker.io/game-info?game=${id}`)
+        fetch(consts.getGame(id))
             .then(res => res.json())
             .then(json => {
                 playerCount = json[2];
