@@ -17,6 +17,7 @@ const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
 const { initBadges } = require("./featureModules/badges");
+const addRandomClassButton = require("./featureModules/randomClass");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -91,10 +92,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
                     '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
-                );
-                getID("menuClassContainer").insertAdjacentHTML(
-                    "beforeend",
-                    '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>'
                 );
 
                 getID('menuItemContainer').insertAdjacentHTML('beforeend', `
@@ -193,8 +190,8 @@ window.prompt = importSettings = () => {
 // *** Random Class ***
 
 window.randomClass = () => {
-    var rand = Math.floor(Math.random() * (12 - 0 + 1));
-    rand == 10 ? randomClass() : selectClass(rand);
+    var rand = Math.floor(Math.random() * (13 - 0 + 1));
+    selectClass(rand);
 };
 
 // *** Resource Swapper ***
