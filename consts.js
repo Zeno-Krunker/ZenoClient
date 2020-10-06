@@ -56,3 +56,10 @@ module.exports.gameLoaded = () => {
         return false;
     }
 }
+
+module.exports.getID = (id) => window.document.getElementById(id);
+
+module.exports.getClass = (classname, index) => {
+    if(index === undefined) return window.document.getElementsByClassName(classname);
+    return window.document.getElementsByClassName(classname)[index];
+};
