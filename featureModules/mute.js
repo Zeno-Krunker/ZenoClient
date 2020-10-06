@@ -1,10 +1,10 @@
-const consts = require('../consts.js')
+const { getID } = require('../consts.js')
 
 module.exports.initMute = () => {
     window.muteList = [];
 
     new MutationObserver((mutations, observer) => {
-        if (document.body && consts.getID("windowHeader") && consts.getID("chatList")) {
+        if (document.body && getID("windowHeader") && getID("chatList")) {
             observer.disconnect();
 
             window.mute = (a, b) =>
@@ -13,8 +13,8 @@ module.exports.initMute = () => {
                     (b.innerText = "Mute")) :
                 (window.muteList.push(a), (b.innerText = "Unmute"));
             window.playerlistHandler = () => {
-                if ("Player List" == consts.getID("windowHeader").innerText) {
-                    for (const a of[...consts.getID("menuWindow").children[1].children]) {
+                if ("Player List" == getID("windowHeader").innerText) {
+                    for (const a of[...getID("menuWindow").children[1].children]) {
                         let b = [...a.children[0].children].filter(
                                 (a) => "A" == a.nodeName
                             ),
@@ -47,14 +47,14 @@ module.exports.initMute = () => {
             };
             window.playerlistObserver = new MutationObserver(() =>
                 window.playerlistHandler()
-            ).observe(consts.getID("windowHeader"), {
+            ).observe(getID("windowHeader"), {
                 attributes: !0,
                 subtree: !0,
                 childList: !0,
             });
             window.chatObserver = new MutationObserver((a) =>
                 window.chatHandler(a)
-            ).observe(consts.getID("chatList"), {
+            ).observe(getID("chatList"), {
                 childList: !0,
             });
         }
