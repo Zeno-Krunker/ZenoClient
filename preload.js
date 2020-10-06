@@ -67,10 +67,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 characterDataOldValue: true,
             });
 
-            // *** Player Name Observer for Badges ***
-
-
-
             // *** Mute Feature ***
 
             initMute();
@@ -93,10 +89,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     "beforeend",
                     '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
                 );
-                getID("menuClassContainer").insertAdjacentHTML(
-                    "beforeend",
-                    '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>'
-                );
+
+                addRandomClassButton();
 
                 getID('menuItemContainer').insertAdjacentHTML('beforeend', `
                 <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
@@ -189,13 +183,6 @@ window.prompt = importSettings = () => {
             }
         }
     };
-};
-
-// *** Random Class ***
-
-window.randomClass = () => {
-    var rand = Math.floor(Math.random() * (13 - 0 + 1));
-    selectClass(rand);
 };
 
 // *** Resource Swapper ***
@@ -436,5 +423,3 @@ window.openZenoWindow = () => {
         }
     });
 }
-
-// *** Simple Get ID Function ***
