@@ -16,7 +16,7 @@ const consts = require('./consts.js')
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
-const badgeManager = require("./featureModules/badges");
+const { initBadges } = require("./featureModules/badges");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -68,15 +68,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // *** Player Name Observer for Badges ***
 
-            new MutationObserver((mutations, observer) => {
-                if (document.getElementsByClassName("menuClassPlayerName")[0]) {
-                    badgeManager.checkPlayer();
-                }
-            }).observe(document, {
-                childList: true,
-                subtree: true,
-                attributes: true,
-            });
+
 
             // *** Mute Feature ***
 
@@ -161,6 +153,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         var init = () => {
             initDiscord();
             insertCSS();
+            initBadges();
         };
         init();
     })();
