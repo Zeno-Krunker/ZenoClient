@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
-                if (getID("customizeButton")) {
+                if (consts.getID("customizeButton")) {
                     observer.disconnect();
                     doIt();
                 }
@@ -77,27 +77,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // *** Things to Do if Page Loads **
 
             var doIt = () => {
-                getID("mainLogo").src =
+                consts.getID("mainLogo").src =
                     store.get("imgTag") ||
                     "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
-                getID("mapInfoHolder").children[3].insertAdjacentHTML(
+                consts.getID("mapInfoHolder").children[3].insertAdjacentHTML(
                     "beforeend",
                     '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
                 );
-                getID("menuClassContainer").insertAdjacentHTML(
+                consts.getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
                     '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
                 );
-                getID("menuClassContainer").insertAdjacentHTML(
+                consts.getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
                     '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
                 );
-                getID("menuClassContainer").insertAdjacentHTML(
+                consts.getID("menuClassContainer").insertAdjacentHTML(
                     "beforeend",
                     '<div id="randomClass customizeButton" class="button bigShadowT mycustomButton" onmouseenter="playTick()" onclick="window.randomClass()">Random Class</div>'
                 );
 
-                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
+                consts.getID('menuItemContainer').insertAdjacentHTML('beforeend', `
                 <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
                 <div class="menuItemIcon iconZeno"></div>
                 <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
@@ -208,11 +208,11 @@ window.rs = importCss = () => {
     </form>
     </div>`;
 
-    getID("menuWindow").innerHTML = tempHTML;
+    consts.getID("menuWindow").innerHTML = tempHTML;
 
     // *** Drop Resource Swapper Code ***
 
-    let dropArea = getID("drop-area");
+    let dropArea = consts.getID("drop-area");
     ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
         dropArea.addEventListener(eventName, preventDefaults, false);
     });
@@ -277,18 +277,18 @@ window.scopes = () => {
     // Open Menu
     openHostWindow();
     // Create Parent Window
-    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
+    consts.getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
     var i = 0;
     var a;
     var scopeSize = parseInt(scopeLink.length);
     // Set the Scopes Using for Loop
     for (i = 0; i < scopeSize; i++) {
         var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/757255001314820186/Webp.png"><img class="classImgC" src="${scopeLink[i]}">`;
-        getID("oo").insertAdjacentHTML("beforeend", a);
+        consts.getID("oo").insertAdjacentHTML("beforeend", a);
     }
     var a =
         '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
-    getID("oo").insertAdjacentHTML("beforeend", a);
+    consts.getID("oo").insertAdjacentHTML("beforeend", a);
 };
 
 window.selectScope = (int) => {
@@ -303,8 +303,8 @@ window.addScope = () => {
     <a class="+" id="importBtnnn">Add</a>
     </div>`;
 
-    getID("menuWindow").innerHTML = tempHTML;
-    var importBtnnn = getID("importBtnnn");
+    consts.getID("menuWindow").innerHTML = tempHTML;
+    var importBtnnn = consts.getID("importBtnnn");
     importBtnnn.addEventListener("click", () => {
         parseScope(settingString.value);
     });
@@ -331,12 +331,12 @@ var askRestart = () => {
     <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
     <a class="+" id="notNowMoment">Not Now</a>
     <a class="+" id="okBoomerMoment" style="color:red;padding-left:10px;">Restart</a>`;
-    getID("menuWindow").innerHTML = tempHTML;
-    getID("notNowMoment").addEventListener("click", () => {
+    consts.getID("menuWindow").innerHTML = tempHTML;
+    consts.getID("notNowMoment").addEventListener("click", () => {
         openHostWindow();
         openHostWindow();
     });
-    getID("okBoomerMoment").addEventListener("click", () => {
+    consts.getID("okBoomerMoment").addEventListener("click", () => {
         ipcRenderer.send("restart-client");
     });
 };
@@ -348,25 +348,25 @@ window.openAltManager = (openNew) => {
         showWindow(5);
     }
     var account = store.get("account");
-    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
+    consts.getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
     var i = 0;
     var a;
     var accountInt = parseInt(account.length);
     for (i = 0; i < accountInt; i++) {
         var a = `<div class="classCard" onclick="window.selectAlt(${i})"><img class="topRightBoi" onclick="window.removeAlt(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><h3>${account[i].name}<br></h3>`;
-        getID("oo").insertAdjacentHTML("beforeend", a);
+        consts.getID("oo").insertAdjacentHTML("beforeend", a);
     }
     var a =
         '<div class="classCard" onclick="window.addAlt()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
-    getID("oo").insertAdjacentHTML("beforeend", a);
+    consts.getID("oo").insertAdjacentHTML("beforeend", a);
 };
 
 window.selectAlt = (i) => {
     var account = store.get("account");
     showWindow(5);
     showWindow(5);
-    getID("accName").value = account[i].name;
-    getID("accPass").value = account[i].pass;
+    consts.getID("accName").value = account[i].name;
+    consts.getID("accPass").value = account[i].pass;
     loginAcc();
 };
 
@@ -384,12 +384,12 @@ window.addAlt = () => {
     <a class="+" id="addAltB">Add</a>
     </div>`;
 
-    getID("menuWindow").innerHTML = tempHTML;
-    getID("addAltB").addEventListener("click", () => {
+    consts.getID("menuWindow").innerHTML = tempHTML;
+    consts.getID("addAltB").addEventListener("click", () => {
         var account = store.get("account");
         var newAlt = {
-            name: getID("usernameAlt").value,
-            pass: getID("passwordAlt").value,
+            name: consts.getID("usernameAlt").value,
+            pass: consts.getID("passwordAlt").value,
         };
         account.push(newAlt);
         store.set("account", account);
@@ -401,7 +401,7 @@ window.addAlt = () => {
 
 window.openZenoWindow = () => {
     openHostWindow();
-    getID('menuWindow').innerHTML = `
+    consts.getID('menuWindow').innerHTML = `
     
     <div class="setHed">Import CSS</div>
     <div class="settName" id="importSettings_div" style="display:block">CSS Text <input type="url" placeholder="Paste Custom CSS Here" name="url" class="inputGrey2" id="settingString"></div>
@@ -410,22 +410,22 @@ window.openZenoWindow = () => {
     <a class="+" id="changeBttt">Change</a>
     <div class="setHed">Link Twitch</div><div class="settName" id="importSettings_div" style="display:block">Twitch Channel Name <input type="url" placeholder="Twitch Name" name="url" class="inputGrey2" id="twitchChannelName"></div>
     <a class="+" id="changeBtttww">Link</a>`
-    getID("changeBttt").addEventListener("click", () => {
-        if (!getID("logosp").value) {
+    consts.getID("changeBttt").addEventListener("click", () => {
+        if (!consts.getID("logosp").value) {
             store.set("imgTag", "");
-            getID("mainLogo").src =
+            consts.getID("mainLogo").src =
                 "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
         } else {
-            store.set("imgTag", getID("logosp").value);
-            getID("mainLogo").src = getID("logosp").value;
+            store.set("imgTag", consts.getID("logosp").value);
+            consts.getID("mainLogo").src = consts.getID("logosp").value;
         }
     });
 
-    getID('changeBtttww').addEventListener('click', () => {
-        initTwitch(getID('twitchChannelName').value);
+    consts.getID('changeBtttww').addEventListener('click', () => {
+        initTwitch(consts.getID('twitchChannelName').value);
     })
 
-    getID('importBtnn').addEventListener("click", () => {
+    consts.getID('importBtnn').addEventListener("click", () => {
         var string = settingString.value;
         if (string) {
             var path = `${consts.getResourceSwapper(remote)}css/`;
@@ -437,5 +437,3 @@ window.openZenoWindow = () => {
 }
 
 // *** Simple Get ID Function ***
-
-var getID = (id) => document.getElementById(id);
