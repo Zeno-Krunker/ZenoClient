@@ -1,6 +1,6 @@
 /*
     Main.js Zeno Client
-    By : https://aryaveer.tk/ and https://hitthemoney.com
+    By : Zeno Client Team
 */
 
 // *** The Modules ***

@@ -1,6 +1,6 @@
 /*
     Preload.js Zeno Client 
-    By : https://aryaveer.tk/
+    By : Zeno Client Team
 */
 
 // *** Include Modules ***
@@ -12,12 +12,12 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const {getID, getPluginDIR, getResourceSwapper} = require('./consts.js');
+const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
 const { initBadges } = require("./featureModules/badges");
-const addRandomClassButton = require("./featureModules/randomClass");
+const randomClassInit = require("./featureModules/randomClass");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // *** Inject CSS **
-            fs.readFile(__dirname + "/style.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/css/style.css", "utf-8", (error, data) => {
                 if (!error) {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
                 );
 
-                addRandomClassButton();
+                randomClassInit();
 
                 getID('menuItemContainer').insertAdjacentHTML('beforeend', `
                 <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">

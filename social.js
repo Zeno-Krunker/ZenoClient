@@ -1,13 +1,11 @@
 /*
     Social.js Zeno Client 
-    By : https://aryaveer.tk/ and https://hitthemoney.com
+    By : Zeno Client Team
 */
 
 // *** Import Modules ***
 const { ipcRenderer: ipcRenderer } = require('electron');
 const { readFile } = require('fs');
-const { VanillaTilt } = require('./featureModules/vanilla-tilt-lib');
-const { getID, getClass } = require("./consts");
 
 ipcRenderer.on('home', () => {
     window.location.href = 'https://krunker.io/social.html';
@@ -19,7 +17,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         'use strict';
         // *** Add CSS ***
         var insertCSS = () => {
-            readFile(__dirname + '/social.css', "utf-8", (error, data) => {
+            readFile(__dirname + '/css/social.css', "utf-8", (error, data) => {
                 if (error) console.log(error);
                 socialCSS = data.split("/* Krunker Market Tools CSS */")[0];
                 try {
@@ -35,28 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         var init = () => {
             insertCSS();
-            //initTilt();
         }
         init();
     })();
 });
-
-// Just can't get this working ffs
-// Aryveer take a look ples
-
-function initTilt() {
-    //let marketList = getID("marketList");
-
-    let marketCards;
-
-    setInterval(() => {
-        marketCards = getClass("marketCard");
-        console.log("setInterval callback");
-        console.log(marketCards);
-        try{
-            var tilty = new VanillaTilt(marketCards);
-        } catch (err) {
-            console.log(err);
-        }
-    }, 5000);
-}
