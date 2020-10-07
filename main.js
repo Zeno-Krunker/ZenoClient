@@ -99,8 +99,11 @@ function createGameWindow() {
                     nodeIntergration: true,
                     preload: `${__dirname}/social.js`,
                     webSecurity: false,
+                    devTools: true,
                 },
             });
+
+            newWin.webContents.openDevTools();
 
             globalShortcut.register("F11", () => {
                 win.setSimpleFullScreen(!win.isSimpleFullScreen());

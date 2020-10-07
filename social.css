@@ -3,10 +3,17 @@
     By : https://aryaveer.tk/ and https://hitthemoney.com
 */
 
+:root {
+    --blue-shadow: #2ea1a1;
+    --main-blue: #3ccfcf;
+    --button: #282e3e;
+    --main-ui: #1a1d28;
+    --ui-background: #13141b;
+}
+
 html,
 body {
-    background-image: url() !important;
-    background-color: #131313 !important;
+    background: var(--ui-background) !important;
 }
 
 #navBar {
@@ -117,11 +124,29 @@ a[onclick$="windows[0].searchMaps()"],
 }
 
 .marketCard {
-    border-radius: 17.4px;
+    background: linear-gradient(
+      to bottom right,
+      var(--button) 30%,
+      var(--main-ui) 100%
+    ) !important;
+
+    border-left: 10px solid #292929 !important;
+    overflow: hidden !important;
+    color: #95a5a6 !important;
 }
 
+.marketPrice {
+    background: none !important;
+}
+
+.itemOwn {
+    font-size: 14px !important;
+  }
+
 .cardActions {
-    border-radius: 17.4px;
+    border-radius: 17.4px !important;
+    transition: all 0.3s !important;
+    background: rgba(0, 0, 0, 0.3) !important;
 }
 
 .buttonG {
