@@ -44,6 +44,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     (function() {
         "use strict";
 
+        var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png" // https://cdn.discordapp.com/attachments/747410238944051271/756312661469167686/Zeno.svg
+
         var insertCSS = () => {
             // *** Inject CSS **
             fs.readFile(__dirname + "/css/style.css", "utf-8", (error, data) => {
@@ -76,7 +78,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             var doIt = () => {
                 getID("mainLogo").src =
                     store.get("imgTag") ||
-                    "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
+                    zenoIcon;
                 getID("mapInfoHolder").children[3].insertAdjacentHTML(
                     "beforeend",
                     '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
@@ -402,7 +404,7 @@ window.openZenoWindow = () => {
         if (!getID("logosp").value) {
             store.set("imgTag", "");
             getID("mainLogo").src =
-                "https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png";
+                zenoIcon;
         } else {
             store.set("imgTag", getID("logosp").value);
             getID("mainLogo").src = getID("logosp").value;
