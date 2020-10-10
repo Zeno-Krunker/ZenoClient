@@ -18,7 +18,7 @@ const { readdirSync, mkdir, statSync } = require("fs");
 
 // *** Options ***
 
-const devTools = true;
+const devTools = false; //true;
 const fullscreenOnload = true;
 
 // Do Some FPS Tricks
