@@ -53,13 +53,14 @@ if (cpus()[0].model.includes("AMD")) {
 }
 
 var win = null;
+var PopupWin = null;
 
 function createGameWindow() {
     // *** Create the Game Window ***
     console.log('Window Creating...');
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    var PopupWin = new BrowserWindow({
+    PopupWin = new BrowserWindow({
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(height / 2),
         width: Math.round(width / 2),
@@ -99,6 +100,7 @@ app.on("window-all-closed", function() {
 });
 
 ipcMain.on("restart-client", () => {
+    if (PopupWin) PopupWin.hide();
     app.relaunch();
     app.quit();
 });
@@ -108,6 +110,7 @@ ipcMain.on("close-client", () => {
 });
 
 ipcMain.on('noUpdate', () => {
+    PopupWin.hide()
     initMainWindow();
 });
 
@@ -218,6 +221,9 @@ function initMainWindow() {
     globalShortcut.register("Esc", () => {
         win.webContents.send("Escape");
     });
+    win.on('close', () => {
+        app.quit();
+    })
     if (devTools) win.webContents.openDevTools();
     win.setSimpleFullScreen(fullscreenOnload);
     win.loadURL("https://krunker.io");
@@ -227,6 +233,7 @@ function initMainWindow() {
         console.log('Title Set');
     });
     initSwapper();
+
 }
 
 function initSwapper() {
