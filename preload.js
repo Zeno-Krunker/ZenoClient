@@ -43,7 +43,6 @@ ipcRenderer.on("home", () => {
 document.addEventListener("DOMContentLoaded", (event) => {
     (function() {
         "use strict";
-
         var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png" // https://cdn.discordapp.com/attachments/747410238944051271/756312661469167686/Zeno.svg
 
         var insertCSS = () => {
@@ -53,6 +52,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
             });
+            console.log('CSS Injected');
             if (!store.get("imgTag")) store.set("imgTag", "");
             if (!store.get("account")) store.set("account", []);
             if (!store.get("scopesCurrent")) store.set("scopesCurrent", consts.scopeTemp);
@@ -68,14 +68,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 subtree: true,
                 characterDataOldValue: true,
             });
-
+            console.log('DoIt Assigned');
             // *** Mute Feature ***
 
             initMute();
 
+            console.log('Mute');
+
             // *** Things to Do if Page Loads **
 
             var doIt = () => {
+                console.log('DoIt Started');
                 getID("mainLogo").src =
                     store.get("imgTag") ||
                     zenoIcon;
@@ -105,6 +108,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
                     }
                 }
+                console.log('Plugin Started');
                 const pluginDIR = getPluginDIR(remote);
 
                 if (!fs.existsSync(pluginDIR)) {
@@ -142,15 +146,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
                         });
                     });
                 });
+                console.log('Plugin Ended');
             };
         };
 
         // *** Run the Main Function ***
 
         var init = () => {
+            console.log('Starting Inits');
             initDiscord();
             insertCSS();
             initBadges();
+            console.log('Finished Inits');
         };
         init();
     })();

@@ -56,7 +56,62 @@ var win = null;
 
 function createGameWindow() {
     // *** Create the Game Window ***
+    console.log('Window Creating...');
 
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    var PopupWin = new BrowserWindow({
+        icon: `${__dirname}/assets/icon/icon.ico`,
+        height: Math.round(height / 2),
+        width: Math.round(width / 2),
+        frame: false,
+        backgroundColor: "#000000",
+        webPreferences: {
+            nodeIntergration: true,
+            preload: `${__dirname}/splash.js`,
+            webSecurity: false,
+        },
+    });
+    PopupWin.loadFile(`${__dirname}/splash.html`);
+    console.log('Shortcuts Ended. Starting Resource Swapper');
+    // *** Resource Swapper Code ***
+    console.log('Resource Swapper Done');
+}
+
+// *** Run the Main Function ***
+
+var init = () => {
+    createGameWindow();
+};
+
+app.whenReady().then(() => {
+    init();
+
+    app.on("activate", function() {
+        if (BrowserWindow.getAllWindows().length === 0) init();
+    });
+});
+
+app.on("window-all-closed", function() {
+    if (process.platform !== "darwin") {
+        app.quit();
+        globalShortcut.unregisterAll();
+    }
+});
+
+ipcMain.on("restart-client", () => {
+    app.relaunch();
+    app.quit();
+});
+
+ipcMain.on("close-client", () => {
+    app.quit();
+});
+
+ipcMain.on('noUpdate', () => {
+    initMainWindow();
+});
+
+function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
         icon: `${__dirname}/assets/icon/icon.ico`,
@@ -69,7 +124,7 @@ function createGameWindow() {
             webSecurity: false,
         },
     });
-
+    console.log('Window Created');
     if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
@@ -80,6 +135,7 @@ function createGameWindow() {
             initWin(event, url, frameName, disposition, options);
         }
     );
+    console.log('Added New Window Function');
 
     function initWin(event, url, frameName, disposition, options) {
         if (!url) return;
@@ -144,7 +200,7 @@ function createGameWindow() {
     }
 
     // *** Set the Shortcuts ***
-
+    console.log('Shortcuts Starting');
     globalShortcut.register("F11", () => {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
     });
@@ -166,8 +222,14 @@ function createGameWindow() {
     win.setSimpleFullScreen(fullscreenOnload);
     win.loadURL("https://krunker.io");
     win.removeMenu();
+    win.webContents.on("did-finish-load", () => {
+        win.setTitle("Krunker - Zeno Client");
+        console.log('Title Set');
+    });
+    initSwapper();
+}
 
-    // *** Resource Swapper Code ***
+function initSwapper() {
     let sf = `${app.getPath("documents")}/ZenoSwapper`;
 
     try {
@@ -211,37 +273,4 @@ function createGameWindow() {
             }
         );
     }
-    win.webContents.on("did-finish-load", () => {
-        win.setTitle("Krunker - Zeno Client");
-    });
 }
-
-// *** Run the Main Function ***
-
-var init = () => {
-    createGameWindow();
-};
-
-app.whenReady().then(() => {
-    init();
-
-    app.on("activate", function() {
-        if (BrowserWindow.getAllWindows().length === 0) init();
-    });
-});
-
-app.on("window-all-closed", function() {
-    if (process.platform !== "darwin") {
-        app.quit();
-        globalShortcut.unregisterAll();
-    }
-});
-
-ipcMain.on("restart-client", () => {
-    app.relaunch();
-    app.quit();
-});
-
-ipcMain.on("close-client", () => {
-    app.quit();
-});
