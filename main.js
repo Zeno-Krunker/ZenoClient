@@ -122,7 +122,7 @@ function initMainWindow() {
         width: Math.round(width * 0.75),
         backgroundColor: "#000000",
         webPreferences: {
-            nodeIntergration: true,
+            nodeIntergration: false,
             preload: `${__dirname}/preload.js`,
             webSecurity: false,
         },
@@ -155,7 +155,7 @@ function initMainWindow() {
                 show: false,
                 backgroundColor: "#131313",
                 webPreferences: {
-                    nodeIntergration: true,
+                    nodeIntergration: false,
                     preload: `${__dirname}/social.js`,
                     webSecurity: false,
                     devTools: true,
@@ -226,14 +226,14 @@ function initMainWindow() {
     })
     if (devTools) win.webContents.openDevTools();
     win.setSimpleFullScreen(fullscreenOnload);
-    win.loadURL("https://krunker.io");
+    win.loadURL("https://krunker.io/");
     win.removeMenu();
+
     win.webContents.on("did-finish-load", () => {
         win.setTitle("Krunker - Zeno Client");
         console.log('Title Set');
     });
     initSwapper();
-
 }
 
 function initSwapper() {
