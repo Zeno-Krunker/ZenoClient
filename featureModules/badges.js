@@ -13,6 +13,8 @@ var badgeImplemented = {
     dev: false,
     vip: false,
     gfx: false,
+    booster: false,
+    "yendis-staff": false,
 };
 
 
