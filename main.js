@@ -110,7 +110,7 @@ ipcMain.on("close-client", () => {
 });
 
 ipcMain.on('noUpdate', () => {
-    PopupWin.hide()
+    PopupWin.hide();
     initMainWindow();
 });
 
@@ -125,6 +125,7 @@ function initMainWindow() {
             nodeIntergration: false,
             preload: `${__dirname}/preload.js`,
             webSecurity: false,
+            allowRunningInsecureContent: true,
         },
     });
     console.log('Window Created');
@@ -162,7 +163,7 @@ function initMainWindow() {
                 },
             });
 
-            newWin.webContents.openDevTools();
+            if (devTools) newWin.webContents.openDevTools();
 
             globalShortcut.register("F11", () => {
                 win.setSimpleFullScreen(!win.isSimpleFullScreen());
@@ -188,7 +189,6 @@ function initMainWindow() {
             }
             event.newGuest = newWin;
             newWin.removeMenu();
-            if (devTools) win.webContents.openDevTools();
             newWin.webContents.on(
                 "new-window",
                 (event, url, frameName, disposition, options) => {
