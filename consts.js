@@ -17,7 +17,7 @@ module.exports.getResourceSwapper = (remote) => {
 
 module.exports.discordClientID = "758353378547073055";
 
-module.exports.badges = ["verified", "content-creators", "dev", "vip", "gfx"];
+module.exports.badges = ["verified", "content-creators", "dev", "vip", "gfx", "booster", "yendis-staff"];
 
 module.exports.badgeUrls = {
     verified: {
@@ -40,6 +40,12 @@ module.exports.badgeUrls = {
         "url": "https://cdn.discordapp.com/attachments/756142725262213180/756193773515702312/Zeno_GFX.png",
         "url-old": "https://cdn.discordapp.com/attachments/747410238944051271/748576637225795614/badge-gfx.png",
     },
+    booster: {
+        "url": "https://media.discordapp.net/attachments/756142725262213180/756341309425451100/Zeno_Booster.png",
+    },
+    "yendis-staff": {
+        "url": "https://media.discordapp.net/attachments/756142725262213180/756335806901125130/Zeno_YS.png"
+    }
 };
 
 module.exports.badgeData = "https://zenoupdateapi.web.app/badgeData.json";

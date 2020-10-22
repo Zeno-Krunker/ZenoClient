@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // *** Inject CSS **
-            fs.readFile(__dirname + "/css/style.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
                 if (!error) {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
