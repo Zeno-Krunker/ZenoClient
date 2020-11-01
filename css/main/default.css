@@ -721,3 +721,11 @@ span[style*='color: rgba(0, 0, 0, 0.8)'], .menuTabNew {
 .iconZeno {
     background-image: url('https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png');
 }
+
+#clientPop {
+	display: none !important;
+}
+
+#popupHolder {
+	display: none !important;
+}
