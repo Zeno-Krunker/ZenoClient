@@ -12,7 +12,7 @@ module.exports.getPluginDIR = (remote) => {
 }
 
 module.exports.getResourceSwapper = (remote) => {
-    remote.app.getPath("documents") + "/ZenoSwapper/";
+    return remote.app.getPath("documents") + "/ZenoSwapper/";
 }
 
 module.exports.discordClientID = "758353378547073055";
