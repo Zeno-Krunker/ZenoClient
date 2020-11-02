@@ -250,17 +250,15 @@ window.rs = importCss = () => {
     var handleFiles = (files) => {
         // *** Paste the Folder ***
         let sf = getResourceSwapper(remote);
-
         for (i in files) {
+            var any = rsData[files[i].name].address;
+            var temp = sf + any + files[i].name;
             copy(
                 files[i].path,
-                sf + rsData[files[i].name].address + files[i].name,
+                temp,
                 function(err) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        askRestart();
-                    }
+                    if (err) return console.log(err);
+                    askRestart();
                 }
             );
         }
