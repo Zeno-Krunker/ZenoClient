@@ -23,8 +23,8 @@ const fullscreenOnload = true;
 
 // Do Some FPS Tricks
 
-app.commandLine.appendSwitch("disable-frame-rate-limit");
-app.commandLine.appendSwitch("disable-gpu-vsync");
+// app.commandLine.appendSwitch("disable-frame-rate-limit");
+// app.commandLine.appendSwitch("disable-gpu-vsync");
 app.commandLine.appendSwitch("ignore-gpu-blacklist");
 app.commandLine.appendSwitch("disable-breakpad");
 app.commandLine.appendSwitch("disable-component-update");

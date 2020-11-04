@@ -18,6 +18,7 @@ const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
 const { initBadges } = require("./featureModules/badges");
 const randomClassInit = require("./featureModules/randomClass");
+const Settings = require("./featureModules/zenoSettings");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -341,7 +342,7 @@ var askRestart = () => {
     });
 };
 
-// *** Alt Manager ***
+//#region  *** Alt Manager ***
 
 window.openAltManager = (openNew) => {
     if (openNew) {
@@ -397,41 +398,7 @@ window.addAlt = () => {
     });
 };
 
+//#endregion
+
 // Zeno Window
 
-window.openZenoWindow = () => {
-    openHostWindow();
-    getID('menuWindow').innerHTML = `
-    
-    <div class="setHed">Import CSS</div>
-    <div class="settName" id="importSettings_div" style="display:block">CSS Text <input type="url" placeholder="Paste Custom CSS Here" name="url" class="inputGrey2" id="settingString"></div>
-    <a class="+" id="importBtnn">Import</a>
-    <div class="setHed">Change Logo</div><div class="settName" id="importSettings_div" style="display:block">Logo URL <input type="url" placeholder="Logo URL" name="url" class="inputGrey2" id="logosp"></div>
-    <a class="+" id="changeBttt">Change</a>
-    <div class="setHed">Link Twitch</div><div class="settName" id="importSettings_div" style="display:block">Twitch Channel Name <input type="url" placeholder="Twitch Name" name="url" class="inputGrey2" id="twitchChannelName"></div>
-    <a class="+" id="changeBtttww">Link</a>`
-    getID("changeBttt").addEventListener("click", () => {
-        if (!getID("logosp").value) {
-            store.set("imgTag", "");
-            getID("mainLogo").src =
-                zenoIcon;
-        } else {
-            store.set("imgTag", getID("logosp").value);
-            getID("mainLogo").src = getID("logosp").value;
-        }
-    });
-
-    getID('changeBtttww').addEventListener('click', () => {
-        initTwitch(getID('twitchChannelName').value);
-    })
-
-    getID('importBtnn').addEventListener("click", () => {
-        var string = settingString.value;
-        if (string) {
-            var path = `${getResourceSwapper(remote)}css/`;
-            fs.existsSync(path) ? console.log('Nothing') : fs.mkdirSync(path)
-            fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
-            askRestart();
-        }
-    });
-}
