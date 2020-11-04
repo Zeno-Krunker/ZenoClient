@@ -1,0 +1,28 @@
+/* Zeno Stuff */
+
+.zenoBadge {
+    height: 50px;
+    transform: translateY(35%);
+    margin-right: 3px;
+}
+
+.mycustomButton {
+    width: 300px;
+    text-align: center;
+    padding: 15px;
+    font-size: 23px;
+    pointer-events: all;
+    padding-bottom: 22px;
+}
+
+.iconZeno {
+    background-image: url('https://cdn.discordapp.com/attachments/747410238944051271/751466328262443169/FIXED.png');
+}
+
+#clientPop {
+	display: none !important;
+}
+
+#popupHolder {
+	display: none !important;
+}
