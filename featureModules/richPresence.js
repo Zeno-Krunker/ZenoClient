@@ -37,7 +37,7 @@ function initDiscord() {
 
         setInterval(() => {
             updateDiscord();
-        }, 1000);
+        }, 2000);
     });
 }
 
@@ -51,10 +51,6 @@ var playerCount = null
 var playerMax = null
 
 function updateDiscord() {
-    // var checkDat = undefined;
-    // try {
-    //     checkDat = window.getGameActivity();
-    // } catch {}
     if (gameLoaded()) {
         gameActivity = window.getGameActivity();
         gameMode = gameActivity.mode;
@@ -74,7 +70,7 @@ function updateDiscord() {
             discordClient.setActivity({
                 details: `Playing ${gameMode}`,
                 state: `on ${mapName}`,
-                endTimestamp: Date.now() + timeLeft * 1000,
+                endTimestamp: (timeLeft === 0) ? undefined : Date.now() + timeLeft * 1000,
                 largeImageKey: "zeno_menu",
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,

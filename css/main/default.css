@@ -1079,7 +1079,8 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 /* Pop Up */
 
 #popupBack {
-	background-color: var(--ui-bg)
+	background-color: var(--ui-bg);
+	opacity: 0.2;
 }
 
 #popupContent {
