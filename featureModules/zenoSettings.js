@@ -14,10 +14,9 @@ class Header {
 class TextSetting {
     constructor({label, inputLabel, inputId, buttonLabel, buttonId}, buttonClick) {
         if(typeof buttonClick == "function"){
-            this.buttonClick = this.buttonClick;
+            this.buttonClick = buttonClick;
         } else {
             throw "buttonClick is not a valid function!";
-            return;
         }
         this.label = label.toString();
         this.inputLabel = inputLabel.toString();
@@ -38,7 +37,7 @@ class TextSetting {
 
     registerFunction() {
         console.log("Function called")
-        this.button.on("click", this.buttonClick);
+        this.button.addEventListener("click", this.buttonClick);
     }
 }
 
@@ -110,8 +109,10 @@ window.openZenoWindow = () => {
     getID('menuWindow').innerHTML = settingsHTML;
 
     for(let setting of SettingsMap.values()){
-        if(setting instanceof Header) return;
-        console.log("Looping over");
-        setting.registerFunction();
+        console.log("Loop Started");
+        if(setting instanceof TextSetting){
+            console.log("Looping over");
+            setting.registerFunction();
+        }
     }
 }
