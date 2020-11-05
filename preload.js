@@ -17,6 +17,10 @@ const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const { initTwitch } = require('./featureModules/twitch')
 const { initBadges } = require("./featureModules/badges");
+<<<<<<< Updated upstream
+=======
+const Settings = require("./featureModules/zenoSettings");
+>>>>>>> Stashed changes
 const randomClassInit = require("./featureModules/randomClass");
 const Settings = require("./featureModules/zenoSettings");
 
@@ -48,12 +52,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // *** Inject CSS **
-            fs.readFile(__dirname + "/css/main/zeno-defualts.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
                 if (!error) {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
             });
-            fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/css/main/zeno-defualts.css", "utf-8", (error, data) => {
                 if (!error) {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
@@ -327,7 +331,7 @@ window.removeScope = (no) => {
 
 // ** Ask Restart **
 
-var askRestart = () => {
+window.askRestart = () => {
     var tempHTML = `<div class="setHed">Restart Needed</div>
     <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
     <a class="+" id="notNowMoment">Not Now</a>

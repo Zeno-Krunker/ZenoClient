@@ -15,6 +15,8 @@ const {
 var { cpus } = require("os");
 const { format } = require("url");
 const { readdirSync, mkdir, statSync } = require("fs");
+const Store = require("electron-store");
+const store = new Store();
 
 // *** Options ***
 
@@ -23,8 +25,10 @@ const fullscreenOnload = true;
 
 // Do Some FPS Tricks
 
-// app.commandLine.appendSwitch("disable-frame-rate-limit");
-// app.commandLine.appendSwitch("disable-gpu-vsync");
+if(store.get("VSync") !== true){
+    app.commandLine.appendSwitch("disable-frame-rate-limit");
+    app.commandLine.appendSwitch("disable-gpu-vsync");
+}
 app.commandLine.appendSwitch("ignore-gpu-blacklist");
 app.commandLine.appendSwitch("disable-breakpad");
 app.commandLine.appendSwitch("disable-component-update");
