@@ -15,20 +15,15 @@ const rsData = require("./rsData.json");
 const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
-const { initTwitch } = require('./featureModules/twitch')
 const { initBadges } = require("./featureModules/badges");
-<<<<<<< Updated upstream
-=======
-const Settings = require("./featureModules/zenoSettings");
->>>>>>> Stashed changes
 const randomClassInit = require("./featureModules/randomClass");
-const Settings = require("./featureModules/zenoSettings");
+require("./featureModules/zenoSettings");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
     if (!(endUI.style.display === "none")) {
         menuHolder.style.display = "block";
-        menuHider.style.display = "block";
+        menuHider.style.display = "block";  
         endUI.style.display = "none";
         uiBase.classList.add("onMenu");
         instructionHolder.style.display = "block";

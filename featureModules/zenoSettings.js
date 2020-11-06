@@ -1,5 +1,6 @@
 const { getID } = require("../consts");
 const { initTwitch } = require("./twitch");
+const fs = require("fs");
 const Store = require("electron-store");
 const store = new Store();
 
@@ -68,7 +69,7 @@ class ToggleSetting {
     }
 
     registerFunction() {
-        this.button.addEventListener("click", this.onToggle);
+        this.button.addEventListener("click", () => { this.onToggle(this.button.checked) });
     }
 }
 //#endregion
@@ -80,8 +81,6 @@ let SettingsMap = new Map();
 SettingsMap.set("MiscellaneousHeader", new Header("Miscellaneous"));
 
 //#region Import CSS
-// SettingsMap.set("ImportCSSHeader", new Header("Import CSS"));
-
 SettingsMap.set("ImportCSS", new TextSetting({
     label: "Import CSS",
     inputLabel: "Paste your CSS here",
@@ -89,7 +88,6 @@ SettingsMap.set("ImportCSS", new TextSetting({
     buttonLabel: "Import",
     buttonId: "ImportCSS_btn",
 }, () => {
-    console.log("pog works");
     var string = settingString.value;
     if (string) {
         var path = `${getResourceSwapper(remote)}css/`;
@@ -101,8 +99,6 @@ SettingsMap.set("ImportCSS", new TextSetting({
 //#endregion
 
 //#region Change Logo
-//SettingsMap.set("ChangeLogoHeader", new Header("Change Logo"));
-
 SettingsMap.set("ChangeLogo", new TextSetting({
     label: "Custom Logo",
     inputLabel: "Logo URL",
@@ -121,8 +117,6 @@ SettingsMap.set("ChangeLogo", new TextSetting({
 //#endregion
 
 //#region Link Twitch
-//SettingsMap.set("LinkTwitchHeader", new Header("Link Twitch"));
-
 SettingsMap.set("LinkTwitch", new TextSetting({
     label: "Link Twitch Chat",
     inputLabel: "Twitch Channel Name",
@@ -143,12 +137,24 @@ SettingsMap.set("VSyncToggle", new ToggleSetting({
     label: "Enable VSync",
     buttonId: "VSyncToggle_btn",
     storeKey: "VSync",
-}, () => {
-    let vsync = getID("VSyncToggle_btn").checked;
-    store.set("VSync", vsync);
-    askRestart();
+}, (checked) => {
+    store.set("VSync", checked);
 }, true));
 
+//#endregion
+//#endregion
+
+//#region ----DISCORD PRESENCE----
+SettingsMap.set("DiscordPresenceHeader", new Header("Discord Rich Presence"));
+
+//#region Ask to Join Toggle
+SettingsMap.set("AskToJoinToggle", new ToggleSetting({
+    label: "Enable Ask to Join",
+    buttonId: "AskToJoinToggle_btn",
+    storeKey: "AskToJoin",
+}, (checked) => {
+    store.set("AskToJoin", checked);
+}));
 //#endregion
 //#endregion
 
@@ -169,5 +175,4 @@ window.openZenoWindow = () => {
         }
     }
 }
-
 //#endregion

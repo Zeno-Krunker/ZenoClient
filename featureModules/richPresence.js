@@ -3,9 +3,9 @@
 // mf don't you dare remove this...
 const {discordClientID: clientID, gameLoaded, getGame} = require('../consts.js');
 const RPC = require("discord-rpc");
-const discordClient = new RPC.Client({
-    transport: "ipc"
-});
+const discordClient = new RPC.Client({ transport: "ipc" });
+const Store = require("electron-store");
+const store = new Store();
 
 function initDiscord() {
     discordClient.login({ clientId: clientID })
@@ -78,7 +78,7 @@ function updateDiscord() {
                 partyId: id,
                 matchSecret: id + '-match',
                 spectateSecret: id + "-spectate",
-                joinSecret: id + "-join",
+                joinSecret: store.get("AskToJoin") ? id + "-join" : undefined,
                 partyMax: playerMax,
                 partySize: playerCount,
             });
