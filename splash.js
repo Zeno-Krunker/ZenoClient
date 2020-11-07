@@ -8,12 +8,14 @@ const version = 18;
 
 document.addEventListener('DOMContentLoaded', async(event) => {
     var status = document.getElementById('bottom');
-    var json = await fetch('https://zenoupdateapi.web.app/updateVersion.json');
+    console.log("before fetch");
+    var json = await fetch('https://zenokrunkerapi.web.app/latestVersion.json');
+    console.log("after fetch");
     if (json.version > version) {
         status.innerHTML = 'Update Found. Downloading Update..';
         setTimeout(() => {
             process.noAsar = !0;
-            download(`https://zenoupdateapi.web.app/updates/${process.platform}/app.asar/`, __dirname, () => {
+            download(`https://zenokrunkerapi.web.app/updates/${process.platform}/app.asar/`, __dirname, () => {
                 status.innerHTML = 'Update Downloaded. Restarting...';
                 setTimeout(() => {
                     ipcRenderer.send('restart-client');
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', async(event) => {
             });
         }, 2000);
     } else {
+        console.log("else statement");
         status.innerHTML = 'No Update Found';
         setTimeout(ipcRenderer.send('noUpdate'), 2000);
     }
