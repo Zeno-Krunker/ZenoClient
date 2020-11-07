@@ -36,5 +36,7 @@
 }
 
 #ot-sdk-btn-floating {
-    display: none !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
 }
