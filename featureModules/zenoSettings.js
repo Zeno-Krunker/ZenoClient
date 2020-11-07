@@ -127,6 +127,20 @@ SettingsMap.set("LinkTwitch", new TextSetting({
     initTwitch(getID('twitchChannelName').value);
 }));
 //#endregion
+
+//#region Float Button
+SettingsMap.set("FloatButtonToggle", new ToggleSetting({
+    label: "Show Float Button",
+    buttonId: "FloatButtonToggle_btn",
+    storeKey: "FloatButton"
+}, (checked) => {
+    if(!checked) {
+        document.getElementById("float-button-disable").innerHTML = `#ot-sdk-btn-floating.ot-floating-button {display: none !important;}`;
+    } else {
+        document.getElementById("float-button-disable").innerHTML = "";
+    }
+}))
+//#endregion
 //#endregion
 
 //#region ----PERFORMANCE----

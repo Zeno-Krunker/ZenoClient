@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='zeno-defaults'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 } else (console.log(error));
             });
+            document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='float-button-disable'>#ot-sdk-btn-floating.ot-floating-button {display: none !important;}</style>`);
             console.log('CSS Injected');
             if (!store.get("imgTag")) store.set("imgTag", "");
             if (!store.get("account")) store.set("account", []);
