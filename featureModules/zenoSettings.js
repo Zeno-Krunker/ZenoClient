@@ -158,6 +158,31 @@ SettingsMap.set("AskToJoinToggle", new ToggleSetting({
 //#endregion
 //#endregion
 
+//#region ----TOGGLE CLIENT FEATURES----
+SettingsMap.set("ToggleClientFeaturesHeader", new Header("Toggle Client Features"));
+
+//#region Random Class Button
+SettingsMap.set("RandomClassToggle", new ToggleSetting({
+    label: "Random Class Button",
+    buttonId: "RandomClassToggle_btn",
+    storeKey: "RandomClass"
+}, (checked) => {
+    store.set("RandomClass", checked);
+    return;
+}, true));
+//#endregion
+
+//#region Chat Mute 
+SettingsMap.set("ChatMuteToggle", new ToggleSetting({
+    label: "Chat Mute Feature",
+    buttonId: "ChatMuteToggle_btn",
+    storeKey: "ChatMute"
+}, (checked) => {
+    store.set("ChatMute", checked);
+}, true))
+//#endregion
+//#endregion
+
 //#region Inserting Settings in the actual page
 let settingsHTML = "";
 

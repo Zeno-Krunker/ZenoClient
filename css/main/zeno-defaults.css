@@ -34,3 +34,7 @@
 #popupHolder {
 	display: none !important;
 }
+
+#ot-sdk-btn-floating {
+    display: none !important;
+}

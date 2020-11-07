@@ -1,6 +1,10 @@
-const { getID } = require('../consts.js')
+const { getID } = require('../consts.js');
+const Store = require("electron-store");
+const store = new Store();
 
 module.exports.initMute = () => {
+    if(store.get("ChatMute") !== true) return;
+
     window.muteList = [];
 
     new MutationObserver((mutations, observer) => {

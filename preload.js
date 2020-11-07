@@ -84,6 +84,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             var doIt = () => {
                 console.log('DoIt Started');
+
+                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
+                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
+                <div class="menuItemIcon iconZeno"></div>
+                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
+                </div>`)
+
                 getID("mainLogo").src =
                     store.get("imgTag") ||
                     zenoIcon;
@@ -101,12 +108,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 );
 
                 randomClassInit();
-
-                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
-                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
-                <div class="menuItemIcon iconZeno"></div>
-                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
-                </div>`)
 
                 if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
                     if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
