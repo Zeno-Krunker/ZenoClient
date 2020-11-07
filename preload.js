@@ -49,13 +49,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
             // *** Inject CSS **
             fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
                 if (!error) {
-                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
+                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
                 }
             });
-            fs.readFile(__dirname + "/css/main/zeno-defualts.css", "utf-8", (error, data) => {
+            fs.readFile(__dirname + "/css/main/zeno-defaults.css", "utf-8", (error, data) => {
                 if (!error) {
-                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='injected'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
-                }
+                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='zeno-defaults'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
+                } else (console.log(error));
             });
             console.log('CSS Injected');
             if (!store.get("imgTag")) store.set("imgTag", "");
@@ -283,7 +283,7 @@ window.scopes = () => {
     var scopeSize = parseInt(scopeLink.length);
     // Set the Scopes Using for Loop
     for (i = 0; i < scopeSize; i++) {
-        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/757255001314820186/Webp.png"><img class="classImgC" src="${scopeLink[i]}">`;
+        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/756142725262213180/756353103581806602/Zeno_Exit.png"><img class="classImgC" src="${scopeLink[i]}">`;
         getID("oo").insertAdjacentHTML("beforeend", a);
     }
     var a =
