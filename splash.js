@@ -8,8 +8,11 @@ const version = 18;
 
 document.addEventListener('DOMContentLoaded', async(event) => {
     var status = document.getElementById('bottom');
+    var json;
     console.log("before fetch");
-    var json = await fetch('https://zenokrunkerapi.web.app/latestVersion.json');
+    await fetch("https://zenokrunkerapi.web.app/latestVersion.json")
+        .then((resp) => resp.json())
+        .then((resp) => json = resp);
     console.log("after fetch");
     if (json.version > version) {
         status.innerHTML = 'Update Found. Downloading Update..';
@@ -25,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async(event) => {
     } else {
         console.log("else statement");
         status.innerHTML = 'No Update Found';
-        setTimeout(ipcRenderer.send('noUpdate'), 2000);
+        setTimeout(ipcRenderer.send('noUpdate'), 5000);
     }
 });
 
