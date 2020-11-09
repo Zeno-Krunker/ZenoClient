@@ -1,0 +1,53 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Building and Uploading Release
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: actions-test
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  windows-build:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Setting up Node
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.1'
+      
+      # Installing Dependencies
+      - name: Installing Dependencies
+        run: npm ci
+
+      # Building the linux package
+      - name: Build Package
+        run: npm run package-linux
+      
+      # Making a release
+      - name: Making Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          release-name: Windows Release
+
+      # Uploading a Release file
+      - name: Uploading Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/Zeno-win32-x64/resources/app.asar
+          asset_name: app.asar
