@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 17;
+const version = 18;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     var status = document.getElementById('bottom');
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             setTimeout(() => {
                 process.noAsar = !0;
 
-                let downloadURL = `https://zenokrunkerapi.web.app/updates/${process.platform}/v${json.version}.asar`;
+                let downloadURL = `https://zenokrunkerapi.web.app/updates/v${json.version}.asar`;
 
                 download(downloadURL, __dirname + "/app.asar", () => {
                     status.innerHTML = 'Update Downloaded. Restarting...';
