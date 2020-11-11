@@ -65,6 +65,7 @@ function createGameWindow() {
 
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     PopupWin = new BrowserWindow({
+        title: "Zeno Auto Updater",
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(height / 2),
         width: Math.round(width / 2),
@@ -180,7 +181,7 @@ function initMainWindow() {
                 app.quit();
             });
             globalShortcut.register("F7", () => {
-                if (devTools) win.webContents.openDevTools();
+                win.webContents.openDevTools();
             });
             if (!options.webContents) {
                 newWin.loadURL(url);
@@ -219,7 +220,7 @@ function initMainWindow() {
         app.quit();
     });
     globalShortcut.register("F7", () => {
-        if (devTools) win.webContents.openDevTools();
+        win.webContents.openDevTools();
     });
 
     globalShortcut.register("Esc", () => {
