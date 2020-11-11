@@ -69,7 +69,7 @@ function createGameWindow() {
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(height / 2),
         width: Math.round(width / 2),
-        frame: true,
+        frame: false,
         backgroundColor: "#000000",
         webPreferences: {
             nodeIntergration: true,

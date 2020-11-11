@@ -41,14 +41,7 @@ function initDiscord() {
     });
 }
 
-var gameMode = null;
-var mapName = null;
-var className = null;
-var timeLeft = null;
-var gameActivity = null;
-var id = null;
-var playerCount = null
-var playerMax = null
+var gameMode, mapName, className, timeLeft, gameActivity, id, playerCount, playerMax, username;
 
 function updateDiscord() {
     if (gameLoaded()) {
@@ -57,6 +50,7 @@ function updateDiscord() {
         mapName = gameActivity.map;
         className = gameActivity.class.name;
         timeLeft = gameActivity.time;
+        username = gameActivity.user;
         id = gameActivity.id;
         fetch(getGame(id))
             .then(res => res.json())
@@ -74,7 +68,7 @@ function updateDiscord() {
                 largeImageKey: "zeno_menu",
                 largeImageText: "Zeno Client",
                 smallImageKey: `class_${className.toLowerCase()}`,
-                smallImageText: className,
+                smallImageText: username,
                 partyId: id,
                 matchSecret: id + '-match',
                 spectateSecret: id + "-spectate",
