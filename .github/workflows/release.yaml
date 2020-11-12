@@ -1,0 +1,187 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Building and Uploading Release
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: release
+
+jobs:
+  linux-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Setting up Node
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.1'
+      
+      # Installing Dependencies
+      - name: Installing Dependencies
+        run: npm ci
+
+      # Building the linux package
+      - name: Build Package
+        run: npm run package-linux
+      
+      # Making a release
+      - name: Making Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          tag_name: linux-v19
+          release_name: Linux
+
+      - name: Uploading ASAR
+        id: upload_asar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/Zeno-linux-x64/resources/app.asar
+          asset_name: app.asar
+          asset_content_type: application/octet-stream
+      
+      - name: Compressing Build
+        run: |
+            cd release-builds
+            zip -r linux-v19.zip Zeno-linux-x64
+      
+      - name: Uploading ZIP
+        id: upload_zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/linux-v19.zip
+          asset_name: linux-v19
+          asset_content_type: application/zip
+
+        
+  
+  windows-build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Setting up Node
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.1'
+      
+      # Installing Dependencies
+      - name: Installing Dependencies
+        run: npm ci
+
+      # Building the windows package
+      - name: Build Package
+        run: npm run package-win
+      
+      # Making a release
+      - name: Making Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          tag_name: win32-v19
+          release_name: Windows
+
+      - name: Uploading ASAR
+        id: upload_asar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/Zeno-win32-x64/resources/app.asar
+          asset_name: app.asar
+          asset_content_type: application/octet-stream
+
+      - name: Compressing Build
+        id: compressing-build
+        run: |
+          cd release-builds
+          Compress-Archive -Path ./Zeno-win32-x64 -DestinationPath ./win32-v19.zip
+      
+      # Uploading a Release file
+      - name: Uploading ZIP
+        id: upload_zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/win32-v19.zip
+          asset_name: win32-v19.zip
+          asset_content_type: application/zip
+
+  macos-build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      # Setting up Node
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.16.1'
+      
+      # Installing Dependencies
+      - name: Installing Dependencies
+        run: npm ci
+
+      # Building the mac package
+      - name: Build Package
+        run: npm run package-mac
+      
+      # Making a release
+      - name: Making Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          tag_name: macos-v19
+          release_name: MacOS
+
+      # Uploading ASAR
+      - name: Uploading ASAR
+        id: upload_asar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/zeno-darwin-x64/zeno.app/Contents/Resources/app.asar
+          asset_name: app.asar
+          asset_content_type: application/octet-stream
+
+      # Making a .zip file for the release folder
+      - name: Compressing Build
+        id: compressing-build
+        run: |
+          cd release-builds
+          zip -r darwin-v19.zip zeno-darwin-x64
+
+
+      # Uploading a Release file
+      - name: Uploading ZIP
+        id: upload_zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./release-builds/darwin-v19.zip
+          asset_name: darwin-v19.zip
+          asset_content_type: application/zip
