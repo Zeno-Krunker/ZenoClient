@@ -186,6 +186,17 @@ SettingsMap.set("RandomClassToggle", new ToggleSetting({
 }, true));
 //#endregion
 
+//#region Bagdes Toggle
+SettingsMap.set("BadgesToggle", new ToggleSetting({
+    label: "Zeno Badges",
+    buttonId: "BadgesToggle_btn",
+    storeKey: "Badges"
+}, (checked) => {
+    store.set("Badges", checked);
+    return;
+}, true));
+//#endregion
+
 //#region Chat Mute 
 SettingsMap.set("ChatMuteToggle", new ToggleSetting({
     label: "Chat Mute Feature",

@@ -15,7 +15,6 @@ const rsData = require("./rsData.json");
 const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
-const { initBadges } = require("./featureModules/badges");
 const randomClassInit = require("./featureModules/randomClass");
 require("./featureModules/zenoSettings");
 
@@ -163,7 +162,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             console.log('Starting Inits');
             initDiscord();
             insertCSS();
-            initBadges();
+
+            // Badges
+            if(store.get("Badges")){
+                const { initBadges } = require("./featureModules/badges");
+                initBadges();
+            }
             console.log('Finished Inits');
         };
         init();
