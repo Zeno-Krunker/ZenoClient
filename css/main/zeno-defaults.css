@@ -34,3 +34,11 @@
 #popupHolder {
 	display: none !important;
 }
+
+.downloadClient {
+    display: none !important;
+}
+
+.zenoExit {
+    background-image: url("https://cdn.discordapp.com/attachments/756142725262213180/756353103581806602/Zeno_Exit.png");
+}

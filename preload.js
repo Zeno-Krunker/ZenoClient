@@ -16,6 +16,7 @@ const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const { initDiscord } = require("./featureModules/richPresence");
 const randomClassInit = require("./featureModules/randomClass");
+const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
 
 // *** Do Some Stuff **
@@ -108,6 +109,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 );
 
                 randomClassInit();
+                
+                initExit();
 
                 if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
                     if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
