@@ -161,6 +161,17 @@ SettingsMap.set("VSyncToggle", new ToggleSetting({
 //#region ----DISCORD PRESENCE----
 SettingsMap.set("DiscordPresenceHeader", new Header("Discord Rich Presence"));
 
+//#region Discord Presence Toggle
+SettingsMap.set("DiscordPresenceToggle", new ToggleSetting({
+    label: "Enable Discord Presence",
+    buttonId: "DiscordPresenceToggle_btn",
+    storeKey: "DiscordPresence",
+}, (checked) => {
+    store.set("DiscordPresence", checked);
+    return;
+}, true));
+//#endregion
+
 //#region Ask to Join Toggle
 SettingsMap.set("AskToJoinToggle", new ToggleSetting({
     label: "Enable Ask to Join",

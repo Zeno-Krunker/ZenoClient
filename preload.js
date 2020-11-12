@@ -14,7 +14,6 @@ const store = new Store();
 const rsData = require("./rsData.json");
 const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
-const { initDiscord } = require("./featureModules/richPresence");
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
@@ -109,7 +108,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 );
 
                 randomClassInit();
-                
+
                 initExit();
 
                 if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
@@ -163,8 +162,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var init = () => {
             console.log('Starting Inits');
-            initDiscord();
+
+            // Inserting Custom CSS
             insertCSS();
+
+            // Discord Presence
+            if(store.get("DiscordPresence")){
+                const { initDiscord } = require("./featureModules/richPresence");
+                initDiscord();
+            }
 
             // Badges
             if(store.get("Badges")){
