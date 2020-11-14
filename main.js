@@ -70,7 +70,7 @@ function createGameWindow() {
         height: Math.round(height / 2),
         width: Math.round(width / 2),
         frame: false,
-        backgroundColor: "#000000",
+        backgroundColor: "#2EA1A1",
         webPreferences: {
             nodeIntergration: true,
             preload: `${__dirname}/splash.js`,

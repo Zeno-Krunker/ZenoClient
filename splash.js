@@ -7,7 +7,9 @@ const fs = require('fs');
 const version = 19;
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    var status = document.getElementById('bottom');
+    var status = document.getElementById('status');
+    var downloadBtn = document.getElementById('download');
+    var cancelBtn = document.getElementById('cancel');
     var json;
 
     fetch("https://zenokrunkerapi.web.app/latestVersion.json")
@@ -16,11 +18,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     setTimeout(() => {
         if (json && json.version > version) {
-            status.innerHTML = 'Update Found. Downloading Update..';
-            setTimeout(() => {
-                process.noAsar = !0;
+            status.innerHTML = `New Update Found! (Release v${json.version}) Download now?`;
+            downloadBtn.style.display = "block";
+            cancelBtn.style.display = "block";
 
+            downloadBtn.addEventListener("click", () => {
+                process.noAsar = !0;
                 let downloadURL = `https://zenokrunkerapi.web.app/updates/v${json.version}.asar`;
+                status.innerHTML = "Downloading Update... (Do NOT close the client)";
+                downloadBtn.style.display = "none";
+                cancelBtn.style.display = "none";
 
                 download(downloadURL, __dirname + "/app.asar", () => {
                     status.innerHTML = 'Update Downloaded. Restarting...';
@@ -28,7 +35,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         ipcRenderer.send('restart-client');
                     }, 2000);
                 });
-            }, 2000);
+            });
+
+            cancelBtn.addEventListener("click", () => {
+                ipcRenderer.send('noUpdate');
+            });
         } else {
             console.log("No Update Found");
             status.innerHTML = 'No Update Found';

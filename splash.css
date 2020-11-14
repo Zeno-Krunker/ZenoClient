@@ -1,7 +1,14 @@
+@font-face{
+    src: url("./fonts/Roboto-Regular.ttf");
+    font-family: "Roboto";
+}
+
 body {
+    font-family: "Roboto";
     margin: 0;
-    background-image: url('https://cdn.discordapp.com/attachments/747410238944051271/751467435982585876/zenoBackgroundSocialllll.png');
-    background-size: cover;
+    background-image: url('./assets/Zeno_BG.png');
+    background-size: 118%;
+    background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
 }
@@ -17,4 +24,22 @@ body {
     left: 5px;
     bottom: 5px;
     color: white;
+    font-size: 15px;
+}
+
+#bottom div {
+    float: left;
+}
+
+#download, #cancel {
+    height: 15px;
+    width: 15px;
+    margin-left: 5px;
+    margin-top: 1px;
+    display: none;
+}
+
+#download img, #cancel img {
+    height: 100%;
+    width: 100%;
 }
