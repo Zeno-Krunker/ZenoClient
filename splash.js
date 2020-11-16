@@ -4,7 +4,7 @@ const fs = require('fs');
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 19;
+const version = 20;
 
 document.addEventListener('DOMContentLoaded', (event) => {
     var status = document.getElementById('status');
