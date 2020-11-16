@@ -247,24 +247,28 @@ function initSwapper() {
     try {
         mkdir(sf, { recursive: true }, (e) => {});
     } catch (e) {}
-    let s = { fltr: { urls: [] }, fls: {} };
+    let s = { filter: { urls: [] }, files: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach((file) => {
-            var fp;
+            var filePath;
             if (dir.endsWith("/")) {
-                fp = dir + file;
+                filePath = dir + file;
             } else {
-                fp = dir + "/" + file;
+                filePath = dir + "/" + file;
             }
-            if (statSync(fp).isDirectory()) {
-                if (!/\\(docs)$/.test(fp)) afs(fp);
+            if (statSync(filePath).isDirectory()) {
+                if (!/\\(docs)$/.test(filePath)) afs(filePath);
             } else {
                 if (!/\.(html|js)/g.test(file)) {
-                    let k =
-                        "*://krunker.io" + fp.replace(sf, "").replace(/\\/g, "/") + "*";
-                    s.fltr.urls.push(k);
-                    s.fls[k.replace(/\*/g, "")] = format({
-                        pathname: fp,
+                    let k;
+                    if(/\.mp3/g.test(file)){
+                        k = "*://krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
+                    } else {
+                        k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
+                    }
+                    s.filter.urls.push(k);
+                    s.files[k.replace(/\*/g, "")] = format({
+                        pathname: filePath,
                         protocol: "file:",
                         slashes: true,
                     });
@@ -273,13 +277,15 @@ function initSwapper() {
         });
     };
     afs(sf);
-    if (s.fltr.urls.length) {
+    console.log(s);
+    if (s.filter.urls.length) {
         win.webContents.session.webRequest.onBeforeRequest(
-            s.fltr,
+            s.filter,
             (details, callback) => {
+                console.log(`Swapping ${details.url} with ${s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")]}`);
                 callback({
                     cancel: false,
-                    redirectURL: s.fls[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||
+                    redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||
                         details.url,
                 });
             }
