@@ -12,7 +12,7 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const { getID, getPluginDIR, getResourceSwapper } = require('./consts.js');
+const { getID, getPluginDIR, getResourceSwapper, scopeTemp } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             console.log('CSS Injected');
             if (!store.get("imgTag")) store.set("imgTag", "");
             if (!store.get("account")) store.set("account", []);
-            if (!store.get("scopesCurrent")) store.set("scopesCurrent", consts.scopeTemp);
+            if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
