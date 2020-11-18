@@ -10,6 +10,7 @@ const { readFile } = require('fs');
 ipcRenderer.on('home', () => {
     window.location.href = 'https://krunker.io/social.html';
 });
+
 document.addEventListener('DOMContentLoaded', (event) => {
     var socialCSS = "";
 
@@ -17,15 +18,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         'use strict';
         // *** Add CSS ***
         var insertCSS = () => {
-            readFile(__dirname + '/css/social.css', "utf-8", (error, data) => {
+            readFile(__dirname + '/css/social/social.css', "utf-8", (error, data) => {
                 if (error) console.log(error);
-                socialCSS = data.split("/* Krunker Market Tools CSS */")[0];
-                try {
-                    darkModeFunc();
-                } catch (err) {
-
-                }
-                window.document.getElementsByTagName("head")[0].innerHTML += `<style>${data.split("/* Krunker Market Tools CSS */")[1].replace(/\s{2,10}/g, ' ').trim()}</style>`;
+                window.document.getElementsByTagName("head")[0].innerHTML += `<style>${data.replace(/\s{2,10}/g, ' ').trim()}</style>`;
             })
         }
 

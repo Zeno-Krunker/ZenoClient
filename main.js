@@ -20,7 +20,7 @@ const store = new Store();
 
 // *** Options ***
 
-const devTools = false;
+const devTools = true;
 const fullscreenOnload = true;
 
 // Do Some FPS Tricks
@@ -69,7 +69,7 @@ function createGameWindow() {
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(height / 2),
         width: Math.round(width / 2),
-        frame: false,
+        frame: true,
         backgroundColor: "#2EA1A1",
         webPreferences: {
             nodeIntergration: true,
@@ -181,7 +181,7 @@ function initMainWindow() {
                 app.quit();
             });
             globalShortcut.register("F7", () => {
-                win.webContents.openDevTools();
+                newWin.webContents.openDevTools();
             });
             if (!options.webContents) {
                 newWin.loadURL(url);
