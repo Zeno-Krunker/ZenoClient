@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 downloadBtn.style.display = "none";
                 cancelBtn.style.display = "none";
 
-                download(downloadURL, __dirname + "/app.asar", () => {
+                let dest = __dirname.endsWith(".asar") ? __dirname : __dirname + "/app.asar";
+                
+                download(downloadURL, dest, () => {
                     status.innerHTML = 'Update Downloaded. Restarting...';
                     setTimeout(() => {
                         ipcRenderer.send('restart-client');
