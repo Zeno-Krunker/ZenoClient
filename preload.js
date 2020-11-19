@@ -58,9 +58,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
             document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='float-button-disable'>#ot-sdk-btn-floating.ot-floating-button {display: none !important;}</style>`);
             console.log('CSS Injected');
-            if (!store.get("imgTag")) store.set("imgTag", "");
-            if (!store.get("account")) store.set("account", []);
-            if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
+            
+            try {
+                if (!store.get("imgTag")) store.set("imgTag", "");
+                if (!store.get("account")) store.set("account", []);
+                if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
+            } catch (err) {}
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
