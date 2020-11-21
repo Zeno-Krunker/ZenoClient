@@ -1,4 +1,5 @@
 const {badgeData, gameLoaded, badges, badgeUrls, getClass} = require('../consts.js');
+const { ZenoEmmiter } = require('../events');
 
 var badgeObj;
 
@@ -19,20 +20,7 @@ var badgeImplemented = {
 
 
 function initBadges() {
-    var username = "";
-    var temp = "";
-
-    new MutationObserver(() => {
-        if(getClass("menuClassPlayerName", 0)){
-            temp = getClass("menuClassPlayerName", 0).innerHTML;
-            if(username == temp) return;            
-            username = temp;
-            checkPlayer();
-        }
-    }).observe(document, {
-        childList: true,
-        subtree: true
-    });
+    ZenoEmmiter.on("LoadBadges", checkPlayer)
 }
 
 function checkPlayer() {

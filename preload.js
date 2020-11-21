@@ -17,6 +17,7 @@ const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
+const { initEmitter } = require("./events");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -64,6 +65,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (!store.get("account")) store.set("account", []);
                 if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
             } catch (err) {}
+
+            initEmitter();
 
             // *** Check if Page Loads using Observer ***
             new MutationObserver((mutationRecords, observer) => {
