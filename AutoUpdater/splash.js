@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             status.innerHTML = 'No Update Found';
             setTimeout(ipcRenderer.send('noUpdate'), 5000);
         }
-    }, 10000);
+    }, 5000);
 });
 
 
