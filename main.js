@@ -61,16 +61,15 @@ var PopupWin = null;
 
 function createGameWindow() {
     // *** Create the Game Window ***
-    console.log('Window Creating...');
-
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const { width } = screen.getPrimaryDisplay().workAreaSize;
     PopupWin = new BrowserWindow({
         title: "Zeno Auto Updater",
         icon: `${__dirname}/assets/icon/icon.ico`,
-        height: Math.round(height / 2),
+        height: Math.round(width / 4),
         width: Math.round(width / 2),
         frame: false,
         resizable: false,
+        movable: true,
         backgroundColor: "#2EA1A1",
         webPreferences: {
             nodeIntergration: true,
@@ -79,9 +78,6 @@ function createGameWindow() {
         },
     });
     PopupWin.loadFile(`${__dirname}/AutoUpdater/splash.html`);
-    console.log('Shortcuts Ended. Starting Resource Swapper');
-    // *** Resource Swapper Code ***
-    console.log('Resource Swapper Done');
 }
 
 // *** Run the Main Function ***
@@ -242,7 +238,6 @@ function initMainWindow() {
 
     win.webContents.on("did-finish-load", () => {
         win.setTitle("Krunker - Zeno Client");
-        console.log('Title Set');
     });
     initSwapper();
 }
