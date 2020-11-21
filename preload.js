@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
                 initExit();
 
-                //setInterval(() => {getID("streamContainer").innerHTML = "";}, 5000);
+                setInterval(() => {getID("streamContainer").innerHTML = "";}, 5000);
 
                 if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
                     if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {

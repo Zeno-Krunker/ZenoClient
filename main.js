@@ -74,11 +74,11 @@ function createGameWindow() {
         backgroundColor: "#2EA1A1",
         webPreferences: {
             nodeIntergration: true,
-            preload: `${__dirname}/splash.js`,
+            preload: `${__dirname}/AutoUpdater/splash.js`,
             webSecurity: false,
         },
     });
-    PopupWin.loadFile(`${__dirname}/splash.html`);
+    PopupWin.loadFile(`${__dirname}/AutoUpdater/splash.html`);
     console.log('Shortcuts Ended. Starting Resource Swapper');
     // *** Resource Swapper Code ***
     console.log('Resource Swapper Done');

@@ -6,7 +6,7 @@
 body {
     font-family: "Roboto";
     margin: 0;
-    background-image: url('./assets/Zeno_BG.png');
+    background-image: url('../assets/Zeno_BG.png');
     background-size: 118%;
     background-position: center;
     background-repeat: no-repeat;

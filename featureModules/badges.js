@@ -31,8 +31,7 @@ function initBadges() {
         }
     }).observe(document, {
         childList: true,
-        subtree: true,
-        attributes: true,
+        subtree: true
     });
 }
 
@@ -48,7 +47,7 @@ function checkPlayer() {
                         .getElementsByClassName("menuClassPlayerName")[0]
                         .insertAdjacentHTML(
                             "beforebegin",
-                            `<img class="zenoBadge" src="` + badgeUrls[cur]["url"] + `">`
+                            `<img class="zenoBadge" src="${badgeUrls[cur]["url"]}">`
                         );
                     badgeImplemented[cur] = true;
                 }
