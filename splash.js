@@ -5,7 +5,7 @@ var request = require("request");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 21;
+const version = 11;
 var downloadBtn, cancelBtn, status;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -62,7 +62,7 @@ var download = function(url, dest, cb) {
 
     var request = https.get(url, function(response) {
         // Checking if the asar file exists on the remote server
-        if(response.statusCode == 404) {
+        if(response.statusCode != 200) {
             status.innerHTML = 'Something went wrong! Click the cancel button to proceed with the older version.';
             cancelBtn.style.display = "block";
             console.log(response);
