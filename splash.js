@@ -1,6 +1,7 @@
 const { ipcRenderer: ipcRenderer, remote } = require("electron");
 const https = require('https');
 const fs = require('fs');
+var request = require("request");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
@@ -25,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             downloadBtn.addEventListener("click", () => {
                 process.noAsar = !0;
-                let downloadURL = `https://zenokrunkerapi.web.app/updates/v${16}.asar`;
+                let downloadURL = `https://zenokrunkerapi.web.app/updates/v${json.version}.asar`;
                 status.innerHTML = "Downloading Update... (Do NOT close the client)";
                 downloadBtn.style.display = "none";
                 cancelBtn.style.display = "none";
@@ -36,7 +37,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     download(downloadURL, dest, () => {
                         status.innerHTML = 'Update Downloaded. Restarting...';
                         setTimeout(() => {
-                            //ipcRenderer.send('restart-client');
+                            ipcRenderer.send('restart-client');
                         }, 2000);
                     });
                 } catch (err) {
@@ -58,14 +59,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 var download = function(url, dest, cb) {
+
     var request = https.get(url, function(response) {
+        // Checking if the asar file exists on the remote server
         if(response.statusCode == 404) {
             status.innerHTML = 'Something went wrong! Click the cancel button to proceed with the older version.';
             cancelBtn.style.display = "block";
             console.log(response);
             return;
         }
+
+        let fileSize = response.headers["content-length"];
         var file = fs.createWriteStream(dest);
+
+        setInterval(() => {
+            status.innerHTML = `Downloading Update... (Do NOT close the client) ${Math.round(file.bytesWritten / fileSize * 100)}%`;
+        }, 1000);
+
         response.pipe(file);
         file.on('finish', function() {
             file.close(cb);

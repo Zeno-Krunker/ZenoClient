@@ -67,7 +67,7 @@ function createGameWindow() {
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(width / 4),
         width: Math.round(width / 2),
-        frame: true,
+        frame: false,
         resizable: false,
         movable: true,
         backgroundColor: "#2EA1A1",
