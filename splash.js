@@ -5,11 +5,12 @@ const fs = require('fs');
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
 const version = 21;
+var downloadBtn, cancelBtn, status;
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    var status = document.getElementById('status');
-    var downloadBtn = document.getElementById('download');
-    var cancelBtn = document.getElementById('cancel');
+    status = document.getElementById('status');
+    downloadBtn = document.getElementById('download');
+    cancelBtn = document.getElementById('cancel');
     var json;
 
     fetch("https://zenokrunkerapi.web.app/latestVersion.json")
@@ -24,19 +25,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
             downloadBtn.addEventListener("click", () => {
                 process.noAsar = !0;
-                let downloadURL = `https://zenokrunkerapi.web.app/updates/v${json.version}.asar`;
+                let downloadURL = `https://zenokrunkerapi.web.app/updates/v${16}.asar`;
                 status.innerHTML = "Downloading Update... (Do NOT close the client)";
                 downloadBtn.style.display = "none";
                 cancelBtn.style.display = "none";
 
                 let dest = __dirname.endsWith(".asar") ? __dirname : __dirname + "/app.asar";
                 
-                download(downloadURL, dest, () => {
-                    status.innerHTML = 'Update Downloaded. Restarting...';
-                    setTimeout(() => {
-                        ipcRenderer.send('restart-client');
-                    }, 2000);
-                });
+                try{
+                    download(downloadURL, dest, () => {
+                        status.innerHTML = 'Update Downloaded. Restarting...';
+                        setTimeout(() => {
+                            //ipcRenderer.send('restart-client');
+                        }, 2000);
+                    });
+                } catch (err) {
+                    status.innerHTML = 'Something went wrong! Click the cancel button to proceed with the older version.';
+                    cancelBtn.style.display = "block";
+                }
             });
 
             cancelBtn.addEventListener("click", () => {
@@ -52,8 +58,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 var download = function(url, dest, cb) {
-    var file = fs.createWriteStream(dest);
     var request = https.get(url, function(response) {
+        if(response.statusCode == 404) {
+            status.innerHTML = 'Something went wrong! Click the cancel button to proceed with the older version.';
+            cancelBtn.style.display = "block";
+            console.log(response);
+            return;
+        }
+        var file = fs.createWriteStream(dest);
         response.pipe(file);
         file.on('finish', function() {
             file.close(cb);

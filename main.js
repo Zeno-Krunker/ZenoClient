@@ -67,13 +67,13 @@ function createGameWindow() {
         icon: `${__dirname}/assets/icon/icon.ico`,
         height: Math.round(width / 4),
         width: Math.round(width / 2),
-        frame: false,
+        frame: true,
         resizable: false,
         movable: true,
         backgroundColor: "#2EA1A1",
         webPreferences: {
             nodeIntergration: true,
-            preload: `${__dirname}/AutoUpdater/splash.js`,
+            preload: `${__dirname}/splash.js`,
             webSecurity: false,
         },
     });
