@@ -80,6 +80,17 @@ let SettingsMap = new Map();
 //#region ----MISCELLANEOUS----
 SettingsMap.set("MiscellaneousHeader", new Header("Miscellaneous"));
 
+//#region Zeno CSS Toggle
+SettingsMap.set("ZenoCSSToggle", new ToggleSetting({
+    label: "Disable Zeno CSS",
+    buttonId: "ZenoCSSToggle_btn",
+    storeKey: "ZenoCSS",
+}, (checked) => {
+    store.set("ZenoCSS", checked);
+}, true));
+
+//#endregion
+
 //#region Import CSS
 SettingsMap.set("ImportCSS", new TextSetting({
     label: "Import CSS",

@@ -5,7 +5,7 @@ var request = require("request");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 11;
+const version = 21;
 var downloadBtn, cancelBtn, status;
 
 document.addEventListener('DOMContentLoaded', (event) => {
