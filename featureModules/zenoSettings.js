@@ -11,7 +11,7 @@ class Header {
     }
 
     get html() {
-        let HTMLString = `<div class="setHed">• ${this.label}</div>`;
+        let HTMLString = `<div class="setHed"><span class="material-icons plusOrMinus">keyboard_arrow_down</span> ${this.label}</div>`;
         return HTMLString;
     }
 }
@@ -32,8 +32,7 @@ class TextSetting {
     }
 
     get html() {
-        let HTMLString = `<div class="settName" id="importSettings_div" style="display:block">${this.label}${this.requireRestart ? "*" : ""}<input type="text" placeholder="${this.inputLabel}" name="url" class="inputGrey2" id="${this.inputId}"></div>
-        <a class="+" id="${this.buttonId}">${this.buttonLabel}</a>`;
+        let HTMLString = `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${this.label}${this.requireRestart ? "*" : ""}</span><a class="+" id="${this.buttonId}">${this.buttonLabel}</a><input type="text" placeholder="${this.inputLabel}" name="url" class="inputGrey2" id="${this.inputId}"></div>`;
         return HTMLString;
     }
 

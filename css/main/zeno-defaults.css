@@ -38,3 +38,7 @@
 .zenoExit {
     background-image: url("https://cdn.discordapp.com/attachments/756142725262213180/756353103581806602/Zeno_Exit.png");
 }
+
+.zenoSetting input[type=text] {
+	margin-right: 10px;
+}

@@ -273,8 +273,26 @@ input:checked+.sliderSml {
 	color: var(--blue-shadow)!important
 }
 
+.setHed{
+	color: var(--blue-shadow);
+}
+
+.settName {
+	font-size: 20px;
+}
+
 .settName, .settNameSmall {
-	color: var(--main-blue)
+	color: var(--main-blue);
+}
+
+.settName a {
+   float: right;
+   background-color: var(--button);
+   box-sizing: content-box;
+   padding: 5px;
+   font-size: 60%;
+   text-align: center;
+   width: 70px;
 }
 
 .settName > .floatR > span[style*="color:rgba(0,0,0,0.5)"] {
