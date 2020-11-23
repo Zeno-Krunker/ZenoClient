@@ -246,7 +246,7 @@ input:checked+.sliderSml {
 
 #menuWindow {
 	background-color: var(--ui-bg);
-	border-radius: 0px;
+	border-radius: 5px;
 	-webkit-box-shadow: unset;
     -moz-box-shadow: unset;
 	box-shadow: unset;
@@ -277,23 +277,13 @@ input:checked+.sliderSml {
 	color: var(--blue-shadow);
 }
 
-.settName {
-	font-size: 20px;
-}
-
 .settName, .settNameSmall {
 	color: var(--main-blue);
 }
 
 .settName a {
-   float: right;
-   background-color: var(--button);
-   box-sizing: content-box;
-   padding: 5px;
-   font-size: 60%;
-   text-align: center;
-   width: 70px;
-}
+	background-color: var(--button);
+ }
 
 .settName > .floatR > span[style*="color:rgba(0,0,0,0.5)"] {
 	color: var(--blue-shadow)!important
