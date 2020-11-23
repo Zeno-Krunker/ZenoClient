@@ -5,7 +5,7 @@ var request = require("request");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 21;
+const version = 22;
 var downloadBtn, cancelBtn, status;
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                 let dest = __dirname.endsWith(".asar") ? __dirname : __dirname + "/app.asar";
                 
-                try{
+                try {
                     download(downloadURL, dest, () => {
                         status.innerHTML = 'Update Downloaded. Restarting...';
                         setTimeout(() => {
@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         }, 2000);
                     });
                 } catch (err) {
+                    console.log(err);
                     status.innerHTML = 'Something went wrong! Click the cancel button to proceed with the older version.';
                     cancelBtn.style.display = "block";
                 }
