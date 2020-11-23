@@ -17,6 +17,7 @@ const { format } = require("url");
 const { readdirSync, mkdir, statSync } = require("fs");
 const Store = require("electron-store");
 const store = new Store();
+var s;
 
 // *** Options ***
 
@@ -197,6 +198,20 @@ function initMainWindow() {
                     initWin(event, url, frameName, disposition, options);
                 }
             );
+
+            if (s.filter.urls.length) {
+                newWin.webContents.session.webRequest.onBeforeRequest(
+                    s.filter,
+                    (details, callback) => {
+                        console.log(`Swapping ${details.url} with ${s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")]}`);
+                        callback({
+                            cancel: false,
+                            redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||
+                                details.url,
+                        });
+                    }
+                );
+            }
         }
     }
 
@@ -248,7 +263,7 @@ function initSwapper() {
     try {
         mkdir(sf, { recursive: true }, (e) => {});
     } catch (e) {}
-    let s = { filter: { urls: [] }, files: {} };
+    s = { filter: { urls: [] }, files: {} };
     const afs = (dir, fileList = []) => {
         readdirSync(dir).forEach((file) => {
             var filePath;
@@ -262,7 +277,7 @@ function initSwapper() {
             } else {
                 if (!/\.(html|js)/g.test(file)) {
                     let k;
-                    if(/\.mp3/g.test(file)){
+                    if(/\.(mp3|css)/g.test(file)){
                         k = "*://krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
                     } else {
                         k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
@@ -286,8 +301,7 @@ function initSwapper() {
                 console.log(`Swapping ${details.url} with ${s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")]}`);
                 callback({
                     cancel: false,
-                    redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||
-                        details.url,
+                    redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||details.url,
                 });
             }
         );
