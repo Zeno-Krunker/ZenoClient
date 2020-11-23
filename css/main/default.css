@@ -281,7 +281,7 @@ input:checked+.sliderSml {
 	color: var(--main-blue);
 }
 
-.settName a {
+.zenoSetting a {
 	background-color: var(--button);
  }
 

@@ -43,7 +43,7 @@
 	margin-right: 10px;
 }
 
-.settName a {
+.zenoSetting a {
     float: right;
     box-sizing: content-box;
     padding: 5px;
@@ -51,7 +51,6 @@
     text-align: center;
     width: 70px;
 }
-
 
 .settName {
 	font-size: 20px;
