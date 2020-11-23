@@ -47,15 +47,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // Zeno Theme CSS
-            if(!store.get("ZenoCSS")){
-                window.customCSS = "";
-                fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
-                    if (!error) {
-                        window.customCSS = data.replace(/\s{2,10}/g, " ").trim();
-                        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'>${window.customCSS}</style>`);
+            window.customCSS = "";
+            fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
+                if (!error) {
+                    window.customCSS = data.replace(/\s{2,10}/g, " ").trim();
+                    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);
+                    if(!store.get("ZenoCSS")){
+                        getID("custom-css").innerHTML = window.customCSS;
                     }
-                });
-            }
+                }
+            });
+        
 
             // CSS for Custom Zeno UI
             fs.readFile(__dirname + "/css/main/zeno-defaults.css", "utf-8", (error, data) => {

@@ -1,8 +1,7 @@
 const { getID } = require("../consts");
 const { initTwitch } = require("./twitch");
 const fs = require("fs");
-const Store = require("electron-store");
-const { get } = require("http");
+const Store = require("electron-store")
 const store = new Store();
 
 //#region Settings Classes
@@ -93,7 +92,7 @@ SettingsMap.set("ZenoCSSToggle", new ToggleSetting({
         } else {
             getID("custom-css").innerHTML = window.customCSS;
         }
-    } catch (error) {}
+    } catch (error) {console.log(error)}
 }));
 
 //#endregion
