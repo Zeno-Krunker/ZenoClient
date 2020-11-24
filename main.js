@@ -23,10 +23,15 @@ var s;
 
 const devTools = false;
 const fullscreenOnload = true;
+let VSync = false;
 
 // Do Some FPS Tricks
 
-if(store.get("VSync") !== true){
+try {
+    VSync = store.get("VSync", false);
+} catch (err) {}
+
+if(!VSync){
     app.commandLine.appendSwitch("disable-frame-rate-limit");
     app.commandLine.appendSwitch("disable-gpu-vsync");
 }
