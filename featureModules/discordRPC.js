@@ -1,6 +1,3 @@
-// Discord Rich Presence for Zeno Client
-// By TheDevKeval - Keval#8167
-// mf don't you dare remove this...
 const {discordClientID: clientID, gameLoaded, getGame} = require('../consts.js');
 const RPC = require("discord-rpc");
 const discordClient = new RPC.Client({ transport: "ipc" });
@@ -81,3 +78,4 @@ function updateDiscord() {
 }
 
 exports.initDiscord = initDiscord;
+exports.DiscordClient = discordClient;

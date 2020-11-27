@@ -1,5 +1,6 @@
 const { getClass, getID } = require('../consts.js');
 const { ZenoEmitter } = require('../events');
+const { DiscordClient } = require('./discordRPC');
 
 let badgeUrls = new Map()
     .set("verified", "https://cdn.discordapp.com/attachments/756142725262213180/756190756984586381/Zeno_Verified.png")
@@ -13,20 +14,17 @@ let badgeUrls = new Map()
 let badgesHTML = "";
 async function initBadges() {
 
-    let badgeObj;
-    await fetch("https://zenokrunkerapi.web.app/badgeData.json")
+    let badges;
+    await fetch("https://zenokrunkerapi.web.app/discordBadgeData.json")
         .then((resp) => resp.json())
-        .then((data) => { badgeObj = data; })
+        .then((data) => { badges = data[DiscordClient.user.id].badges; })
         .catch(error => console.error(error));
 
-    let { user } = window.getGameActivity();
-    for(let cur of badgeUrls.keys()) {
-        try {
-            if (badgeObj[cur].indexOf(user) != -1) {
-                badgesHTML += `<img class="zenoBadge" src="${badgeUrls.get(cur)}">`;
-            }
-        } catch (e) {}        
-    };
+    if(!badges) return;
+
+    for(let badge of badges){
+        badgesHTML += `<img class="zenoBadge" src="${badgeUrls.get(badge)}">`;
+    }
 
     ZenoEmitter.on("UserChanged", checkPlayer);
     ZenoEmitter.on("ClassChanged", checkPlayer);

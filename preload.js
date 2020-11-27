@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // Discord Presence
             if(store.get("DiscordPresence")){
-                const { initDiscord } = require("./featureModules/richPresence");
+                const { initDiscord } = require("./featureModules/discordRPC");
                 initDiscord();
             }
         };
