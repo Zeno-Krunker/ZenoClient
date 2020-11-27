@@ -17,7 +17,7 @@ const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
-const { initEmitter } = require("./events");
+const { ZenoEmitter } = require("./events");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -43,7 +43,6 @@ ipcRenderer.on("home", () => {
 document.addEventListener("DOMContentLoaded", (event) => {
     (function() {
         "use strict";
-        var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png" // https://cdn.discordapp.com/attachments/747410238944051271/756312661469167686/Zeno.svg
 
         var insertCSS = () => {
             // Zeno Theme CSS
@@ -68,7 +67,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
             // Cookie Button CSS
             document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='float-button-disable'>#ot-sdk-btn-floating.ot-floating-button {display: none !important;}</style>`);
-            console.log('CSS Injected');
             
             try {
                 if (!store.get("imgTag")) store.set("imgTag", "");
@@ -76,110 +74,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
             } catch (err) {}
 
-            initEmitter();
-
-            // *** Check if Page Loads using Observer ***
-            new MutationObserver((mutationRecords, observer) => {
-                if (getID("customizeButton")) {
-                    observer.disconnect();
-                    doIt();
-                }
-            }).observe(document, {
-                childList: true,
-                subtree: true,
-                characterDataOldValue: true,
-            });
-            console.log('DoIt Assigned');
             // *** Mute Feature ***
-
             initMute();
-
-            console.log('Mute');
-
-            // *** Things to Do if Page Loads **
-
-            var doIt = () => {
-                console.log('DoIt Started');
-
-                getID('menuItemContainer').insertAdjacentHTML('beforeend', `
-                <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
-                <div class="menuItemIcon iconZeno"></div>
-                <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
-                </div>`)
-
-                getID("mainLogo").src =
-                    store.get("imgTag") ||
-                    zenoIcon;
-                getID("mapInfoHolder").children[3].insertAdjacentHTML(
-                    "beforeend",
-                    '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
-                );
-                getID("menuClassContainer").insertAdjacentHTML(
-                    "beforeend",
-                    '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
-                );
-                getID("menuClassContainer").insertAdjacentHTML(
-                    "beforeend",
-                    '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
-                );
-
-                randomClassInit();
-
-                initExit();
-
-                setInterval(() => {getID("streamContainer").innerHTML = "";}, 5000);
-
-                if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
-                    if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
-                        document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
-                    }
-                }
-                console.log('Plugin Started');
-                const pluginDIR = getPluginDIR(remote);
-
-                if (!fs.existsSync(pluginDIR)) {
-                    fs.mkdir(pluginDIR, (error) => {
-                        if (error) console.log(error);
-                    });
-                }
-
-                function getDirectories(path) {
-                    return fs
-                        .readdirSync(path)
-                        .filter(function(file) {
-                            return fs.statSync(path + "/" + file, (error, stat) => {
-                                return stat.isDirectory();
-                            });
-                        })
-                        .map((name) => pluginDIR + "/" + name);
-                }
-
-                var directories = getDirectories(pluginDIR);
-                directories.forEach((plug) => {
-                    fs.readFile(plug + "/package.json", "utf-8", (error, data) => {
-                        if (error) console.log(error);
-                        var plugConfig = JSON.parse(data);
-                        require(`${plug}/${plugConfig.main}`).onload({
-                            gameURL: () => {
-                                return window.location.href;
-                            },
-                            restart: () => {
-                                ipcRenderer.send("restart-client");
-                            },
-                            close: () => {
-                                ipcRenderer.send("close-client");
-                            },
-                        });
-                    });
-                });
-                console.log('Plugin Ended');
-            };
         };
 
         // *** Run the Main Function ***
-
         var init = () => {
-            console.log('Starting Inits');
 
             // Inserting Custom CSS
             insertCSS();
@@ -189,20 +89,99 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 const { initDiscord } = require("./featureModules/richPresence");
                 initDiscord();
             }
-
-            // Badges
-            if(store.get("Badges")){
-                const { initBadges } = require("./featureModules/badges");
-                initBadges();
-            }
-            console.log('Finished Inits');
         };
         init();
     })();
 });
 
-// *** Custom Import Settings Menu ***
+// Things to do when the game loads
+ZenoEmitter.on("GameLoaded", () => {
+    var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png"
 
+    getID('menuItemContainer').insertAdjacentHTML('beforeend', `
+    <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
+    <div class="menuItemIcon iconZeno"></div>
+    <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
+    </div>`);
+
+    getID("mainLogo").src =
+        store.get("imgTag") ||
+        zenoIcon;
+    getID("mapInfoHolder").children[3].insertAdjacentHTML(
+        "beforeend",
+        '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
+    );
+    getID("menuClassContainer").insertAdjacentHTML(
+        "beforeend",
+        '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
+    );
+    getID("menuClassContainer").insertAdjacentHTML(
+        "beforeend",
+        '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
+    );
+
+    randomClassInit();
+
+    initExit();
+
+    setInterval(() => {getID("streamContainer").innerHTML = "";}, 5000);
+
+    if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
+        if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
+            document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');
+        }
+    }
+
+    const pluginDIR = getPluginDIR(remote);
+
+    if (!fs.existsSync(pluginDIR)) {
+        fs.mkdir(pluginDIR, (error) => {
+            if (error) console.log(error);
+        });
+    }
+
+    function getDirectories(path) {
+        return fs
+            .readdirSync(path)
+            .filter(function(file) {
+                return fs.statSync(path + "/" + file, (error, stat) => {
+                    return stat.isDirectory();
+                });
+            })
+            .map((name) => pluginDIR + "/" + name);
+    }
+
+    var directories = getDirectories(pluginDIR);
+    directories.forEach((plug) => {
+        fs.readFile(plug + "/package.json", "utf-8", (error, data) => {
+            if (error) console.log(error);
+            var plugConfig = JSON.parse(data);
+            require(`${plug}/${plugConfig.main}`).onload({
+                gameURL: () => {
+                    return window.location.href;
+                },
+                restart: () => {
+                    ipcRenderer.send("restart-client");
+                },
+                close: () => {
+                    ipcRenderer.send("close-client");
+                },
+            });
+        });
+    });
+});
+
+ZenoEmitter.on("GameActivityLoaded", () => {
+    // Badges
+    if(store.get("Badges")){
+        const { initBadges } = require("./featureModules/badges");
+        try{
+            initBadges();
+        } catch (err) {console.log(err)}
+    }
+});
+
+//#region *** Custom Import Settings Menu ***
 window.prompt = importSettings = () => {
     // *** Set The Inner HTML ***
 
@@ -231,9 +210,9 @@ window.prompt = importSettings = () => {
         }
     };
 };
+//#endregion
 
-// *** Resource Swapper ***
-
+//#region *** Resource Swapper ***
 window.rs = importCss = () => {
     openHostWindow();
     var tempHTML = `
@@ -302,9 +281,9 @@ window.rs = importCss = () => {
         }
     };
 };
+//#endregion
 
-// *** Scope Bank ***
-
+//#region *** Scope Bank ***
 window.scopes = () => {
     var scopeLink = store.get("scopesCurrent");
     // Open Menu
@@ -356,9 +335,9 @@ window.removeScope = (no) => {
     store.set("scopesCurrent", currentScopes);
     openHostWindow();
 };
+//#endregion
 
-// ** Ask Restart **
-
+//#region ** Ask Restart **
 window.askRestart = () => {
     var tempHTML = `<div class="setHed">Restart Needed</div>
     <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
@@ -373,9 +352,9 @@ window.askRestart = () => {
         ipcRenderer.send("restart-client");
     });
 };
+//#endregion
 
 //#region  *** Alt Manager ***
-
 window.openAltManager = (openNew) => {
     if (openNew) {
         showWindow(5);
@@ -431,6 +410,3 @@ window.addAlt = () => {
 };
 
 //#endregion
-
-// Zeno Window
-

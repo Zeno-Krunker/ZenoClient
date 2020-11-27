@@ -4,29 +4,21 @@
 */
 
 // *** The Modules ***
-const {
-    screen,
-    app,
-    BrowserWindow,
-    shell,
-    globalShortcut,
-    ipcMain,
-} = require("electron");
+const { screen, app, BrowserWindow, shell, globalShortcut, ipcMain, protocol } = require("electron");
 var { cpus } = require("os");
 const { format } = require("url");
 const { readdirSync, mkdir, statSync } = require("fs");
+const path = require("path");
 const Store = require("electron-store");
 const store = new Store();
 var s;
 
 // *** Options ***
-
-const devTools = false;
+const devTools = true;
 const fullscreenOnload = true;
 let VSync = false;
 
-// Do Some FPS Tricks
-
+//#region Do Some FPS Tricks
 try {
     VSync = store.get("VSync", false);
 } catch (err) {}
@@ -61,6 +53,7 @@ app.commandLine.appendSwitch("webrtc-max-cpu-consumption-percentage=100");
 if (cpus()[0].model.includes("AMD")) {
     app.commandLine.appendSwitch("enable-zero-copy");
 }
+//#endregion
 
 var win = null;
 var PopupWin = null;
@@ -80,7 +73,7 @@ function createGameWindow() {
         webPreferences: {
             nodeIntergration: true,
             preload: `${__dirname}/splash.js`,
-            webSecurity: false,
+            // webSecurity: false,
         },
     });
     PopupWin.loadFile(`${__dirname}/AutoUpdater/splash.html`);
@@ -93,6 +86,24 @@ var init = () => {
 };
 
 app.whenReady().then(() => {
+
+    //#region Zeno Protocol
+
+    // protocol.registerFileProtocol("zeno", (request, cb) => {
+    //     const url = request.url.substr(basePath.length + 1);
+    //     cb({ path: path.normalize(`${__dirname}/${url}`) });
+    // });
+    
+    // protocol.interceptFileProtocol('file', (_, cb) => { cb(null); });
+    
+    // protocol.registerFileProtocol("zeno", (request, callback) => {
+    //     const url = request.url.substr(7);
+    //     console.log(path.normalize(url));
+    //     callback({ path: path.normalize(url) });
+    // });
+    //#endregion
+
+
     init();
 
     app.on("activate", function() {
@@ -288,6 +299,8 @@ function initSwapper() {
                         k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
                     }
                     s.filter.urls.push(k);
+                    console.log(filePath.replace(new RegExp("/", "g"), "\\"));
+                    //s.files[k.replace(/\*/g, "")] = "zeno:\\\\" + filePath.replace(new RegExp("/", "g"), "\\");
                     s.files[k.replace(/\*/g, "")] = format({
                         pathname: filePath,
                         protocol: "file:",

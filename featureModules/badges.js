@@ -1,5 +1,5 @@
-const { getClass } = require('../consts.js');
-const { ZenoEmmiter } = require('../events');
+const { getClass, getID } = require('../consts.js');
+const { ZenoEmitter } = require('../events');
 
 let badgeUrls = new Map()
     .set("verified", "https://cdn.discordapp.com/attachments/756142725262213180/756190756984586381/Zeno_Verified.png")
@@ -10,22 +10,32 @@ let badgeUrls = new Map()
     .set("booster", "https://cdn.discordapp.com/attachments/756142725262213180/756341309425451100/Zeno_Booster.png")
     .set("yendis-staff", "https://media.discordapp.net/attachments/756142725262213180/756335806901125130/Zeno_YS.png");
 
-fetch("https://zenokrunkerapi.web.app/badgeData.json")
-    .then((resp) => resp.json())
-    .then((data) => { badgeObj = data; })
-    .catch(error => console.error(error));
+let badgesHTML = "";
+async function initBadges() {
 
+    let badgeObj;
+    await fetch("https://zenokrunkerapi.web.app/badgeData.json")
+        .then((resp) => resp.json())
+        .then((data) => { badgeObj = data; })
+        .catch(error => console.error(error));
 
-function initBadges() {
-    ZenoEmmiter.on("LoadBadges", checkPlayer);
+    let { user } = window.getGameActivity();
+    for(let cur of badgeUrls.keys()) {
+        try {
+            if (badgeObj[cur].indexOf(user) != -1) {
+                badgesHTML += `<img class="zenoBadge" src="${badgeUrls.get(cur)}">`;
+            }
+        } catch (e) {}        
+    };
+
+    ZenoEmitter.on("UserChanged", checkPlayer);
+    ZenoEmitter.on("ClassChanged", checkPlayer);
 }
 
 function checkPlayer() {
-    for(let cur of badgeUrls.keys()) {
-        if (badgeObj[cur].indexOf(window.getGameActivity().user) != -1) {
-            getClass("menuClassPlayerName", 0).insertAdjacentHTML("beforebegin", `<img class="zenoBadge" src="${badgeUrls.get(cur)}">`);
-        }
-    };
+    // Checking if badges have already been added
+    if(getID("menuClassNameTag", 0).innerHTML.includes(`<img class="zenoBadge"`)) { return; }
+    getClass("menuClassPlayerName", 0).insertAdjacentHTML("beforebegin", badgesHTML);
 }
 
 exports.initBadges = initBadges;
