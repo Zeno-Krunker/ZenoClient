@@ -1,5 +1,5 @@
 const { getClass, getID } = require('../consts.js');
-const { ZenoEmitter } = require('../events');
+const { ZenoEmitter, ZenoEvents } = require('../events');
 const { DiscordClient } = require('./discordRPC');
 
 let badgeUrls = new Map()
@@ -26,8 +26,8 @@ async function initBadges() {
         badgesHTML += `<img class="zenoBadge" src="${badgeUrls.get(badge)}">`;
     }
 
-    ZenoEmitter.on("UserChanged", checkPlayer);
-    ZenoEmitter.on("ClassChanged", checkPlayer);
+    ZenoEmitter.on(ZenoEvents.USER_CHANGED, checkPlayer);
+    ZenoEmitter.on(ZenoEvents.CLASS_CHANGED, checkPlayer);
 }
 
 function checkPlayer() {

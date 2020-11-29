@@ -17,7 +17,7 @@ const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
-const { ZenoEmitter } = require("./events");
+const { ZenoEmitter, ZenoEvents } = require("./events");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 });
 
 // Things to do when the game loads
-ZenoEmitter.on("GameLoaded", () => {
+ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png"
 
     getID('menuItemContainer').insertAdjacentHTML('beforeend', `
@@ -171,7 +171,7 @@ ZenoEmitter.on("GameLoaded", () => {
     });
 });
 
-ZenoEmitter.on("GameActivityLoaded", () => {
+ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
     // Badges
     if(store.get("Badges")){
         const { initBadges } = require("./featureModules/badges");

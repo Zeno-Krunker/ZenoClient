@@ -3,12 +3,19 @@ const { getID } = require("./consts");
 const Store = require("electron-store");
 const store = new Store();
 
+const ZenoEvents = {
+    GAME_LOADED: "GameLoaded",
+    GAME_ACTIVITY_LOADED: "GameActivityLoaded",
+    USER_CHANGED: "UserChanged",
+    CLASS_CHANGED: "ClassChanged"
+}
+
 const ZenoEmitter = new EventEmitter();
 
 //#region Game Load Event
 new MutationObserver((mutationRecords, observer) => {
     if (getID("customizeButton")) {
-        ZenoEmitter.emit("GameLoaded");
+        ZenoEmitter.emit(ZenoEvents.GAME_LOADED);
         observer.disconnect();
     }
 }).observe(document, {
@@ -19,7 +26,6 @@ new MutationObserver((mutationRecords, observer) => {
 //#endregion
 
 let gameActivity = false;
-
 let prev = { user: "", class: { name: "" }};
 setInterval(() => {
     let gameData;
@@ -27,41 +33,20 @@ setInterval(() => {
 
     if(!gameActivity) {
         gameActivity = true;
-        ZenoEmitter.emit("GameActivityLoaded");
+        ZenoEmitter.emit(ZenoEvents.GAME_ACTIVITY_LOADED);
     }
 
     if(prev.user != gameData.user){
         prev.user = gameData.user;
-        ZenoEmitter.emit("UserChanged");
+        ZenoEmitter.emit(ZenoEvents.USER_CHANGED);
     }
 
     if(prev.class.name != gameData.class.name){
         prev.class.name = gameData.class.name;
-        ZenoEmitter.emit("ClassChanged");
+        ZenoEmitter.emit(ZenoEvents.CLASS_CHANGED);
     }
-
-    // if(user != gameData.user || classname != gameData.class.name){            
-    //     user = gameData.user;
-    //     classname = gameData.class.name;
-    //     ZenoEmitter.emit("LoadBadges");
-    // };
     return;
 }, 1000);
 
-// badgeEvent();
-
-// function badgeEvent() {
-//     if(!store.get("Badges")) return;
-//     var user, classname;
-//     setInterval(() => {
-//         let gameData = window.getGameActivity();
-//         if(user != gameData.user || classname != gameData.class.name){            
-//             user = gameData.user;
-//             classname = gameData.class.name;
-//             ZenoEmitter.emit("LoadBadges");
-//         };
-//         return;
-//     }, 1000);
-// }
-
 exports.ZenoEmitter = ZenoEmitter;
+exports.ZenoEvents = ZenoEvents;
