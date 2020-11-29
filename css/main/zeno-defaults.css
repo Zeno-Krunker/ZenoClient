@@ -8,12 +8,6 @@
     right: 5px;
 }
 
-.zenoBadge {
-    height: 50px;
-    transform: translateY(35%);
-    margin-right: 3px;
-}
-
 .mycustomButton {
     width: 300px;
     text-align: center;
@@ -54,4 +48,23 @@
 
 .settName {
 	font-size: 20px;
+}
+
+/* Badges */
+
+.zenoModelPreviewBadge {
+    height: 50px;
+    transform: translateY(35%);
+    margin-right: 3px;
+}
+
+.zenoHeaderBadge {
+    height: 32px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.zenoEndLeaderboardBadge {
+    height: 70%;
+    transform: translateY(5px);
 }

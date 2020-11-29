@@ -11,29 +11,49 @@ let badgeUrls = new Map()
     .set("booster", "https://cdn.discordapp.com/attachments/756142725262213180/756341309425451100/Zeno_Booster.png")
     .set("yendis-staff", "https://media.discordapp.net/attachments/756142725262213180/756335806901125130/Zeno_YS.png");
 
-let badgesHTML = "";
+let badges, badgesHTML = "", badgeHTML = "";
 async function initBadges() {
-
-    let badges;
     await fetch("https://zenokrunkerapi.web.app/discordBadgeData.json")
         .then((resp) => resp.json())
         .then((data) => { badges = data[DiscordClient.user.id].badges; })
         .catch(error => console.error(error));
-
     if(!badges) return;
 
     for(let badge of badges){
-        badgesHTML += `<img class="zenoBadge" src="${badgeUrls.get(badge)}">`;
+        badgesHTML += `<img class="zenoModelPreviewBadge" src="${badgeUrls.get(badge)}">`;
     }
 
-    ZenoEmitter.on(ZenoEvents.USER_CHANGED, checkPlayer);
-    ZenoEmitter.on(ZenoEvents.CLASS_CHANGED, checkPlayer);
+    ZenoEmitter.on(ZenoEvents.USER_CHANGED, () => { 
+        modelPreview();
+        headerBar();
+    });
+    ZenoEmitter.on(ZenoEvents.CLASS_CHANGED, modelPreview);
+    ZenoEmitter.on(ZenoEvents.MATCH_ENDED, endTable);
 }
 
-function checkPlayer() {
-    // Checking if badges have already been added
-    if(getID("menuClassNameTag", 0).innerHTML.includes(`<img class="zenoBadge"`)) { return; }
+function modelPreview() {
+    if(getID("menuClassNameTag", 0).innerHTML.includes(`<img class="zenoModelPreviewBadge"`)) { return; }
     getClass("menuClassPlayerName", 0).insertAdjacentHTML("beforebegin", badgesHTML);
+}
+
+function headerBar() {
+    getID("menuMiniProfilePic").insertAdjacentHTML("afterend", `<img src="${badgeUrls.get(badges[0])}" class="zenoHeaderBadge"/>`);
+}
+
+function endTable() {
+    let displayName = getClass("menuClassPlayerName", 0).textContent;
+    console.log(displayName);
+    let players = getClass("endTableN");
+    let i = 0;
+    while(true){
+        try {
+            console.log(players[i].textContent)
+            if(players[i].textContent.startsWith(displayName)){
+                players[i].insertAdjacentHTML("beforebegin", `<img src="${badgeUrls.get(badges[0])}" class="zenoEndLeaderboardBadge"/>`);
+            }
+            i++;
+        } catch (err) { break; }
+    }
 }
 
 exports.initBadges = initBadges;

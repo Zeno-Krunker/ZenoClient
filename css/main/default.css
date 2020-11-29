@@ -1149,12 +1149,6 @@ span[style*="color:#353535"] {
 
 /* Zeno Stuff */
 
-.zenoBadge {
-    height: 50px;
-    transform: translateY(35%);
-    margin-right: 3px;
-}
-
 .mycustomButton {
     width: 300px;
     text-align: center;

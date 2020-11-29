@@ -1,5 +1,5 @@
 const { EventEmitter } = require("events");
-const { getID } = require("./consts");
+const { getID, getClass } = require("./consts");
 const Store = require("electron-store");
 const store = new Store();
 
@@ -7,13 +7,14 @@ const ZenoEvents = {
     GAME_LOADED: "GameLoaded",
     GAME_ACTIVITY_LOADED: "GameActivityLoaded",
     USER_CHANGED: "UserChanged",
-    CLASS_CHANGED: "ClassChanged"
+    CLASS_CHANGED: "ClassChanged",
+    MATCH_ENDED: "MatchEnded"
 }
 
 const ZenoEmitter = new EventEmitter();
 
 //#region Game Load Event
-new MutationObserver((mutationRecords, observer) => {
+new MutationObserver(async (mutationRecords, observer) => {
     if (getID("customizeButton")) {
         ZenoEmitter.emit(ZenoEvents.GAME_LOADED);
         observer.disconnect();
@@ -26,6 +27,7 @@ new MutationObserver((mutationRecords, observer) => {
 //#endregion
 
 let gameActivity = false;
+let gameEnded;
 let prev = { user: "", class: { name: "" }};
 setInterval(() => {
     let gameData;
@@ -45,6 +47,14 @@ setInterval(() => {
         prev.class.name = gameData.class.name;
         ZenoEmitter.emit(ZenoEvents.CLASS_CHANGED);
     }
+
+    if(gameData.time <= 0 && !gameEnded && gameActivity){
+        gameEnded = true;
+        setTimeout(() => { ZenoEmitter.emit(ZenoEvents.MATCH_ENDED); }, 9000);
+    } else if(gameData.time > 0 && gameEnded) {
+        gameEnded = false;
+    }
+
     return;
 }, 1000);
 
