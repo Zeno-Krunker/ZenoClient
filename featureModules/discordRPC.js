@@ -2,6 +2,7 @@ const {discordClientID: clientID, gameLoaded, getGame} = require('../consts.js')
 const RPC = require("discord-rpc");
 const discordClient = new RPC.Client({ transport: "ipc" });
 const Store = require("electron-store");
+const { ZenoEmitter, ZenoEvents } = require('../events.js');
 const store = new Store();
 
 function initDiscord() {
@@ -32,23 +33,17 @@ function initDiscord() {
                 };
         });
 
-        setInterval(() => {
-            updateDiscord();
-        }, 2000);
+        ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => { setInterval(updateDiscord, 2000); });
     });
 }
 
-var gameMode, mapName, className, timeLeft, gameActivity, id, playerCount, playerMax, username;
-
 function updateDiscord() {
-    if (gameLoaded()) {
-        gameActivity = window.getGameActivity();
-        gameMode = gameActivity.mode;
-        mapName = gameActivity.map;
-        className = gameActivity.class.name;
-        timeLeft = gameActivity.time;
-        username = gameActivity.user;
-        id = gameActivity.id;
+    try {
+        let gameActivity = window.getGameActivity();
+        let { mode, map, time, user, id } = gameActivity;
+        let className = gameActivity.class.name;
+
+        let playerCount, playerMax;
         fetch(getGame(id))
             .then(res => res.json())
             .then(json => {
@@ -57,24 +52,22 @@ function updateDiscord() {
             })
             .catch(console.log);
 
-        if (gameMode == undefined || mapName == undefined || className == undefined) { return console.log("Not Loaded") } else {
-            discordClient.setActivity({
-                details: `Playing ${gameMode}`,
-                state: `on ${mapName}`,
-                endTimestamp: (timeLeft === 0) ? undefined : Date.now() + timeLeft * 1000,
-                largeImageKey: "zeno_menu",
-                largeImageText: "Zeno Client",
-                smallImageKey: `class_${className.toLowerCase()}`,
-                smallImageText: username,
-                partyId: id,
-                matchSecret: id + '-match',
-                spectateSecret: id + "-spectate",
-                joinSecret: store.get("AskToJoin") ? id + "-join" : undefined,
-                partyMax: playerMax,
-                partySize: playerCount,
-            });
-        }
-    }
+
+        discordClient.setActivity({
+            details: `Playing ${mode}`,
+            state: `on ${map}`,
+            endTimestamp: (time === 0) ? undefined : Date.now() + time * 1000,
+            largeImageKey: "zeno_menu",
+            largeImageText: "Zeno Client",
+            smallImageKey: `class_${className.toLowerCase()}`,
+            smallImageText: user,
+            partyId: id,
+            matchSecret: id + '-match',
+            joinSecret: store.get("AskToJoin") ? id + "-join" : undefined,
+            partyMax: playerMax,
+            partySize: playerCount,
+        });
+    } catch (err) { console.error(err) }
 }
 
 exports.initDiscord = initDiscord;
