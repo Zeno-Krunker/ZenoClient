@@ -79,7 +79,7 @@ function updateDiscord() {
         });
     } catch (err) { 
         discordClient.setActivity(defaultActivity);
-        console.error(err);
+        console.error(err); 
     }
 }
 

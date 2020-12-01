@@ -14,7 +14,7 @@ let badgeUrls = new Map()
 let badges, badgesHTML = "";
 function initBadges() {
     if(!window.zenoBadges) return;
-    let badges = window.zenoBadges;
+    badges = window.zenoBadges;
 
     for(let badge of badges){
         badgesHTML += `<img class="zenoModelPreviewBadge" src="${badgeUrls.get(badge)}">`;
@@ -29,11 +29,12 @@ function initBadges() {
 }
 
 function modelPreview() {
-    if(getID("menuClassNameTag", 0).innerHTML.includes(`<img class="zenoModelPreviewBadge"`)) { return; }
+    if(getID("menuClassNameTag", 0).innerHTML.includes(`<img class="zenoModelPreviewBadge"`)) return;
     getClass("menuClassPlayerName", 0).insertAdjacentHTML("beforebegin", badgesHTML);
 }
 
 function headerBar() {
+    if(getID("menuUsernameContainer").innerHTML.includes(`class="zenoHeaderBadge"`)) return;
     getID("menuMiniProfilePic").insertAdjacentHTML("afterend", `<img src="${badgeUrls.get(badges[0])}" class="zenoHeaderBadge"/>`);
 }
 
