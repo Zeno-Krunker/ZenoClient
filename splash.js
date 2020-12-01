@@ -7,8 +7,18 @@ var request = require("request");
 
 const version = 22;
 var downloadBtn, cancelBtn, status;
+let tips = [
+    "You can press F5 to restart the client",
+    "Use F3 to quickly join a new lobby",
+    "Press F7 to open Developer Tools"
+]
 
 document.addEventListener('DOMContentLoaded', (event) => {
+
+    let tipHolder = document.getElementById('tips');
+    let tip = tips[Math.round(Math.random() * 2)];
+    tipHolder.innerHTML = `Tip: ${tip}`;
+
     status = document.getElementById('status');
     downloadBtn = document.getElementById('download');
     cancelBtn = document.getElementById('cancel');

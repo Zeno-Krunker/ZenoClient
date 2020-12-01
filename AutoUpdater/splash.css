@@ -11,6 +11,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+    color: white;
 }
 
 .c {
@@ -23,8 +24,7 @@ body {
     position: absolute;
     left: 5px;
     bottom: 5px;
-    color: white;
-    font-size: 15px;
+    font-size: 5vh;
 }
 
 #bottom div {
@@ -32,8 +32,8 @@ body {
 }
 
 #download, #cancel {
-    height: 15px;
-    width: 15px;
+    height: 5vh;
+    width: 5vh;
     margin-left: 5px;
     margin-top: 1px;
     display: none;
@@ -42,4 +42,12 @@ body {
 #download img, #cancel img {
     height: 100%;
     width: 100%;
+}
+
+#tips {
+    position: absolute;
+    top: 3vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 5vh;
 }
