@@ -14,7 +14,7 @@ const store = new Store();
 var s;
 
 // *** Options ***
-const devTools = true;
+const devTools = false;
 const fullscreenOnload = true;
 let VSync = false;
 
