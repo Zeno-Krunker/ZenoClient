@@ -5,18 +5,28 @@ const Store = require("electron-store");
 const { ZenoEmitter, ZenoEvents } = require('../events.js');
 const store = new Store();
 
+let defaultActivity;
+
 function initDiscord() {
     discordClient.login({ clientId: clientID })
 
-    discordClient.on("ready", () => {
-        discordClient.setActivity({
+    discordClient.on("ready", async () => {
+
+        await fetch("https://zenokrunkerapi.web.app/discordBadgeData.json")
+            .then((resp) => resp.json())
+            .then((data) => { window.zenoBadges = data[discordClient.user.id].badges; })
+            .catch(error => console.error(error));
+
+        defaultActivity = {
             details: `${discordClient.user.username}`,
-            state: "Started Playing",
+            state: "Idle",
             largeImageKey: "zeno_menu",
             largeImageText: "Zeno Client",
-            smallImageKey: "zeno_menu",
+            smallImageKey: window.zenoBadges ? `badge_${window.zenoBadges[0]}` : "zeno-icon",
             smallImageText: `${discordClient.user.username}#${discordClient.user.discriminator}`,
-        });
+        }
+
+        discordClient.setActivity(defaultActivity);
 
         discordClient.subscribe("ACTIVITY_INVITE", (para) => {
             window.location.href = `https://krunker.io/?game=${para.activity.party.id}`;
@@ -67,7 +77,10 @@ function updateDiscord() {
             partyMax: playerMax,
             partySize: playerCount,
         });
-    } catch (err) { console.error(err) }
+    } catch (err) { 
+        discordClient.setActivity(defaultActivity);
+        console.error(err);
+    }
 }
 
 exports.initDiscord = initDiscord;

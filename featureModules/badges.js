@@ -11,13 +11,10 @@ let badgeUrls = new Map()
     .set("booster", "https://cdn.discordapp.com/attachments/756142725262213180/756341309425451100/Zeno_Booster.png")
     .set("yendis-staff", "https://media.discordapp.net/attachments/756142725262213180/756335806901125130/Zeno_YS.png");
 
-let badges, badgesHTML = "", badgeHTML = "";
-async function initBadges() {
-    await fetch("https://zenokrunkerapi.web.app/discordBadgeData.json")
-        .then((resp) => resp.json())
-        .then((data) => { badges = data[DiscordClient.user.id].badges; })
-        .catch(error => console.error(error));
-    if(!badges) return;
+let badges, badgesHTML = "";
+function initBadges() {
+    if(!window.zenoBadges) return;
+    let badges = window.zenoBadges;
 
     for(let badge of badges){
         badgesHTML += `<img class="zenoModelPreviewBadge" src="${badgeUrls.get(badge)}">`;
@@ -42,12 +39,10 @@ function headerBar() {
 
 function endTable() {
     let displayName = getClass("menuClassPlayerName", 0).textContent;
-    console.log(displayName);
     let players = getClass("endTableN");
     let i = 0;
     while(true){
         try {
-            console.log(players[i].textContent)
             if(players[i].textContent.startsWith(displayName)){
                 players[i].insertAdjacentHTML("beforebegin", `<img src="${badgeUrls.get(badges[0])}" class="zenoEndLeaderboardBadge"/>`);
             }

@@ -158,7 +158,6 @@ function initMainWindow() {
             initWin(event, url, frameName, disposition, options);
         }
     );
-    console.log('Added New Window Function');
 
     function initWin(event, url, frameName, disposition, options) {
         if (!url) return;
