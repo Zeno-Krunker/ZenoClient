@@ -1,7 +1,5 @@
 const { EventEmitter } = require("events");
-const { getID, getClass } = require("./consts");
-const Store = require("electron-store");
-const store = new Store();
+const { getID } = require("./consts");
 
 const ZenoEvents = {
     GAME_LOADED: "GameLoaded",
