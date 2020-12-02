@@ -109,8 +109,12 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         zenoIcon;
     getID("mapInfoHolder").children[3].insertAdjacentHTML(
         "beforeend",
-        '<a class="terms" href="/">&nbsp;QuickJoin&nbsp;</a><div style="font-size:20px;color:#fff;display:inline-block;">|</div>'
+        '<div class="verticalSeparatorInline"</div>',
     );
+    getID("mapInfoHolder").children[3].insertAdjacentHTML(
+        "beforeend",
+        '<div class="terms" href="/">QuickJoin</div>'
+    ); 
     getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
@@ -128,7 +132,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
 
     if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
         if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
-            document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button buttonP lgn" style="margin-left: 7px;padding-top: 3px;padding-bottom: 15px;" onclick="window.openAltManager(true)">Alt Manager</div>');
+            document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div id="buttonA" class="button buttonP lgn" style="margin-left: 7px;padding-top: 3px;padding-bottom: 15px;" onclick="window.openAltManager(true)">Alt Manager</div>');
         }
     }
 
@@ -299,7 +303,7 @@ window.scopes = () => {
         getID("oo").insertAdjacentHTML("beforeend", a);
     }
     var a =
-        '<div class="classCard" onclick="window.addScope()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
+        '<div class="classCard" onclick="window.addScope()"><img id="addItem" class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
     getID("oo").insertAdjacentHTML("beforeend", a);
 };
 
@@ -369,7 +373,7 @@ window.openAltManager = (openNew) => {
         getID("oo").insertAdjacentHTML("beforeend", a);
     }
     var a =
-        '<div class="classCard" onclick="window.addAlt()"><img class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
+        '<div class="classCard" onclick="window.addAlt()"><img id="addItem" class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
     getID("oo").insertAdjacentHTML("beforeend", a);
 };
 

@@ -46,6 +46,10 @@
     width: 70px;
 }
 
+.terms[href="/"] {
+    margin-left: 10px;
+}
+
 .settName {
 	font-size: 20px;
 }
