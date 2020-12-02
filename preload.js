@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             insertCSS();
 
             // Discord Presence
-            if(store.get("DiscordPresence")){
+            if(store.get("DiscordPresence", true)){
                 const { initDiscord } = require("./featureModules/discordRPC");
                 initDiscord();
             }
