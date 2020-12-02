@@ -1,7 +1,8 @@
 const { getID } = require("../consts");
 const { initTwitch } = require("./twitch");
 const fs = require("fs");
-const Store = require("electron-store")
+const { ipcRenderer } = require("electron");
+const Store = require("electron-store");
 const store = new Store();
 
 //#region Settings Classes
@@ -69,6 +70,33 @@ class ToggleSetting {
 
     registerFunction() {
         this.button.addEventListener("click", () => { this.onToggle(this.button.checked) });
+    }
+}
+
+class ButtonSetting {
+    constructor({ label, buttonLabel, buttonId }, onClick, requireRestart) {
+        if(typeof onClick == "function"){
+            this.onClick = onClick;
+        } else {
+            throw "onClick is not a valid function!";
+        }
+        this.label = label;
+        this.buttonLabel = buttonLabel;
+        this.buttonId = buttonId;
+        this.requireRestart = Boolean(requireRestart);
+    }
+
+    get html() {
+        let HTMLString = `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${this.label}${this.requireRestart ? "*" : ""}</span><a class="+" id="${this.buttonId}">${this.buttonLabel}</a></div>`;
+        return HTMLString;
+    }
+
+    get button() {
+        return getID(this.buttonId);
+    }
+
+    registerFunction() {
+        this.button.addEventListener("click", this.onClick);
     }
 }
 //#endregion
@@ -157,6 +185,16 @@ SettingsMap.set("FloatButtonToggle", new ToggleSetting({
         document.getElementById("float-button-disable").innerHTML = "";
     }
 }))
+//#endregion
+
+//#region Clear Cache 
+SettingsMap.set("ClearCacheButton", new ButtonSetting({
+    label: "Clear Cache",
+    buttonLabel: "Clear",
+    buttonId: "ClearCacheButton_btn"
+}, () => {
+    ipcRenderer.send("ClearCache");
+}, true));
 //#endregion
 //#endregion
 

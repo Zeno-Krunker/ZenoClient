@@ -356,6 +356,8 @@ window.askRestart = () => {
         ipcRenderer.send("restart-client");
     });
 };
+
+ipcRenderer.on("AskRestart", window.askRestart);
 //#endregion
 
 //#region  *** Alt Manager ***

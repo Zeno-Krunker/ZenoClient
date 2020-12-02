@@ -133,6 +133,12 @@ ipcMain.on('noUpdate', () => {
     initMainWindow();
 });
 
+ipcMain.on("ClearCache", () => {
+    win.webContents.session.clearCache().then(() => {
+        win.webContents.send("AskRestart");
+    });
+});
+
 function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
