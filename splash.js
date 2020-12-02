@@ -10,13 +10,14 @@ var downloadBtn, cancelBtn, status;
 let tips = [
     "You can press F5 to restart the client",
     "Use F3 to quickly join a new lobby",
-    "Press F7 to open Developer Tools"
+    "Press F7 to open Developer Tools",
+    "Press F11 to toggle Fullscreen Mode"
 ]
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
     let tipHolder = document.getElementById('tips');
-    let tip = tips[Math.round(Math.random() * 2)];
+    let tip = tips[Math.round(Math.random() * (tips.length - 1))];
     tipHolder.innerHTML = `Tip: ${tip}`;
 
     status = document.getElementById('status');
