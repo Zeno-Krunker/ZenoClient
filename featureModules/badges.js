@@ -39,12 +39,11 @@ function headerBar() {
 }
 
 function endTable() {
-    let displayName = getClass("menuClassPlayerName", 0).textContent;
     let players = getClass("endTableN");
     let i = 0;
     while(true){
         try {
-            if(players[i].textContent.startsWith(displayName)){
+            if(players[i].style.color == "rgb(255, 255, 255)"){
                 players[i].insertAdjacentHTML("beforebegin", `<img src="${badgeUrls.get(badges[0])}" class="zenoEndLeaderboardBadge"/>`);
             }
             i++;

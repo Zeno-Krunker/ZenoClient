@@ -8,6 +8,10 @@
     right: 5px;
 }
 
+#newsHolder {
+    display: none;
+}
+
 .mycustomButton {
     width: 300px;
     text-align: center;
