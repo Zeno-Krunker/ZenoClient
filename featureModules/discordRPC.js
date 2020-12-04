@@ -32,17 +32,6 @@ function initDiscord() {
             window.location.href = `https://krunker.io/?game=${para.activity.party.id}`;
         });
 
-        discordClient.subscribe("ACTIVITY_JOIN_REQUEST", ({ user }) => {
-            var { id, username, discriminator, avatar } = user;
-            window.confirm(`${username}#${discriminator} wants to join your game!`) ?
-                () => {
-                    discordClient.request("SEND_ACTIVITY_JOIN_INVITE", { user_id: id });
-                } :
-                () => {
-                    discordClient.request("CLOSE_ACTIVITY_REQUEST", { user_id: id });
-                };
-        });
-
         ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => { setInterval(updateDiscord, 2000); });
     });
 }
