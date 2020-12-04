@@ -5,7 +5,7 @@ var request = require("request");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 23;
+const version = 24;
 var downloadBtn, cancelBtn, status;
 let tips = [
     "You can press F5 to restart the client",
