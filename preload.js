@@ -113,7 +113,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     );
     getID("mapInfoHolder").children[3].insertAdjacentHTML(
         "beforeend",
-        '<div class="terms" href="/">QuickJoin</div>'
+        '<div class="terms" href="/" onclick="window.quickjoin()">QuickJoin</div>'
     ); 
     getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
@@ -361,6 +361,7 @@ ipcRenderer.on("AskRestart", window.askRestart);
 //#endregion
 
 //#region  *** Alt Manager ***
+
 window.openAltManager = (openNew) => {
     if (openNew) {
         showWindow(5);
@@ -416,3 +417,7 @@ window.addAlt = () => {
 };
 
 //#endregion
+
+window.quickjoin = () => {
+    window.location.href = "https://krunker.io/";
+}
