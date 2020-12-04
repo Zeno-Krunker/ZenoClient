@@ -1204,3 +1204,12 @@ span[style*="color:#353535"] {
 	background-image: url("https://cdn.discordapp.com/attachments/747410238944051271/751467435982585876/zenoBackgroundSocialllll.png") !important;
 	background-size: 105% !important;
 }
+
+#seasonLabel {
+	text-shadow: none!important;
+	color: var(--main-blue);
+}
+
+#seasonLabel span {
+	color: var(--button)!important;
+}
