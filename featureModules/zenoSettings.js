@@ -209,8 +209,19 @@ SettingsMap.set("VSyncToggle", new ToggleSetting({
 }, (checked) => {
     store.set("VSync", checked);
 }, true));
-
 //#endregion
+
+//#region Stream Overlay Toggle
+SettingsMap.set("StreamOverlayToggle", new ToggleSetting({
+    label: "Disable Stream Overlay",
+    buttonId: "StreamOverlayToggle_btn",
+    storeKey: "StreamOverlay",
+}, (checked) => {
+    store.set("StreamOverlay", checked);
+}));
+//#endregion
+
+
 //#endregion
 
 //#region ----DISCORD PRESENCE----
