@@ -47,14 +47,14 @@ function initDiscord() {
     });
 }
 
-function updateDiscord() {
+async function updateDiscord() {
     try {
         let gameActivity = window.getGameActivity();
         let { mode, map, time, user, id } = gameActivity;
         let className = gameActivity.class.name;
 
         let playerCount, playerMax;
-        fetch(getGame(id))
+        await fetch(getGame(id))
             .then(res => res.json())
             .then(json => {
                 playerCount = json[2];
