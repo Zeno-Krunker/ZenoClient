@@ -22,7 +22,7 @@ You can take a look at `package.json` and modify these commands if you think you
 1. [@AryaveerSR](https://github.com/AryaveerSR) - Aryaveer#8371
 2. [@TheUltimateKeval](https://github.com/TheUltimateKeval) - Keval#8167
 3. [@giantninja908](https://github.com/giantninja908) - Giant#7650
-4. [@hitthemoney](https://github.com/hitthemoney) - hitthemoney#5719
+4. [@hitthemoney](https://github.com/hitthemoney) - hitthemoney#1337
 5. [@GSLevel](https://github.com/GSLevel) - Level#1720
 
 ## GFX
