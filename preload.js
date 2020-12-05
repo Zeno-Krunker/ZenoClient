@@ -17,6 +17,7 @@ const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
+require("./featureModules/scoutMode");
 const { ZenoEmitter, ZenoEvents } = require("./events");
 
 // *** Do Some Stuff **
