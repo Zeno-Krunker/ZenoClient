@@ -1,6 +1,6 @@
 # Zeno Client
 
-Zeno Client is an Electron-based Custom Krunker Client which focuses on providing custom features to users. To name a few - Discord Rich Presence, Resource Swapper, Custom CSS, Scope Bank.
+Zeno Client is an Electron-based Custom Krunker Client which focuses on providing custom features to users. To name a few - Discord Rich Presence, Resource Swapper, Custom CSS, Scope Bank, and Plugins.
 
 
 ![Zeno Logo](https://cdn.discordapp.com/attachments/756142725262213180/756171123057754284/Zeno_BG.png)
