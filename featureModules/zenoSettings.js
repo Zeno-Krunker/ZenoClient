@@ -114,10 +114,20 @@ SettingsMap.set("ScoutModeToggle", new ToggleSetting({
     storeKey: "ScoutMode",
 }, (checked) => { 
     store.set("ScoutMode", checked);
+
+    let instructions = getID("instructions");
+
     let specBtn = getClass("switchsml", 1).children[0];
     window.toggleSpect(checked);
     specBtn.checked = checked;
-    getID("instructions").innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
+    instructions.innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
+
+    new MutationObserver(() => {
+        let instruction = store.get("ScoutMode") ? "Click To Scout Lobby" : "Click To Play";
+        if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
+        instructions.innerHTML = instruction;
+    }).observe(instructions, { childList: true });
+
     return;
 }));
 //#endregion
