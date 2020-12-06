@@ -285,6 +285,37 @@ SettingsMap.set("ChatMuteToggle", new ToggleSetting({
 //#endregion
 //#endregion
 
+// Chat Presets Toggle
+SettingsMap.set("ChatPresetsToggle", new ToggleSetting({
+    label: "Toggle Chat Presets",
+    buttonId: "ChatPresetsToggle_btn",
+    storeKey: "PresetsToggle",
+}, (checked) => {
+    store.set("PresetsToggle", checked)
+    if(!checked) {
+        document.getElementById('preset1').style.display = "none"
+        document.getElementById('preset2').style.display = "none"
+        document.getElementById('preset3').style.display = "none"
+    } else {
+        document.getElementById('preset1').style.display = "unset"
+        document.getElementById('preset2').style.display = "unset"
+        document.getElementById('preset3').style.display = "unset"
+    }
+}));
+
+//Change Preset 1 
+SettingsMap.set("ChangePreset1", new TextSetting({
+    label: "Change Chat Preset 1",
+    inputLabel: "Preset",
+    inputId: "preset1Change",
+    buttonLabel: "Change",
+    buttonId: "Preset1_btn",
+    storeKey: "Preset1"
+}, () => {
+    store.set("Preset1", preset1Change.value)
+    document.getElementById('preset1').innerHTML = store.get("Preset1")
+}));
+
 //#region Inserting Settings in the actual page
 let settingsHTML = "";
 

@@ -124,6 +124,22 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
     );
 
+    //Chat Presets
+    getID("subLogoButtons").insertAdjacentHTML(
+        "beforeend",
+        '<div id="preset1" class="button small" onclick="document.getElementById(\'chatInput\').value =  preset1.innerHTML" onmouseenter="playTick()">GGs WP</div>'
+    );
+    
+    getID("subLogoButtons").insertAdjacentHTML(
+        "beforeend",
+        '<div id="preset2" class="button small" onclick="document.getElementById(\'chatInput\').value = preset2.innerHTML" onmouseenter="playTick()">It\'s Fine</div>'
+    );
+    
+    getID("subLogoButtons").insertAdjacentHTML(
+        "beforeend",
+        '<div id="preset3" class="button small" onclick="document.getElementById(\'chatInput\').value = preset3.innerHTML" onmouseenter="playTick()">Good luck have fun!</div>'
+    );
+
     randomClassInit();
 
     initExit();
