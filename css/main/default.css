@@ -538,6 +538,14 @@ span[style*="color:rgba(0,0,0,0.6)"] {
 	color: var(--blue-shadow)
 }
 
+#modDropper {
+	border-color: rgba(46, 161, 161, 0.3);
+}
+
+#modLInfo {
+	color: rgba(46, 161, 161, 0.3);
+}
+
 /* Challenge */
 
 .chalDesc {
@@ -639,7 +647,8 @@ input:focus+.slider {
 .hostMapName {
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	width: fit-content;
 }
 
 .hostMapYear{
@@ -657,7 +666,8 @@ input:focus+.slider {
     left: 50%;
     right: unset;
     top: unset;
-    bottom: 5px;
+	bottom: 7.5px;
+	font-size: 10px;
     transform: translateX(-50%);
 }
 
@@ -1206,10 +1216,9 @@ span[style*="color:#353535"] {
 }
 
 #seasonLabel {
-	text-shadow: none!important;
-	color: var(--main-blue);
+	color: var(--blue-shadow);
 }
 
 #seasonLabel span {
-	color: var(--button)!important;
+	color: var(--main-blue)!important;
 }

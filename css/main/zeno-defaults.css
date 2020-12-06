@@ -76,3 +76,11 @@
     height: 70%;
     transform: translateY(5px);
 }
+
+/* Ads */
+
+#aContainer {
+    background-color: transparent;
+    max-width: 575px;
+    min-width: 575px;
+}
