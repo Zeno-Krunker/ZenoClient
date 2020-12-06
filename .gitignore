@@ -3,3 +3,5 @@ release-builds/
 installers/
 .snyk/
 ignored/
+krunkerCode
+*.DS_Store

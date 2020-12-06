@@ -73,6 +73,18 @@ class ToggleSetting {
     }
 }
 
+class ColorSetting extends ToggleSetting {
+    constructor () {
+        let ret = super(...arguments);
+        return ret;
+    }
+
+    get html () {
+        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<input type="color" name="color" id="${this.buttonId}" style="float:right" value="${store.get(this.storeKey)}"></div>`; // oninput="setTimeout(() => {store.set(${this.storeKey}, this.value)},0)"
+        return HTMLString;
+    }
+}
+
 class ButtonSetting {
     constructor({ label, buttonLabel, buttonId }, onClick, requireRestart) {
         if(typeof onClick == "function"){
@@ -285,6 +297,38 @@ SettingsMap.set("ChatMuteToggle", new ToggleSetting({
 //#endregion
 //#endregion
 
+SettingsMap.set("ExperimentalHeader", new Header("Experimental"));
+
+// in game badges
+SettingsMap.set("InGameBadges", new ToggleSetting({
+    label: "In Game Badges",
+    buttonId: "InGameBadges_btn",
+    storeKey: "InGameBadges",
+    requireRestart: false
+}, (checked) => {
+    store.set("InGameBadges", checked);
+}, false))
+
+// sky color
+SettingsMap.set("SkyColor", new ColorSetting({
+    label: "Sky Color",
+    buttonId: "SkyColor_btn",
+    storeKey: "SkyColor",
+}, function () {
+    setTimeout(() => {
+        store.set("SkyColor", this.button.value);
+    }, 0);
+}, true))
+
+// sky color toggle
+SettingsMap.set("SkyColorToggle", new ToggleSetting({
+    label: "Sky Color Toggle",
+    buttonId: "SkyColorToggle_btn",
+    storeKey: "SkyColorToggle",
+}, (checked) => {
+    store.set("SkyColorToggle", checked);
+}, true))
+
 //#region Inserting Settings in the actual page
 let settingsHTML = "";
 
@@ -296,7 +340,7 @@ window.openZenoWindow = () => {
     openHostWindow();
     getID('menuWindow').innerHTML = settingsHTML;
 
-    for(let setting of SettingsMap.values()){
+    for (let setting of SettingsMap.values()){
         if(!(setting instanceof Header)){
             setting.registerFunction();
         }

@@ -4,26 +4,43 @@
 */
 
 // *** Include Modules ***
-const { ipcRenderer: ipcRenderer, remote } = require("electron");
+const {
+    ipcRenderer: ipcRenderer,
+    remote
+} = require("electron");
 const fs = require("fs");
-const { copy } = require("fs-extra");
+const {
+    copy
+} = require("fs-extra");
 const Store = require("electron-store");
 const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const { getID, getPluginDIR, getResourceSwapper, scopeTemp } = require('./consts.js');
-const { initMute } = require('./featureModules/mute.js')
+const {
+    getID,
+    getPluginDIR,
+    getResourceSwapper,
+    scopeTemp
+} = require('./consts.js');
+const {
+    initMute
+} = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
-const { initExit } = require("./featureModules/exit");
+const {
+    initExit
+} = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
-const { ZenoEmitter, ZenoEvents } = require("./events");
+const {
+    ZenoEmitter,
+    ZenoEvents
+} = require("./events");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {
     if (!(endUI.style.display === "none")) {
         menuHolder.style.display = "block";
-        menuHider.style.display = "block";  
+        menuHider.style.display = "block";
         endUI.style.display = "none";
         uiBase.classList.add("onMenu");
         instructionHolder.style.display = "block";
@@ -40,8 +57,20 @@ ipcRenderer.on("home", () => {
     window.location.href = "https://krunker.io/";
 });
 
+function tryModule(moduleName) {
+    const module = require("./featureModules/" + moduleName);
+    try {
+        module();
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+tryModule("inGameBadges");
+tryModule("sky");
+
 document.addEventListener("DOMContentLoaded", (event) => {
-    (function() {
+    (function () {
         "use strict";
 
         var insertCSS = () => {
@@ -51,23 +80,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 if (!error) {
                     window.customCSS = data.replace(/\s{2,10}/g, " ").trim();
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);
-                    if(!store.get("ZenoCSS")){
+                    if (!store.get("ZenoCSS")) {
                         getID("custom-css").innerHTML = window.customCSS;
                     }
                 }
             });
-        
+
 
             // CSS for Custom Zeno UI
             fs.readFile(__dirname + "/css/main/zeno-defaults.css", "utf-8", (error, data) => {
                 if (!error) {
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='zeno-defaults'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
-                } else (console.log(error));
+                } else(console.log(error));
             });
 
             // Cookie Button CSS
             document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='float-button-disable'>#ot-sdk-btn-floating.ot-floating-button {display: none !important;}</style>`);
-            
+
             try {
                 if (!store.get("imgTag")) store.set("imgTag", "");
                 if (!store.get("account")) store.set("account", []);
@@ -85,8 +114,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             insertCSS();
 
             // Discord Presence
-            if(store.get("DiscordPresence", true)){
-                const { initDiscord } = require("./featureModules/discordRPC");
+            if (store.get("DiscordPresence", true)) {
+                const {
+                    initDiscord
+                } = require("./featureModules/discordRPC");
                 initDiscord();
             }
         };
@@ -114,7 +145,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     getID("mapInfoHolder").children[3].insertAdjacentHTML(
         "beforeend",
         '<div class="terms" href="/" onclick="window.quickjoin()">QuickJoin</div>'
-    ); 
+    );
     getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
@@ -129,7 +160,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     initExit();
 
     setInterval(() => {
-        if(!store.get("StreamOverlay")) return;
+        if (!store.get("StreamOverlay")) return;
         getID("streamContainer").innerHTML = "";
     }, 5000);
 
@@ -150,7 +181,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     function getDirectories(path) {
         return fs
             .readdirSync(path)
-            .filter(function(file) {
+            .filter(function (file) {
                 return fs.statSync(path + "/" + file, (error, stat) => {
                     return stat.isDirectory();
                 });
@@ -180,11 +211,15 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
 
 ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
     // Badges
-    if(store.get("Badges")){
-        const { initBadges } = require("./featureModules/badges");
-        try{
+    if (store.get("Badges")) {
+        const {
+            initBadges
+        } = require("./featureModules/badges");
+        try {
             initBadges();
-        } catch (err) {console.log(err)}
+        } catch (err) {
+            console.log(err)
+        }
     }
 });
 
@@ -280,7 +315,7 @@ window.rs = importCss = () => {
             copy(
                 files[i].path,
                 temp,
-                function(err) {
+                function (err) {
                     if (err) return console.log(err);
                     askRestart();
                 }

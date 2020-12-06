@@ -15,7 +15,7 @@ var s;
 
 // *** Options ***
 const devTools = false;
-const fullscreenOnload = true;
+const fullscreenOnload = false;
 let VSync = false;
 
 //#region Do Some FPS Tricks
@@ -293,6 +293,8 @@ function initSwapper() {
             } else {
                 filePath = dir + "/" + file;
             }
+            // bc mac gay
+            // if (filePath === ".DS_Store") return;
             if (statSync(filePath).isDirectory()) {
                 if (!/\\(docs)$/.test(filePath)) afs(filePath);
             } else {
