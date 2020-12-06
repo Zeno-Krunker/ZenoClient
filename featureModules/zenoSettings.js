@@ -263,7 +263,7 @@ SettingsMap.set("RandomClassToggle", new ToggleSetting({
 }, true));
 //#endregion
 
-//#region Bagdes Toggle
+//#region Badges Toggle
 SettingsMap.set("BadgesToggle", new ToggleSetting({
     label: "Zeno Badges",
     buttonId: "BadgesToggle_btn",
@@ -285,25 +285,9 @@ SettingsMap.set("ChatMuteToggle", new ToggleSetting({
 //#endregion
 //#endregion
 
-// Chat Presets Toggle
-SettingsMap.set("ChatPresetsToggle", new ToggleSetting({
-    label: "Toggle Chat Presets",
-    buttonId: "ChatPresetsToggle_btn",
-    storeKey: "PresetsToggle",
-}, (checked) => {
-    store.set("PresetsToggle", checked)
-    if(!checked) {
-        document.getElementById('preset1').style.display = "none"
-        document.getElementById('preset2').style.display = "none"
-        document.getElementById('preset3').style.display = "none"
-    } else {
-        document.getElementById('preset1').style.display = "unset"
-        document.getElementById('preset2').style.display = "unset"
-        document.getElementById('preset3').style.display = "unset"
-    }
-}));
+SettingsMap.set("ChatPresetsHeader", new Header("Chat Presets"));
 
-//Change Preset 1 
+//Changing the Presets
 SettingsMap.set("ChangePreset1", new TextSetting({
     label: "Change Chat Preset 1",
     inputLabel: "Preset",
@@ -314,6 +298,30 @@ SettingsMap.set("ChangePreset1", new TextSetting({
 }, () => {
     store.set("Preset1", preset1Change.value)
     document.getElementById('preset1').innerHTML = store.get("Preset1")
+}));
+
+SettingsMap.set("ChangePreset2", new TextSetting({
+    label: "Change Chat Preset 2",
+    inputLabel: "Preset",
+    inputId: "preset2Change",
+    buttonLabel: "Change",
+    buttonId: "Preset2_btn",
+    storeKey: "Preset2"
+}, () => {
+    store.set("Preset2", preset2Change.value)
+    document.getElementById('preset2').innerHTML = store.get("Preset2")
+}));
+
+SettingsMap.set("ChangePreset3", new TextSetting({
+    label: "Change Chat Preset 3",
+    inputLabel: "Preset",
+    inputId: "preset3Change",
+    buttonLabel: "Change",
+    buttonId: "Preset3_btn",
+    storeKey: "Preset3"
+}, () => {
+    store.set("Preset3", preset3Change.value)
+    document.getElementById('preset3').innerHTML = store.get("Preset3")
 }));
 
 //#region Inserting Settings in the actual page

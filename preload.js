@@ -124,21 +124,29 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
     );
 
-    //Chat Presets
-    getID("subLogoButtons").insertAdjacentHTML(
+    getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
-        '<div id="preset1" class="button small" onclick="document.getElementById(\'chatInput\').value =  preset1.innerHTML" onmouseenter="playTick()">GGs WP</div>'
+        '<div id="presetz" class="button bigShadowT mycustomButton" onclick="window.openPresets()" onmouseenter="playTick()">Chat Presets</div>'
     );
+
+
+    var styling = document.createElement('style');
+
+    document.head.appendChild(styling);
+    styling.innerHTML = `
     
-    getID("subLogoButtons").insertAdjacentHTML(
-        "beforeend",
-        '<div id="preset2" class="button small" onclick="document.getElementById(\'chatInput\').value = preset2.innerHTML" onmouseenter="playTick()">It\'s Fine</div>'
-    );
+    .presets {
+        cursor: pointer;
+        border: none;
+        text-align: center;
+        margin-bottom: 30px!important;
+        width: 100px;
+        border-radius: 3px;
+        position: relative!important;
+        left: 30%;
+    }
     
-    getID("subLogoButtons").insertAdjacentHTML(
-        "beforeend",
-        '<div id="preset3" class="button small" onclick="document.getElementById(\'chatInput\').value = preset3.innerHTML" onmouseenter="playTick()">Good luck have fun!</div>'
-    );
+    `
 
     randomClassInit();
 
@@ -434,6 +442,37 @@ window.addAlt = () => {
         window.openAltManager(false);
     });
 };
+
+window.openPresets = () => {
+
+    openHostWindow();
+   getID("menuWindow").innerHTML = `
+   <div class="setHed"> Choose a chat preset (It will override anything you have put into the chat with the preset) </div>
+   <div id="preset1" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset1.innerHTML" onmouseenter="playTick()">GGs WP</div>
+   <div id="preset2" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset2.innerHTML" onmouseenter="playTick()">It's fine</div>
+   <div id="preset3" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset3.innerHTML" onmouseenter="playTick()">GLHF</div>`;
+
+   var preset1 = getID("preset1");
+   var preset2 = getID("preset2");
+   var preset3 = getID("preset3");
+
+   document.getElementById('preset1').innerHTML = store.get("Preset1")
+   document.getElementById('preset2').innerHTML = store.get("Preset2")
+   document.getElementById('preset3').innerHTML = store.get("Preset3")
+
+   if(store.get("Preset1").trim() == "") {
+       preset1.innerHTML = "GGs WP";
+   } 
+   
+   if(store.get("Preset2").trim() == "") {
+    preset2.innerHTML = "It's Fine";
+   } 
+   
+   if(store.get("Preset3").trim() == "") {
+    preset3.innerHTML = "GLHF";
+   }
+
+}
 
 //#endregion
 
