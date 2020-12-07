@@ -31,10 +31,8 @@ const {
     initExit
 } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
-const {
-    ZenoEmitter,
-    ZenoEvents
-} = require("./events");
+require("./featureModules/scoutMode");
+const { ZenoEmitter, ZenoEvents } = require("./events");
 
 // *** Do Some Stuff **
 ipcRenderer.on("Escape", () => {

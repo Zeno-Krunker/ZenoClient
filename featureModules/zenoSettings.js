@@ -1,4 +1,4 @@
-const { getID } = require("../consts");
+const { getID, getClass } = require("../consts");
 const { initTwitch } = require("./twitch");
 const fs = require("fs");
 const { ipcRenderer } = require("electron");
@@ -60,7 +60,7 @@ class ToggleSetting {
     }
 
     get html() {
-        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${this.buttonId}" ${(store.get(this.storeKey) === true) ? "checked" : ""}><span class="slider"></span></label></div>`;
+        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${this.buttonId}" ${(store.get(this.storeKey) == true) ? "checked" : ""}><span class="slider"></span></label></div>`;
         return HTMLString;
     }
 
@@ -115,6 +115,35 @@ class ButtonSetting {
 
 // Map for looping over all settings
 let SettingsMap = new Map();
+
+//#region ----GAMEPLAY----
+SettingsMap.set("GameplayHeader", new Header("Gameplay"));
+
+//#region Scout Mode Toggle
+SettingsMap.set("ScoutModeToggle", new ToggleSetting({
+    label: "Scout Mode",
+    buttonId: "ScoutModeToggle_btn",
+    storeKey: "ScoutMode",
+}, (checked) => { 
+    store.set("ScoutMode", checked);
+
+    let instructions = getID("instructions");
+
+    let specBtn = getClass("switchsml", 1).children[0];
+    window.toggleSpect(checked);
+    specBtn.checked = checked;
+    instructions.innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
+
+    new MutationObserver(() => {
+        let instruction = store.get("ScoutMode") ? "Click To Scout Lobby" : "Click To Play";
+        if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
+        instructions.innerHTML = instruction;
+    }).observe(instructions, { childList: true });
+
+    return;
+}));
+//#endregion
+//#endregion
 
 //#region ----MISCELLANEOUS----
 SettingsMap.set("MiscellaneousHeader", new Header("Miscellaneous"));

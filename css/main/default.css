@@ -266,6 +266,10 @@ input:checked+.sliderSml {
     color: transparent;
 }
 
+.setHed span[style*="color:#000"]{
+	color: var(--main-blue) !important;
+}
+
 .settName, .settNameSmall {
 	color: var(--main-blue)
 }

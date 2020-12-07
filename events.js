@@ -24,6 +24,7 @@ new MutationObserver(async (mutationRecords, observer) => {
 });
 //#endregion
 
+//#region Events based on Game Activity
 let gameActivity = false;
 let gameEnded;
 let prev = { user: "", class: { name: "" }};
@@ -55,6 +56,7 @@ setInterval(() => {
 
     return;
 }, 1000);
+//#endregion
 
 exports.ZenoEmitter = ZenoEmitter;
 exports.ZenoEvents = ZenoEvents;
