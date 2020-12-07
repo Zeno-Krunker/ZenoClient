@@ -324,6 +324,18 @@ SettingsMap.set("ChangePreset3", new TextSetting({
     document.getElementById('preset3').innerHTML = store.get("Preset3")
 }));
 
+SettingsMap.set("ChangePreset4", new TextSetting({
+    label: "Change Chat Preset 4",
+    inputLabel: "Preset",
+    inputId: "preset4Change",
+    buttonLabel: "Change",
+    buttonId: "Preset4_btn",
+    storeKey: "Preset4"
+}, () => {
+    store.set("Preset4", preset4Change.value)
+    document.getElementById('preset4').innerHTML = store.get("Preset4")
+}));
+
 //#region Inserting Settings in the actual page
 let settingsHTML = "";
 

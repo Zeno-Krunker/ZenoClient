@@ -140,10 +140,10 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         border: none;
         text-align: center;
         margin-bottom: 30px!important;
-        width: 100px;
+        width: 140px;
         border-radius: 3px;
         position: relative!important;
-        left: 30%;
+        left: 10%;
     }
     
     `
@@ -450,15 +450,18 @@ window.openPresets = () => {
    <div class="setHed"> Choose a chat preset (It will override anything you have put into the chat with the preset) </div>
    <div id="preset1" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset1.innerHTML" onmouseenter="playTick()">GGs WP</div>
    <div id="preset2" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset2.innerHTML" onmouseenter="playTick()">It's fine</div>
-   <div id="preset3" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset3.innerHTML" onmouseenter="playTick()">GLHF</div>`;
+   <div id="preset3" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset3.innerHTML" onmouseenter="playTick()">GLHF</div>
+   <div id="preset4" class="presets button" onclick="document.getElementById(\'chatInput\').value =  preset4.innerHTML" onmouseenter="playTick()">Have a nice day!</div>`;
 
    var preset1 = getID("preset1");
    var preset2 = getID("preset2");
    var preset3 = getID("preset3");
+   var preset4 = getID("preset4");
 
-   document.getElementById('preset1').innerHTML = store.get("Preset1")
-   document.getElementById('preset2').innerHTML = store.get("Preset2")
-   document.getElementById('preset3').innerHTML = store.get("Preset3")
+   preset1.innerHTML = store.get("Preset1")
+   preset2.innerHTML = store.get("Preset2")
+   preset3.innerHTML = store.get("Preset3")
+   preset4.innerHTML = store.get("Preset4")
 
    if(store.get("Preset1").trim() == "") {
        preset1.innerHTML = "GGs WP";
@@ -470,6 +473,10 @@ window.openPresets = () => {
    
    if(store.get("Preset3").trim() == "") {
     preset3.innerHTML = "GLHF";
+   }
+
+   if(store.get("Preset4").trim() == "") {
+    preset4.innerHTML = "Have a nice day!";
    }
 
 }
