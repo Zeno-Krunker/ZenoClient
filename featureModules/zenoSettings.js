@@ -80,8 +80,12 @@ class ColorSetting extends ToggleSetting {
     }
 
     get html () {
-        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<input type="color" name="color" id="${this.buttonId}" style="float:right" value="${store.get(this.storeKey)}"></div>`; // oninput="setTimeout(() => {store.set(${this.storeKey}, this.value)},0)"
+        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<input type="color" name="color" id="${this.buttonId}" style="float:right" value="${store.get(this.storeKey)}"></div>`;
         return HTMLString;
+    }
+
+    registerFunction() {
+        this.button.addEventListener("input", () => { this.onToggle() });
     }
 }
 
@@ -135,7 +139,7 @@ SettingsMap.set("ScoutModeToggle", new ToggleSetting({
     instructions.innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
 
     new MutationObserver(() => {
-        let instruction = store.get("ScoutMode") ? "Click To Scout Lobby" : "Click To Play";
+        let instruction = specBtn.checked ? "Click To Scout Lobby" : "Click To Play";
         if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
         instructions.innerHTML = instruction;
     }).observe(instructions, { childList: true });

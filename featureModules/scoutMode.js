@@ -15,7 +15,7 @@ ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
     instructions.innerHTML = "Click To Scout Lobby";
 
     new MutationObserver(() => {
-        let instruction = store.get("ScoutMode") ? "Click To Scout Lobby" : "Click To Play";
+        let instruction = specBtn.checked ? "Click To Scout Lobby" : "Click To Play";
         if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
         instructions.innerHTML = instruction;
     }).observe(instructions, { childList: true });
