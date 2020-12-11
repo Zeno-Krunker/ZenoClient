@@ -146,10 +146,6 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     );
     getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
-        '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.scopes()" onmouseenter="playTick()">Scopes</div>'
-    );
-    getID("menuClassContainer").insertAdjacentHTML(
-        "beforeend",
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
     );
 
@@ -320,60 +316,6 @@ window.rs = importCss = () => {
             );
         }
     };
-};
-//#endregion
-
-//#region *** Scope Bank ***
-window.scopes = () => {
-    var scopeLink = store.get("scopesCurrent");
-    // Open Menu
-    openHostWindow();
-    // Create Parent Window
-    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
-    var i = 0;
-    var a;
-    var scopeSize = parseInt(scopeLink.length);
-    // Set the Scopes Using for Loop
-    for (i = 0; i < scopeSize; i++) {
-        var a = `<div class="classCard" onclick="window.selectScope(${i})"><img class="topRightBoi" onclick="window.removeScope(${i})" src="https://cdn.discordapp.com/attachments/756142725262213180/756353103581806602/Zeno_Exit.png"><img class="classImgC" src="${scopeLink[i]}">`;
-        getID("oo").insertAdjacentHTML("beforeend", a);
-    }
-    var a =
-        '<div class="classCard" onclick="window.addScope()"><img id="addItem" class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
-    getID("oo").insertAdjacentHTML("beforeend", a);
-};
-
-window.selectScope = (int) => {
-    // If User Clicks a Scope, Set it as Scope Image
-    setSetting("customScope", store.get("scopesCurrent")[int]);
-    openHostWindow();
-};
-
-window.addScope = () => {
-    var tempHTML = `<div class="setHed">Add Scope</div>
-    <div class="settName" id="importSettings_div" style="display:block">Scope URL <input type="url" placeholder="Scope URL" name="url" class="inputGrey2" id="settingString"></div>
-    <a class="+" id="importBtnnn">Add</a>
-    </div>`;
-
-    getID("menuWindow").innerHTML = tempHTML;
-    var importBtnnn = getID("importBtnnn");
-    importBtnnn.addEventListener("click", () => {
-        parseScope(settingString.value);
-    });
-
-    var parseScope = (string) => {
-        var present = store.get("scopesCurrent");
-        present.push(string);
-        store.set("scopesCurrent", present);
-        openHostWindow();
-    };
-};
-
-window.removeScope = (no) => {
-    var currentScopes = store.get("scopesCurrent");
-    currentScopes.splice(no, 1);
-    store.set("scopesCurrent", currentScopes);
-    openHostWindow();
 };
 //#endregion
 
