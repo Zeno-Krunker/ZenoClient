@@ -119,6 +119,7 @@ class ButtonSetting {
 
 // Map for looping over all settings
 let SettingsMap = new Map();
+window.zenoSettingsMap = SettingsMap;
 
 //#region ----GAMEPLAY----
 SettingsMap.set("GameplayHeader", new Header("Gameplay"));
@@ -330,6 +331,7 @@ SettingsMap.set("ChatMuteToggle", new ToggleSetting({
 //#endregion
 //#endregion
 
+//#region ----EXPERIMENTAL FEATURES----
 SettingsMap.set("ExperimentalHeader", new Header("Experimental"));
 
 // in game badges
@@ -361,16 +363,17 @@ SettingsMap.set("SkyColorToggle", new ToggleSetting({
 }, (checked) => {
     store.set("SkyColorToggle", checked);
 }, true))
+//#endregion
 
 //#region Inserting Settings in the actual page
-let settingsHTML = "";
-
-for(let setting of SettingsMap.values()) {
-    settingsHTML += setting.html + "\n";
-}
-
 window.openZenoWindow = () => {
     openHostWindow();
+
+    let settingsHTML = "";
+    for(let setting of SettingsMap.values()) {
+        settingsHTML += setting.html + "\n";
+    }
+
     getID('menuWindow').innerHTML = settingsHTML;
 
     for (let setting of SettingsMap.values()){
