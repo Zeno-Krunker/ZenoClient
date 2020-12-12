@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // Things to do when the game loads
 ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
-    var zenoIcon = "https://cdn.discordapp.com/attachments/747410238944051271/756312703374590002/Zeno.png"
+    var zenoIcon = "https://cdn.discordapp.com/attachments/756142725262213180/756171439857598464/Zeno-Logo.png"
 
     getID('menuItemContainer').insertAdjacentHTML('beforeend', `
     <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">

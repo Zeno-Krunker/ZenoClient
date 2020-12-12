@@ -25,6 +25,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     cancelBtn = document.getElementById('cancel');
     var json;
 
+    status.innerHTML = `Checking for updates (Current - v${version})`;
+
     fetch("https://zenokrunkerapi.web.app/latestVersion.json")
         .then((resp) => resp.json())
         .then((resp) => json = resp);
