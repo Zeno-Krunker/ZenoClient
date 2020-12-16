@@ -11,7 +11,8 @@ let tips = [
     "You can press F5 to restart the client",
     "Use F3 to quickly join a new lobby",
     "Press F7 to open Developer Tools",
-    "Press F11 to toggle Fullscreen Mode"
+    "Press F11 to toggle Fullscreen Mode",
+    "Use F4 to Reload Same Lobby"
 ]
 
 document.addEventListener('DOMContentLoaded', (event) => {

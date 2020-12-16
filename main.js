@@ -241,7 +241,6 @@ function initMainWindow() {
     }
 
     // *** Set the Shortcuts ***
-    console.log('Shortcuts Starting');
     globalShortcut.register("F11", () => {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
     });
@@ -252,6 +251,9 @@ function initMainWindow() {
         app.relaunch();
         app.quit();
     });
+
+    globalShortcut.register("F4", () => {win.webContents.reload()});
+
     globalShortcut.register("F7", () => {
         win.webContents.openDevTools();
     });
