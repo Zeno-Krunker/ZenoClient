@@ -12,9 +12,13 @@ function initDiscord() {
 
     discordClient.on("ready", async () => {
 
+        if(!store.get("DiscordID")) {
+            store.set("DiscordID", discordClient.user.id);
+        };
+
         await fetch("https://zenokrunkerapi.web.app/discordBadgeData.json")
             .then((resp) => resp.json())
-            .then((data) => { window.zenoBadges = data[discordClient.user.id].badges; })
+            .then((data) => { window.zenoBadges = data[store.get("DiscordID")].badges; })
             .catch(error => console.error(error));
 
         defaultActivity = {

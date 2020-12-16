@@ -306,7 +306,6 @@ function initSwapper() {
                         k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
                     }
                     s.filter.urls.push(k);
-                    console.log(filePath.replace(new RegExp("/", "g"), "\\"));
                     //s.files[k.replace(/\*/g, "")] = "zeno:\\\\" + filePath.replace(new RegExp("/", "g"), "\\");
                     s.files[k.replace(/\*/g, "")] = format({
                         pathname: filePath,
@@ -318,12 +317,10 @@ function initSwapper() {
         });
     };
     afs(sf);
-    console.log(s);
     if (s.filter.urls.length) {
         win.webContents.session.webRequest.onBeforeRequest(
             s.filter,
             (details, callback) => {
-                console.log(`Swapping ${details.url} with ${s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")]}`);
                 callback({
                     cancel: false,
                     redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||details.url,
