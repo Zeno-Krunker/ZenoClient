@@ -64,7 +64,7 @@ function tryModule(moduleName) {
     }
 }
 
-tryModule("inGameBadges");
+// tryModule("inGameBadges");
 tryModule("sky");
 
 document.addEventListener("DOMContentLoaded", (event) => {

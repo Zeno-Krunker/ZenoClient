@@ -103,7 +103,6 @@ app.whenReady().then(() => {
     // });
     //#endregion
 
-
     init();
 
     app.on("activate", function() {
