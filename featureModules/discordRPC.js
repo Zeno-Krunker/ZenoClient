@@ -1,4 +1,4 @@
-const {discordClientID: clientID, gameLoaded, getGame} = require('../consts.js');
+const {discordClientID: clientID, getGame} = require('../consts.js');
 const RPC = require("discord-rpc");
 const discordClient = new RPC.Client({ transport: "ipc" });
 const Store = require("electron-store");

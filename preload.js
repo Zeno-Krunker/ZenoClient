@@ -4,32 +4,18 @@
 */
 
 // *** Include Modules ***
-const {
-    ipcRenderer: ipcRenderer,
-    remote
-} = require("electron");
+const { ipcRenderer, remote } = require("electron");
 const fs = require("fs");
-const {
-    copy
-} = require("fs-extra");
+const { copy } = require("fs-extra");
 const Store = require("electron-store");
 const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const {
-    getID,
-    getPluginDIR,
-    getResourceSwapper,
-    scopeTemp
-} = require('./consts.js');
-const {
-    initMute
-} = require('./featureModules/mute.js')
+const { getID, getPluginDIR, getResourceSwapper, scopeTemp } = require('./consts.js');
+const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
-const {
-    initExit
-} = require("./featureModules/exit");
+const { initExit } = require("./featureModules/exit");
 require("./featureModules/zenoSettings");
 require("./featureModules/scoutMode");
 const { ZenoEmitter, ZenoEvents } = require("./events");
@@ -125,7 +111,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // Things to do when the game loads
 ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
-    var zenoIcon = "https://cdn.discordapp.com/attachments/756142725262213180/756171439857598464/Zeno-Logo.png"
+    var zenoIcon = "https://cdn.discordapp.com/attachments/792583760666165249/792585775228387358/Zeno-Logo.png"
 
     getID('menuItemContainer').insertAdjacentHTML('beforeend', `
     <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
@@ -206,13 +192,11 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
 ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
     // Badges
     if (store.get("Badges")) {
-        const {
-            initBadges
-        } = require("./featureModules/badges");
+        const { initBadges } = require("./featureModules/badges");
         try {
             initBadges();
         } catch (err) {
-            console.log(err)
+            console.log(err);
         }
     }
 });

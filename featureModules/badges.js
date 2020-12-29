@@ -1,4 +1,4 @@
-const { getClass, getID, badgeUrls } = require('../consts.js');
+const { getClass, getID } = require('../consts.js');
 const { ZenoEmitter, ZenoEvents } = require('../events');
 
 let badges, badgesHTML = "";
@@ -7,7 +7,7 @@ async function initBadges() {
     badges = window.zenoBadges;
 
     for(let badge of badges){
-        badgesHTML += `<img class="zenoModelPreviewBadge" src="${badgeUrls.get(badge)}">`;
+        badgesHTML += `<img class="zenoModelPreviewBadge" src="https://zenokrunkerapi.web.app/badges/${badge}.png">`;
     }
 
     ZenoEmitter.on(ZenoEvents.USER_CHANGED, () => { 
@@ -25,7 +25,7 @@ function modelPreview() {
 
 function headerBar() {
     if(getID("menuUsernameContainer").innerHTML.includes(`class="zenoHeaderBadge"`)) return;
-    getID("menuMiniProfilePic").insertAdjacentHTML("afterend", `<img src="${badgeUrls.get(badges[0])}" class="zenoHeaderBadge"/>`);
+    getID("menuMiniProfilePic").insertAdjacentHTML("afterend", `<img src="https://zenokrunkerapi.web.app/badges/${badges[0]}.png" class="zenoHeaderBadge"/>`);
 }
 
 function endTable() {
@@ -34,7 +34,7 @@ function endTable() {
     while(true){
         try {
             if(players[i].style.color == "rgb(255, 255, 255)"){
-                players[i].insertAdjacentHTML("beforebegin", `<img src="${badgeUrls.get(badges[0])}" class="zenoEndLeaderboardBadge"/>`);
+                players[i].insertAdjacentHTML("beforebegin", `<img src="https://zenokrunkerapi.web.app/badges/${badges[0]}.png" class="zenoEndLeaderboardBadge"/>`);
             }
             i++;
         } catch (err) { break; }
