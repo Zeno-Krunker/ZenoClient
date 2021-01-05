@@ -16,8 +16,6 @@ const { getID, getPluginDIR, getResourceSwapper, scopeTemp } = require('./consts
 const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
-require("./featureModules/zenoSettings");
-require("./featureModules/scoutMode");
 const { ZenoEmitter, ZenoEvents } = require("./events");
 
 // *** Do Some Stuff **
@@ -49,8 +47,6 @@ function tryModule(moduleName) {
         console.log(err)
     }
 }
-
-// tryModule("inGameBadges");
 tryModule("sky");
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -119,9 +115,8 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
     </div>`);
 
-    getID("mainLogo").src =
-        store.get("imgTag") ||
-        zenoIcon;
+    getID("mainLogo").src = store.get("imgTag") || zenoIcon;
+
     getID("mapInfoHolder").children[3].insertAdjacentHTML(
         "beforeend",
         '<div class="verticalSeparatorInline"</div>',
@@ -136,8 +131,10 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     );
 
     randomClassInit();
-
     initExit();
+    require('./featureModules/pluginLoader');
+    require("./featureModules/zenoSettings");
+    require("./featureModules/scoutMode");
 
     setInterval(() => {
         if (!store.get("StreamOverlay")) return;
@@ -149,44 +146,6 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
             document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div id="buttonA" class="button buttonP lgn" style="margin-left: 7px;padding-top: 3px;padding-bottom: 15px;" onclick="window.openAltManager(true)">Alt Manager</div>');
         }
     }
-
-    const pluginDIR = getPluginDIR(remote);
-
-    if (!fs.existsSync(pluginDIR)) {
-        fs.mkdir(pluginDIR, (error) => {
-            if (error) console.log(error);
-        });
-    }
-
-    function getDirectories(path) {
-        return fs
-            .readdirSync(path)
-            .filter(function (file) {
-                return fs.statSync(path + "/" + file, (error, stat) => {
-                    return stat.isDirectory();
-                });
-            })
-            .map((name) => pluginDIR + "/" + name);
-    }
-
-    var directories = getDirectories(pluginDIR);
-    directories.forEach((plug) => {
-        fs.readFile(plug + "/package.json", "utf-8", (error, data) => {
-            if (error) console.log(error);
-            var plugConfig = JSON.parse(data);
-            require(`${plug}/${plugConfig.main}`).onload({
-                gameURL: () => {
-                    return window.location.href;
-                },
-                restart: () => {
-                    ipcRenderer.send("restart-client");
-                },
-                close: () => {
-                    ipcRenderer.send("close-client");
-                },
-            });
-        });
-    });
 });
 
 ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {

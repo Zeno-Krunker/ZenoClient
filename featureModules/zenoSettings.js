@@ -5,6 +5,8 @@ const { ipcRenderer } = require("electron");
 const Store = require("electron-store");
 const store = new Store();
 
+require("./pluginBrowser");
+
 //#region Settings Classes
 class Header {
     constructor(label) {
@@ -19,11 +21,7 @@ class Header {
 
 class TextSetting {
     constructor({label, inputLabel, inputId, buttonLabel, buttonId}, onClick, requireRestart) {
-        if(typeof onClick == "function"){
-            this.onClick = onClick;
-        } else {
-            throw "onClick is not a valid function!";
-        }
+        this.onClick = onClick;
         this.label = label.toString();
         this.inputLabel = inputLabel.toString();
         this.inputId = inputId.toString();
@@ -48,11 +46,7 @@ class TextSetting {
 
 class ToggleSetting {
     constructor({label, buttonId, storeKey}, onToggle, requireRestart) {
-        if(typeof onToggle == "function"){
-            this.onToggle = onToggle;
-        } else {
-            throw "onToggle is not a valid function!";
-        }
+        this.onToggle = onToggle;
         this.label = label.toString();
         this.buttonId = buttonId.toString();
         this.storeKey = storeKey.toString();
@@ -91,11 +85,7 @@ class ColorSetting extends ToggleSetting {
 
 class ButtonSetting {
     constructor({ label, buttonLabel, buttonId }, onClick, requireRestart) {
-        if(typeof onClick == "function"){
-            this.onClick = onClick;
-        } else {
-            throw "onClick is not a valid function!";
-        }
+        this.onClick = onClick;
         this.label = label;
         this.buttonLabel = buttonLabel;
         this.buttonId = buttonId;
@@ -231,6 +221,14 @@ SettingsMap.set("FloatButtonToggle", new ToggleSetting({
         document.getElementById("float-button-disable").innerHTML = "";
     }
 }))
+//#endregion
+
+//#region Plugin Browser
+SettingsMap.set("PluginBrowserButton", new ButtonSetting({
+    label: "Plugin Browser",
+    buttonLabel: "Open",
+    buttonId: "PluginBrowser_btn"
+}, window.openPluginBrowser));
 //#endregion
 
 //#region Clear Cache 

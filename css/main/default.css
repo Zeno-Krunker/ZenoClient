@@ -313,12 +313,8 @@ input:checked+.sliderSml {
 }
 
 .tabANew {
-    border-bottom: unset;
+    border-bottom: solid 4px;
     color: var(--main-blue)
-}
-
-.tabANew:hover {
-    border-bottom: unset
 }
 
 .menuTabsNew {
