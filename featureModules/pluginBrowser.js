@@ -42,7 +42,7 @@ function genPluginsHTML(pluginData, installed) {
     let html = "";
     for(plugin of pluginData){
         if(!installed) {html += downloadPluginItem(plugin)}
-        else {html += installedPluginItem(plugin.id)}
+        else {html += installedPluginItem(plugin)}
     }
     if(html == ""){
         html = `<center style="padding-top: 20px; padding-top: 20px"> Nothin' here! <br/> <img src="https://cdn.discordapp.com/attachments/792583760666165249/796041735134117938/peepoclown.png" style="width:200px;height:180px;margin-top:20px;"></img> </center>`
@@ -77,32 +77,31 @@ function downloadPluginItem(plugin) {
     </div>`
 }
 
-function installedPluginItem(id) {
-    let dis = disabled.includes(id);
-    let plugin = pluginData.find(plug => plug.id == id);
-    if(!plugin) return "";
+function installedPluginItem(plugin) {
+    let dis = disabled.includes(Number(plugin.id));
+    let plugx = pluginData.find(plug => plug.id == plugin.id);
 
     return `
     <div class="mapListItem">
         <div class="mapActionOvrl">
             <div class="mapActionHol">
-                <div class="mapActionB" title="${dis ? "Enable" : "Disable"}" onclick="window.togglePlugin(this, ${id})">
+                <div class="mapActionB" title="${dis ? "Enable" : "Disable"}" onclick="window.togglePlugin(this, ${plugin.id})">
                     <span class="material-icons" style="font-size:50px;color:#fff;">${dis ? "play_arrow" : "stop"}</span>
                 </div>
                 <div class="mapActionSep"></div>
                 <div class="mapActionB sel" onclick="">
-                    <span class="material-icons" title="Uninstall" style="font-size:50px;color:#fff;" onclick="window.uninstallPlugin(${id})">delete</span>
+                    <span class="material-icons" title="Uninstall" style="font-size:50px;color:#fff;" onclick="window.uninstallPlugin(${plugin.id})">delete</span>
                 </div>
             </div>
         </div>
         <div style="height:100px;width:220px;overflow: hidden;">
-            <img class="mapListThumb" loading="lazy" src="${plugin.thumb}">
+            <img class="mapListThumb" loading="lazy" src="${plugx ? plugx.thumb : plugin.thumb}">
         </div>
         <div style="margin-top:1px">
-            <a href="javascript:;" onclick="">${plugin.name}</a>
+            <a href="javascript:;" onclick="" style="">${plugx ? plugx.name : plugin.name}</a>
         </div>
         <div style="display:flex">
-            <span class="mapByTxt"> by <a target="_blank" class="grey" href="/social.html?p=profile&amp;q=${plugin.maker}">${plugin.maker}</a></span>
+            <span class="mapByTxt"> by <a target="_blank" class="grey" href="/social.html?p=profile&amp;q=${plugx ? plugx.maker : plugin.author}">${plugx ? plugx.maker : plugin.author}</a></span>
         </div>
     </div>`
 }

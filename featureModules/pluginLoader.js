@@ -60,7 +60,8 @@ function getDirectories(path) {
 function checkPluginData(pluginData) {
     let missing = [];
     if(pluginData.id === undefined) missing.push ("id");
-    if(!pluginData.name) missing.push ("name");
+    if(!pluginData.name) missing.push("name");
+    if(pluginData.name && pluginData.name.length > 16) missing.push("name too long");
     if(!pluginData.author) missing.push("author");
     if(!pluginData.main) missing.push("main");    
     return missing;
