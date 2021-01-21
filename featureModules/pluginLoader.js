@@ -28,7 +28,7 @@ directories.forEach((plug) => {
 
         ZenoPlugins.push(plugConfig);
 
-        if(disabled.includes(plugConfig.id)) return;
+        if(disabled.includes(Number(plugConfig.id))) return;
 
         require(`${plug}/${plugConfig.main}`).onload({
             gameURL: () => {
