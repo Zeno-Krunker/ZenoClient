@@ -14,7 +14,8 @@ if (!fs.existsSync(pluginDIR)) {
 
 var directories = getDirectories(pluginDIR);
 let ZenoPlugins = [];
-directories.forEach((plug) => {
+directories.forEach(plug => {
+    if(plug.includes(".")) return;
     fs.readFile(plug + "/package.json", "utf-8", (error, data) => {
         if (error) console.log(error);
         var plugConfig = JSON.parse(data);
@@ -26,11 +27,12 @@ directories.forEach((plug) => {
             return;
         }
 
+        let Plugin = require(`${plug}/${plugConfig.main}`);
+        plugConfig.settings = Plugin.settings;
         ZenoPlugins.push(plugConfig);
 
-        if(disabled.includes(Number(plugConfig.id))) return;
-
-        require(`${plug}/${plugConfig.main}`).onload({
+        console.log(`${plugConfig.name}- Disabled:` + disabled.includes(Number(plugConfig.id)));
+        if(!disabled.includes(Number(plugConfig.id))) Plugin.init({
             gameURL: () => {
                 return window.location.href;
             },
@@ -40,6 +42,7 @@ directories.forEach((plug) => {
             close: () => {
                 ipcRenderer.send("close-client");
             },
+            store
         });
     });
 });

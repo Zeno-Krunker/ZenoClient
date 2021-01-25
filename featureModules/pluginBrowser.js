@@ -53,7 +53,7 @@ function genPluginsHTML(pluginData, installed) {
 function downloadPluginItem(plugin) {
     if(installed.some(plug => plug.id == plugin.id)) return ``;
     return `
-    <div class="mapListItem">
+    <div class="mapListItem" style="margin: 0px !important">
         <div class="mapActionOvrl">
             <div class="mapActionHol">
                 <div class="mapActionB" title="Install" onclick="window.installPlugin(${plugin.id})">
@@ -82,11 +82,15 @@ function installedPluginItem(plugin) {
     let plugx = pluginData.find(plug => plug.id == plugin.id);
 
     return `
-    <div class="mapListItem">
+    <div class="mapListItem" style="margin: 0px !important">
         <div class="mapActionOvrl">
             <div class="mapActionHol">
                 <div class="mapActionB" title="${dis ? "Enable" : "Disable"}" onclick="window.togglePlugin(this, ${plugin.id})">
                     <span class="material-icons" style="font-size:50px;color:#fff;">${dis ? "play_arrow" : "stop"}</span>
+                </div>
+                <div class="mapActionSep"></div>
+                <div class="mapActionB sel" onclick="">
+                    <span class="material-icons" title="Settings" style="font-size:50px;color:#fff;" onclick="window.pluginSettings(${plugin.id})">settings</span>
                 </div>
                 <div class="mapActionSep"></div>
                 <div class="mapActionB sel" onclick="">
@@ -176,4 +180,10 @@ window.uninstallPlugin = (id) => {
         console.log(err);
     }
 
+}
+
+window.pluginSettings = (id) => {
+    let Settings = installed.find(p => p.id == id).settings;
+    if(!Settings) return getID("menuWindow").innerHTML = "<center style='padding-top: 20px; padding-bottom: 20px'> No settings found for this plugin! </center>"
+    window.loadSettings(Settings);
 }

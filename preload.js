@@ -12,7 +12,7 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./rsData.json");
-const { getID, getPluginDIR, getResourceSwapper, scopeTemp } = require('./consts.js');
+const { getID, getResourceSwapper, scopeTemp } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
@@ -265,7 +265,7 @@ window.rs = importCss = () => {
 //#region ** Ask Restart **
 window.askRestart = () => {
     var tempHTML = `<div class="setHed">Restart Needed</div>
-    <div class="settName" id="importSettings_div" style="display:block">The Changes you Made Need Restart to Take Effect. Do you want to Restart ?</div>
+    <div class="settName" id="importSettings_div" style="display:block">The changes you made need the client to restart to take effect. Do you want to restart ?</div>
     <a class="+" id="notNowMoment">Not Now</a>
     <a class="+" id="okBoomerMoment" style="color:red;padding-left:10px;">Restart</a>`;
     getID("menuWindow").innerHTML = tempHTML;

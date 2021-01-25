@@ -7,377 +7,249 @@ const store = new Store();
 
 require("./pluginBrowser");
 
-//#region Settings Classes
-class Header {
-    constructor(label) {
-        this.label = label.toString();
-    }
+const Types = {
+    HEADER: "HEADER",
+    BUTTON: "BUTTON",
+    TEXT: "TEXT",
+    COLOR: "COLOR",
+    TOGGLE: "TOGGLE",
+    RANGE: "RANGE"
+}
 
-    get html() {
-        let HTMLString = `<div class="setHed"><span class="material-icons plusOrMinus">keyboard_arrow_down</span> ${this.label}</div>`;
-        return HTMLString;
+let HTMLGen = {
+    HEADER: (s, store) => `<div class="setHed" id="setHed_Zeno_${s.id}" onclick="window.windows[0].collapseFolder(this)"><span class="material-icons plusOrMinus">keyboard_arrow_down</span> ${s.label}</div>`,
+    BUTTON: (s, store) => `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a></div>`,
+    TEXT: (s, store) => `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a><input type="text" placeholder="${s.inputLabel}" name="url" class="inputGrey2" id="${s.inputId}"></div>`,
+    COLOR: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<input type="color" name="color" id="${s.buttonId}" style="float:right" value="${store.get(s.storeKey)}"></div>`,
+    TOGGLE: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${s.buttonId}" ${(store.get(s.storeKey) == true) ? "checked" : ""}><span class="slider"></span></label></div>`,
+    RANGE: (s, store) => `<div class="settName" title="">${s.label}${s.requireRestart ? "*" : ""}<input type="number" class="sliderVal" id="slid_input_${s.id}" min="${s.min}" max="${s.max}" value="${store.get(s.storeKey) || s.value}" style="margin-right:0px;border-width:0px"><div class="slidecontainer" style=""><input type="range" id="slid_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${store.get(s.storeKey) || s.value}" class="sliderM"></div></div>`
+}
+
+let FuncReg = {
+    BUTTON: (s, store) => { getID(s.buttonId).addEventListener('click', () => s.cb(store)) },
+    TEXT: (s, store) => { getID(s.buttonId).addEventListener('click', () => s.cb(getID(s.inputId).value, store)) },
+    COLOR: (s, store) => { getID(s.buttonId).addEventListener('input', () => s.cb(getID(s.buttonId).value, store))},
+    TOGGLE: (s, store) => { getID(s.buttonId).addEventListener('click', e => s.cb(e.target.checked, store)) },
+    RANGE: (s, store) => {
+        getID("slid_" + s.id).addEventListener('input', e => {
+            s.cb(e.target.value, store);
+            getID("slid_input_" + s.id).value = e.target.value;
+        });
+        getID("slid_input_" + s.id).addEventListener('input', e => {
+            s.cb(e.target.value, store);
+            getID("slid_" + s.id).value = e.target.value;
+        });
     }
 }
 
-class TextSetting {
-    constructor({label, inputLabel, inputId, buttonLabel, buttonId}, onClick, requireRestart) {
-        this.onClick = onClick;
-        this.label = label.toString();
-        this.inputLabel = inputLabel.toString();
-        this.inputId = inputId.toString();
-        this.buttonLabel = buttonLabel.toString();
-        this.buttonId = buttonId.toString();
-        this.require = Boolean(requireRestart);
+// Array for looping over all settings
+let Settings = [
+    { //Gameplay
+        label: "Gameplay",
+        id: "gameplay",
+        items: [
+            { // Scout Mode
+                type: Types.TOGGLE,
+                label: "Scout Mode",
+                buttonId: "ScoutModeToggle_btn",
+                storeKey: "ScoutMode",
+                cb: (checked) => { 
+                    store.set("ScoutMode", checked);
+                
+                    let instructions = getID("instructions");
+                
+                    let specBtn = getClass("switchsml", 1).children[0];
+                    window.toggleSpect(checked);
+                    specBtn.checked = checked;
+                    instructions.innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
+                
+                    new MutationObserver(() => {
+                        let instruction = specBtn.checked ? "Click To Scout Lobby" : "Click To Play";
+                        if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
+                        instructions.innerHTML = instruction;
+                    }).observe(instructions, { childList: true });
+                
+                    return;
+                }
+            }, { // Sky Color Toggle
+                type: Types.TOGGLE,
+                label: "Sky Color Toggle",
+                buttonId: "SkyColorToggle_btn",
+                storeKey: "SkyColorToggle",
+                cb: (checked) => store.set("SkyColorToggle", checked),
+                requireRestart: true
+            }, { // Sky Color Picker
+                type: Types.COLOR,
+                label: "Sky Color Picker",
+                buttonId: "SkyColor_btn",
+                storeKey: "SkyColor",
+                cb: (value) => {
+                    setTimeout(() => {
+                        store.set("SkyColor", value);
+                    }, 0);
+                },
+                requireRestart: true
+            }
+        ]
+    }, { // Preferences
+        label: "Preferences",
+        id: "preferences",
+        items: [
+            { // Custom Logo
+                type: Types.TEXT,
+                label: "Custom Logo",
+                inputLabel: "Logo URL",
+                inputId: "logosp",
+                buttonLabel: "Change",
+                buttonId: "ChangeLogo_btn",
+                cb: (imgurl) => {
+                    if (!imgurl) {
+                        store.set("imgTag", "");
+                        getID("mainLogo").src = "https://cdn.discordapp.com/attachments/792583760666165249/792585775228387358/Zeno-Logo.png";
+                    } else {
+                        store.set("imgTag", imgurl);
+                        getID("mainLogo").src = imgurl;
+                    }
+                }
+            }, { // Disable Stream Overlay
+                type: Types.TOGGLE,
+                label: "Disable Stream Overlay",
+                buttonId: "StreamOverlayToggle_btn",
+                storeKey: "StreamOverlay",
+                cb: (checked) => store.set("StreamOverlay", checked)
+            }
+        ]
+    }, { // Discord
+        label: "Discord",
+        id: "discord",
+        items: [
+            { // Discord Presence
+                type: Types.TOGGLE,
+                label: "Enable Discord Presence",
+                buttonId: "DiscordPresenceToggle_btn",
+                storeKey: "DiscordPresence",
+                cb: (checked) => store.set("DiscordPresence", checked),
+                requireRestart: true
+            }, {
+                type: Types.TOGGLE,
+                label: "Enable Ask to Join",
+                buttonId: "AskToJoinToggle_btn",
+                storeKey: "AskToJoin",
+                cb: (checked) => store.set("AskToJoin", checked)
+            }
+        ]
+    }, { // Client
+        label: "Client",
+        id: "client",
+        items: [
+            { // Plugin Browser
+                type: Types.BUTTON,
+                label: "Plugin Browser",
+                buttonLabel: "Open",
+                buttonId: "PluginBrowser_btn",
+                cb: window.openPluginBrowser
+            }, { // Clear Cache
+                type: Types.BUTTON,
+                label: "Clear Cache",
+                buttonLabel: "Clear",
+                buttonId: "ClearCacheButton_btn",
+                cb: () => ipcRenderer.send("ClearCache"),
+                requireRestart: true
+            }, { // VSync Toggle
+                type: Types.TOGGLE,
+                label: "Enable VSync",
+                buttonId: "VSyncToggle_btn",
+                storeKey: "VSync",
+                cb: (checked) => store.set("VSync", checked),
+                requireRestart: true
+            }, { // Disable Zeno CSS
+                type: Types.TOGGLE,
+                label: "Disable Zeno CSS",
+                buttonId: "ZenoCSSToggle_btn",
+                storeKey: "ZenoCSS",
+                cb: (checked) => {
+                    store.set("ZenoCSS", checked);
+                    try {        
+                        if(checked) {
+                            getID("custom-css").innerHTML = "";
+                        } else {
+                            getID("custom-css").innerHTML = window.customCSS;
+                        }
+                    } catch (error) {console.log(error)}
+                }
+            }, { // Float Button Toggle
+                type: Types.TOGGLE,
+                label: "Show Cookie Button",
+                buttonId: "FloatButtonToggle_btn",
+                storeKey: "FloatButton",
+                cb: (checked) => {
+                    if(!checked) {
+                        document.getElementById("float-button-disable").innerHTML = `#ot-sdk-btn-floating.ot-floating-button {display: none !important;}`;
+                    } else {
+                        document.getElementById("float-button-disable").innerHTML = "";
+                    }
+                }
+            }, { // Random Class Button
+                type: Types.TOGGLE,
+                label: "Random Class Button",
+                buttonId: "RandomClassToggle_btn",
+                storeKey: "RandomClass",
+                cb: (checked) => store.set("RandomClass", checked),
+                requireRestart: true
+            }, { // Zeno Badges
+                type: Types.TOGGLE,
+                label: "Zeno Badges",
+                buttonId: "BadgesToggle_btn",
+                storeKey: "Badges",
+                cb: (checked) => store.set("Badges", checked),
+                requireRestart: true
+            }, { // Chat Mute
+                type: Types.TOGGLE,
+                label: "Chat Mute Feature",
+                buttonId: "ChatMuteToggle_btn",
+                storeKey: "ChatMute",
+                cb: (checked) => store.set("ChatMute", checked),
+                requireRestart: true
+            }, { // Twitch Chat
+                type: Types.TEXT,
+                label: "Link Twitch Chat",
+                inputLabel: "Twitch Channel Name",
+                inputId: "twitchChannelName",
+                buttonLabel: "Link",
+                buttonId: "LinkTwitch_btn",
+                cb: (value) => initTwitch(value)
+            }
+        ]
     }
-
-    get html() {
-        let HTMLString = `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${this.label}${this.requireRestart ? "*" : ""}</span><a class="+" id="${this.buttonId}">${this.buttonLabel}</a><input type="text" placeholder="${this.inputLabel}" name="url" class="inputGrey2" id="${this.inputId}"></div>`;
-        return HTMLString;
-    }
-
-    get button() {
-        return getID(this.buttonId);
-    }
-
-    registerFunction() {
-        this.button.addEventListener("click", this.onClick);
-    }
-}
-
-class ToggleSetting {
-    constructor({label, buttonId, storeKey}, onToggle, requireRestart) {
-        this.onToggle = onToggle;
-        this.label = label.toString();
-        this.buttonId = buttonId.toString();
-        this.storeKey = storeKey.toString();
-        this.requireRestart = Boolean(requireRestart);
-    }
-
-    get html() {
-        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${this.buttonId}" ${(store.get(this.storeKey) == true) ? "checked" : ""}><span class="slider"></span></label></div>`;
-        return HTMLString;
-    }
-
-    get button() {
-        return getID(this.buttonId);
-    }
-
-    registerFunction() {
-        this.button.addEventListener("click", () => { this.onToggle(this.button.checked) });
-    }
-}
-
-class ColorSetting extends ToggleSetting {
-    constructor () {
-        let ret = super(...arguments);
-        return ret;
-    }
-
-    get html () {
-        let HTMLString = `<div class="settName">${this.label}${this.requireRestart ? "*" : ""}<input type="color" name="color" id="${this.buttonId}" style="float:right" value="${store.get(this.storeKey)}"></div>`;
-        return HTMLString;
-    }
-
-    registerFunction() {
-        this.button.addEventListener("input", () => { this.onToggle() });
-    }
-}
-
-class ButtonSetting {
-    constructor({ label, buttonLabel, buttonId }, onClick, requireRestart) {
-        this.onClick = onClick;
-        this.label = label;
-        this.buttonLabel = buttonLabel;
-        this.buttonId = buttonId;
-        this.requireRestart = Boolean(requireRestart);
-    }
-
-    get html() {
-        let HTMLString = `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${this.label}${this.requireRestart ? "*" : ""}</span><a class="+" id="${this.buttonId}">${this.buttonLabel}</a></div>`;
-        return HTMLString;
-    }
-
-    get button() {
-        return getID(this.buttonId);
-    }
-
-    registerFunction() {
-        this.button.addEventListener("click", this.onClick);
-    }
-}
-//#endregion
-
-// Map for looping over all settings
-let SettingsMap = new Map();
-window.zenoSettingsMap = SettingsMap;
-
-//#region ----GAMEPLAY----
-SettingsMap.set("GameplayHeader", new Header("Gameplay"));
-
-//#region Scout Mode Toggle
-SettingsMap.set("ScoutModeToggle", new ToggleSetting({
-    label: "Scout Mode",
-    buttonId: "ScoutModeToggle_btn",
-    storeKey: "ScoutMode",
-}, (checked) => { 
-    store.set("ScoutMode", checked);
-
-    let instructions = getID("instructions");
-
-    let specBtn = getClass("switchsml", 1).children[0];
-    window.toggleSpect(checked);
-    specBtn.checked = checked;
-    instructions.innerHTML = checked ? "Click To Scout Lobby" : "Click To Play";
-
-    new MutationObserver(() => {
-        let instruction = specBtn.checked ? "Click To Scout Lobby" : "Click To Play";
-        if(instructions.textContent.toLowerCase() == instruction.toLowerCase()) return;
-        instructions.innerHTML = instruction;
-    }).observe(instructions, { childList: true });
-
-    return;
-}));
-//#endregion
-//#endregion
-
-//#region ----MISCELLANEOUS----
-SettingsMap.set("MiscellaneousHeader", new Header("Miscellaneous"));
-
-//#region Zeno CSS Toggle
-SettingsMap.set("ZenoCSSToggle", new ToggleSetting({
-    label: "Disable Zeno CSS",
-    buttonId: "ZenoCSSToggle_btn",
-    storeKey: "ZenoCSS",
-}, (checked) => {
-    store.set("ZenoCSS", checked);
-    try {        
-        if(checked) {
-            getID("custom-css").innerHTML = "";
-        } else {
-            getID("custom-css").innerHTML = window.customCSS;
-        }
-    } catch (error) {console.log(error)}
-}));
-
-//#endregion
-
-//#region Import CSS
-SettingsMap.set("ImportCSS", new TextSetting({
-    label: "Import CSS",
-    inputLabel: "Paste your CSS here",
-    inputId: "settingString",
-    buttonLabel: "Import",
-    buttonId: "ImportCSS_btn",
-}, () => {
-    var string = settingString.value;
-    if (string) {
-        var path = `${getResourceSwapper(remote)}css/`;
-        fs.existsSync(path) ? console.log('Nothing') : fs.mkdirSync(path)
-        fs.writeFileSync(path + 'main_custom.css', string.replace(/\s{2,10}/g, " ").trim());
-        askRestart();
-    }
-}));
-//#endregion
-
-//#region Change Logo
-SettingsMap.set("ChangeLogo", new TextSetting({
-    label: "Custom Logo",
-    inputLabel: "Logo URL",
-    inputId: "logosp",
-    buttonLabel: "Change",
-    buttonId: "ChangeLogo_btn"
-}, () => {
-    if (!getID("logosp").value) {
-        store.set("imgTag", "");
-        getID("mainLogo").src = zenoIcon;
-    } else {
-        store.set("imgTag", getID("logosp").value);
-        getID("mainLogo").src = getID("logosp").value;
-    }
-}));
-//#endregion
-
-//#region Link Twitch
-SettingsMap.set("LinkTwitch", new TextSetting({
-    label: "Link Twitch Chat",
-    inputLabel: "Twitch Channel Name",
-    inputId: "twitchChannelName",
-    buttonLabel: "Link",
-    buttonId: "LinkTwitch_btn"
-}, () => {
-    initTwitch(getID('twitchChannelName').value);
-}));
-//#endregion
-
-//#region Float Button
-SettingsMap.set("FloatButtonToggle", new ToggleSetting({
-    label: "Show Float Button",
-    buttonId: "FloatButtonToggle_btn",
-    storeKey: "FloatButton"
-}, (checked) => {
-    if(!checked) {
-        document.getElementById("float-button-disable").innerHTML = `#ot-sdk-btn-floating.ot-floating-button {display: none !important;}`;
-    } else {
-        document.getElementById("float-button-disable").innerHTML = "";
-    }
-}))
-//#endregion
-
-//#region Plugin Browser
-SettingsMap.set("PluginBrowserButton", new ButtonSetting({
-    label: "Plugin Browser",
-    buttonLabel: "Open",
-    buttonId: "PluginBrowser_btn"
-}, window.openPluginBrowser));
-//#endregion
-
-//#region Clear Cache 
-SettingsMap.set("ClearCacheButton", new ButtonSetting({
-    label: "Clear Cache",
-    buttonLabel: "Clear",
-    buttonId: "ClearCacheButton_btn"
-}, () => {
-    ipcRenderer.send("ClearCache");
-}, true));
-//#endregion
-//#endregion
-
-//#region ----PERFORMANCE----
-SettingsMap.set("PerformanceHeader", new Header("Performance"));
-
-//#region VSync Toggle
-SettingsMap.set("VSyncToggle", new ToggleSetting({
-    label: "Enable VSync",
-    buttonId: "VSyncToggle_btn",
-    storeKey: "VSync",
-}, (checked) => {
-    store.set("VSync", checked);
-}, true));
-//#endregion
-
-//#region Stream Overlay Toggle
-SettingsMap.set("StreamOverlayToggle", new ToggleSetting({
-    label: "Disable Stream Overlay",
-    buttonId: "StreamOverlayToggle_btn",
-    storeKey: "StreamOverlay",
-}, (checked) => {
-    store.set("StreamOverlay", checked);
-}));
-//#endregion
+];
 
 
-//#endregion
-
-//#region ----DISCORD PRESENCE----
-SettingsMap.set("DiscordPresenceHeader", new Header("Discord Rich Presence"));
-
-//#region Discord Presence Toggle
-SettingsMap.set("DiscordPresenceToggle", new ToggleSetting({
-    label: "Enable Discord Presence",
-    buttonId: "DiscordPresenceToggle_btn",
-    storeKey: "DiscordPresence",
-}, (checked) => {
-    store.set("DiscordPresence", checked);
-    return;
-}, true));
-//#endregion
-
-//#region Ask to Join Toggle
-SettingsMap.set("AskToJoinToggle", new ToggleSetting({
-    label: "Enable Ask to Join",
-    buttonId: "AskToJoinToggle_btn",
-    storeKey: "AskToJoin",
-}, (checked) => {
-    store.set("AskToJoin", checked);
-}));
-//#endregion
-//#endregion
-
-//#region ----TOGGLE CLIENT FEATURES----
-SettingsMap.set("ToggleClientFeaturesHeader", new Header("Toggle Client Features"));
-
-//#region Random Class Button
-SettingsMap.set("RandomClassToggle", new ToggleSetting({
-    label: "Random Class Button",
-    buttonId: "RandomClassToggle_btn",
-    storeKey: "RandomClass"
-}, (checked) => {
-    store.set("RandomClass", checked);
-    return;
-}, true));
-//#endregion
-
-//#region Bagdes Toggle
-SettingsMap.set("BadgesToggle", new ToggleSetting({
-    label: "Zeno Badges",
-    buttonId: "BadgesToggle_btn",
-    storeKey: "Badges"
-}, (checked) => {
-    store.set("Badges", checked);
-    return;
-}, true));
-//#endregion
-
-//#region Chat Mute 
-SettingsMap.set("ChatMuteToggle", new ToggleSetting({
-    label: "Chat Mute Feature",
-    buttonId: "ChatMuteToggle_btn",
-    storeKey: "ChatMute"
-}, (checked) => {
-    store.set("ChatMute", checked);
-}, true))
-//#endregion
-//#endregion
-
-//#region ----EXPERIMENTAL FEATURES----
-SettingsMap.set("ExperimentalHeader", new Header("Experimental"));
-
-// in game badges
-SettingsMap.set("InGameBadges", new ToggleSetting({
-    label: "In Game Badges",
-    buttonId: "InGameBadges_btn",
-    storeKey: "InGameBadges",
-    requireRestart: false
-}, (checked) => {
-    store.set("InGameBadges", checked);
-}, false))
-
-// sky color
-SettingsMap.set("SkyColor", new ColorSetting({
-    label: "Sky Color",
-    buttonId: "SkyColor_btn",
-    storeKey: "SkyColor",
-}, function () {
-    setTimeout(() => {
-        store.set("SkyColor", this.button.value);
-    }, 0);
-}, true))
-
-// sky color toggle
-SettingsMap.set("SkyColorToggle", new ToggleSetting({
-    label: "Sky Color Toggle",
-    buttonId: "SkyColorToggle_btn",
-    storeKey: "SkyColorToggle",
-}, (checked) => {
-    store.set("SkyColorToggle", checked);
-}, true))
-//#endregion
-
-//#region Inserting Settings in the actual page
 window.openZenoWindow = () => {
     openHostWindow();
+    loadSettings(Settings);
+}
 
+/**
+ * Generates and shows UI for the Settings provided
+ * @param {Array} Settings 
+ */
+function loadSettings(Settings){
     let settingsHTML = "";
-    for(let setting of SettingsMap.values()) {
-        settingsHTML += setting.html + "\n";
+
+    for(let group of Settings){
+        settingsHTML += HTMLGen[Types.HEADER](group) + "\n";
+        settingsHTML += `<div id="setBod_Zeno_${group.id}">`;
+        for(let setting of group.items){
+            settingsHTML += HTMLGen[setting.type](setting, store) + "\n";
+        }
+        settingsHTML += `</div>\n`;
     }
 
     getID('menuWindow').innerHTML = settingsHTML;
 
-    for (let setting of SettingsMap.values()){
-        if(!(setting instanceof Header)){
-            setting.registerFunction();
-        }
+    for (let group of Settings){
+        for(let setting of group.items) FuncReg[setting.type](setting, store);
     }
 }
-//#endregion
+
+window.loadSettings = loadSettings;
