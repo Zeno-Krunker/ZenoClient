@@ -67,5 +67,6 @@ function checkPluginData(pluginData) {
     if(pluginData.name && pluginData.name.length > 16) missing.push("name too long");
     if(!pluginData.author) missing.push("author");
     if(!pluginData.main) missing.push("main");    
+    if(pluginData.pVersion === undefined) missing.push("pVersion");
     return missing;
 }

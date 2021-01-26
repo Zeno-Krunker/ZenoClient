@@ -132,7 +132,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
 
     randomClassInit();
     initExit();
-    require('./featureModules/pluginLoader');
+    require('./featureModules/plugins/loader');
     require("./featureModules/zenoSettings");
     require("./featureModules/scoutMode");
 

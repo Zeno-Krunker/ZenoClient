@@ -5,7 +5,7 @@ const { ipcRenderer } = require("electron");
 const Store = require("electron-store");
 const store = new Store();
 
-require("./plugins/pluginBrowserser");
+require("./plugins/browser");
 
 const Types = {
     HEADER: "HEADER",

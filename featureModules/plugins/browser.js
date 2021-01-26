@@ -5,7 +5,7 @@ const Store = require('electron-store');
 const store = new Store();
 const Unzipper = require("unzipper");
 
-const { getID } = require('../consts');
+const { getID } = require('../../consts');
 
 let pluginData;
 let installed = window.ZenoPlugins;

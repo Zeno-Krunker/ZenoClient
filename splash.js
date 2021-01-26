@@ -1,6 +1,7 @@
 const { ipcRenderer: ipcRenderer, remote } = require("electron");
 const https = require('https');
 const fs = require('fs');
+const pluginUpdater = require("./featureModules/plugins/updater");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
@@ -66,9 +67,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         } else {
             console.log("No Update Found");
             status.innerHTML = 'No Update Found';
-            setTimeout(ipcRenderer.send('noUpdate'), 5000);
+            pluginUpdater(status).then(() => {setTimeout(() => ipcRenderer.send('noUpdate'), 5000)});            
         }
-    }, 5000);
+    }, 2000);
 });
 
 

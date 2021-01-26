@@ -152,7 +152,6 @@ function initMainWindow() {
             allowRunningInsecureContent: true,
         },
     });
-    console.log('Window Created');
     if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
