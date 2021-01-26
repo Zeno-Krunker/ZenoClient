@@ -276,7 +276,7 @@ function initMainWindow() {
     win.webContents.on("did-finish-load", () => {
         win.setTitle("Krunker - Zeno Client");
     });
-    initSwapper();
+    if(store.get("RS")) initSwapper();
 }
 
 function initSwapper() {

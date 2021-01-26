@@ -5,7 +5,7 @@ const { ipcRenderer } = require("electron");
 const Store = require("electron-store");
 const store = new Store();
 
-require("./pluginBrowser");
+require("./plugins/pluginBrowserser");
 
 const Types = {
     HEADER: "HEADER",
@@ -161,6 +161,13 @@ let Settings = [
                 buttonId: "VSyncToggle_btn",
                 storeKey: "VSync",
                 cb: (checked) => store.set("VSync", checked),
+                requireRestart: true
+            }, { // Resource Swapper Toggle 
+                type: Types.TOGGLE,
+                label: "Resource Swapper",
+                buttonId: "ResourceSwapperToggle_btn",
+                storeKey: "RS",
+                cb: (checked) => store.set("RS", checked),
                 requireRestart: true
             }, { // Disable Zeno CSS
                 type: Types.TOGGLE,
