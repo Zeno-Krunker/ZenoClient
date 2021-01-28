@@ -236,7 +236,8 @@ let Settings = [
 ];
 
 
-window.openZenoWindow = () => {
+window.openZenoWindow = e => {
+    console.log(e);
     openHostWindow();
     loadSettings(Settings);
 }

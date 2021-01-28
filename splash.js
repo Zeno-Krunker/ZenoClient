@@ -12,13 +12,16 @@ let tips = [
     "Use F3 to quickly join a new lobby",
     "Press F7 to open Developer Tools",
     "Press F11 to toggle Fullscreen Mode",
-    "Use F4 to Reload Same Lobby"
+    "Use F4 to Reload Same Lobby",
+    "Double Click the Zeno button to open the plugin browser"
 ]
 
 document.addEventListener('DOMContentLoaded', (event) => {
 
     let tipHolder = document.getElementById('tips');
-    let tip = tips[Math.round(Math.random() * (tips.length - 1))];
+    let rand = Math.random();
+    if(rand == 1) rand = Math.random();
+    let tip = tips[Math.floor(rand * (tips.length))];
     tipHolder.innerHTML = `Tip: ${tip}`;
 
     status = document.getElementById('status');

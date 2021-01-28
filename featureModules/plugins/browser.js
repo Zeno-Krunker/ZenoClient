@@ -11,29 +11,42 @@ let pluginData;
 let installed = window.ZenoPlugins;
 let disabled;
 
+fetch("https://zenokrunkerapi.web.app/plugins.json")
+        .then(resp => resp.json())
+        .then(resp => pluginData = resp)
+        .catch(console.log);
+
 window.openPluginBrowser = async () => {
     await fetch("https://zenokrunkerapi.web.app/plugins.json")
         .then(resp => resp.json())
         .then(resp => pluginData = resp)
         .catch(console.log);
 
+    if(getID("windowHolder").style?.display != "block"){
+        window.openHostWindow();
+    }
+
     let pluginsHTML = genPluginsHTML(pluginData, false);
 
     getID("menuWindow").innerHTML = `
     <div style="margin-bottom:15px;"><div class="menuTabsNew">
-        <div class="menuTabNew tabANew">Download</div>
         <div class="menuTabNew" onclick="window.openInstalledPlugins()">Installed</div>
+        <div class="menuTabNew tabANew">Download</div>
     </div></div>
     <div id="modList">${pluginsHTML}</div>`;
 }
 
 window.openInstalledPlugins = () => {
+    if(getID("windowHolder").style?.display != "block"){
+        window.openHostWindow();
+    }
+
     disabled = store.get("DisabledPlugins");
     let pluginsHTML = genPluginsHTML(installed, true);
     getID("menuWindow").innerHTML = `
     <div style="margin-bottom:15px;"><div class="menuTabsNew">
-        <div class="menuTabNew" onclick="window.openPluginBrowser()">Download</div>
         <div class="menuTabNew tabANew">Installed</div>
+        <div class="menuTabNew" onclick="window.openPluginBrowser()">Download</div>
     </div></div>
     <div id="modList">${pluginsHTML}</div>`;
 }

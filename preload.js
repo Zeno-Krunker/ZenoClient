@@ -107,10 +107,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 // Things to do when the game loads
 ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
-    var zenoIcon = "https://cdn.discordapp.com/attachments/792583760666165249/792585775228387358/Zeno-Logo.png"
+    var zenoIcon = "https://cdn.discordapp.com/attachments/792583760666165249/792585775228387358/Zeno-Logo.png";
+
+    randomClassInit();
+    initExit();
+    require('./featureModules/plugins/loader');
+    require("./featureModules/scoutMode");
+    require("./featureModules/zenoSettings");
 
     getID('menuItemContainer').insertAdjacentHTML('beforeend', `
-    <div class="menuItem" onmouseenter="playTick()" onclick="window.openZenoWindow()">
+    <div class="menuItem" id="zenoMenuBtn" onmouseenter="playTick()" onclick="window.openZenoWindow()" ondblclick="window.openInstalledPlugins()">
     <div class="menuItemIcon iconZeno"></div>
     <div class="menuItemTitle" id="menuBtnSocial">Zeno</div>
     </div>`);
@@ -129,12 +135,6 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         "beforeend",
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
     );
-
-    randomClassInit();
-    initExit();
-    require('./featureModules/plugins/loader');
-    require("./featureModules/zenoSettings");
-    require("./featureModules/scoutMode");
 
     setInterval(() => {
         if (!store.get("StreamOverlay")) return;
