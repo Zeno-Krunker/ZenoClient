@@ -19,7 +19,11 @@ const Types = {
 let HTMLGen = {
     HEADER: (s, store) => `<div class="setHed" id="setHed_Zeno_${s.id}" onclick="window.windows[0].collapseFolder(this)"><span class="material-icons plusOrMinus">keyboard_arrow_down</span> ${s.label}</div>`,
     BUTTON: (s, store) => `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a></div>`,
-    TEXT: (s, store) => `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a><input type="text" placeholder="${s.inputLabel}" name="url" class="inputGrey2" id="${s.inputId}"></div>`,
+    TEXT: (s, store) => {
+        if(!s.storeKey) return `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a><input type="text" placeholder="${s.inputLabel}" name="url" class="inputGrey2" id="${s.inputId}"></div>`;
+        let value = store.get(s.storeKey) ? `value="${store.get(s.storeKey)}"` : ``;
+        return `<div class="settName zenoSetting" id="importSettings_div" style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a><input type="text" placeholder="${s.inputLabel}" ${value} name="url" class="inputGrey2" id="${s.inputId}"></div>`
+    },
     COLOR: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<input type="color" name="color" id="${s.buttonId}" style="float:right" value="${store.get(s.storeKey)}"></div>`,
     TOGGLE: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${s.buttonId}" ${(store.get(s.storeKey) == true) ? "checked" : ""}><span class="slider"></span></label></div>`,
     RANGE: (s, store) => `<div class="settName" title="">${s.label}${s.requireRestart ? "*" : ""}<input type="number" class="sliderVal" id="slid_input_${s.id}" min="${s.min}" max="${s.max}" value="${store.get(s.storeKey) || s.value}" style="margin-right:0px;border-width:0px"><div class="slidecontainer" style=""><input type="range" id="slid_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${store.get(s.storeKey) || s.value}" class="sliderM"></div></div>`
@@ -102,6 +106,7 @@ let Settings = [
                 inputId: "logosp",
                 buttonLabel: "Change",
                 buttonId: "ChangeLogo_btn",
+                storeKey: "imgTag",
                 cb: (imgurl) => {
                     if (!imgurl) {
                         store.set("imgTag", "");
