@@ -82,7 +82,7 @@ function downloadPluginItem(plugin) {
             <img class="mapListThumb" loading="lazy" src="${plugin.thumb}">
         </div>
         <div style="margin-top:1px">
-            <a href="javascript:;" onclick="">${plugin.name}</a>
+            <a href="${plugin.github || "javascript:;"}">${plugin.name}</a>
         </div>
         <div style="display:flex">
             <span class="mapByTxt"> by <a target="_blank" class="grey" href="/social.html?p=profile&amp;q=${plugin.maker}">${plugin.maker}</a></span>
@@ -112,13 +112,13 @@ function installedPluginItem(plugin) {
             </div>
         </div>
         <div style="height:100px;width:220px;overflow: hidden;">
-            <img class="mapListThumb" loading="lazy" src="${plugx ? plugx.thumb : plugin.thumb}">
+            <img class="mapListThumb" loading="lazy" src="${plugx?.thumb || plugin.thumb}">
         </div>
         <div style="margin-top:1px">
-            <a href="javascript:;" onclick="" style="">${plugx ? plugx.name : plugin.name}</a>
+            <a href="${plugx?.github || plugin.github || "javascript:;"}" style="">${plugx?.name || plugin.name}</a>
         </div>
         <div style="display:flex">
-            <span class="mapByTxt"> by <a target="_blank" class="grey" href="/social.html?p=profile&amp;q=${plugx ? plugx.maker : plugin.author}">${plugx ? plugx.maker : plugin.author}</a></span>
+            <span class="mapByTxt"> by <a target="_blank" class="grey" href="/social.html?p=profile&amp;q=${plugx?.maker || plugin.author}">${plugx?.maker || plugin.author}</a></span>
         </div>
     </div>`
 }
