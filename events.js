@@ -10,6 +10,7 @@ const ZenoEvents = {
 }
 
 const ZenoEmitter = new EventEmitter();
+ZenoEmitter.events = ZenoEvents;
 
 //#region Game Load Event
 new MutationObserver(async (mutationRecords, observer) => {
@@ -58,5 +59,6 @@ setInterval(() => {
 }, 1000);
 //#endregion
 
+window.ZenoEmitter = ZenoEmitter;
 exports.ZenoEmitter = ZenoEmitter;
 exports.ZenoEvents = ZenoEvents;
