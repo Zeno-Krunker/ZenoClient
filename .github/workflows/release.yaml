@@ -35,7 +35,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
-          tag_name: linux-v27
+          tag_name: linux-v28
           release_name: Linux
 
       - name: Uploading ASAR
@@ -52,7 +52,7 @@ jobs:
       - name: Compressing Build
         run: |
             cd release-builds
-            zip -r linux-v27.zip Zeno-linux-x64
+            zip -r linux-v28.zip Zeno-linux-x64
       
       - name: Uploading ZIP
         id: upload_zip
@@ -61,8 +61,8 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/linux-v27.zip
-          asset_name: linux-v27.zip
+          asset_path: ./release-builds/linux-v28.zip
+          asset_name: linux-v28.zip
           asset_content_type: application/zip
 
         
@@ -93,7 +93,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
-          tag_name: win32-v27
+          tag_name: win32-v28
           release_name: Windows
 
       - name: Uploading ASAR
@@ -111,7 +111,7 @@ jobs:
         id: compressing-build
         run: |
           cd release-builds
-          Compress-Archive -Path ./Zeno-win32-x64 -DestinationPath ./win32-v27.zip
+          Compress-Archive -Path ./Zeno-win32-x64 -DestinationPath ./win32-v28.zip
       
       # Uploading a Release file
       - name: Uploading ZIP
@@ -121,8 +121,8 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/win32-v27.zip
-          asset_name: win32-v27.zip
+          asset_path: ./release-builds/win32-v28.zip
+          asset_name: win32-v28.zip
           asset_content_type: application/zip
 
   macos-build:
@@ -151,7 +151,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
-          tag_name: macos-v27
+          tag_name: macos-v28
           release_name: MacOS
 
       # Uploading ASAR
@@ -171,7 +171,7 @@ jobs:
         id: compressing-build
         run: |
           cd release-builds
-          zip -r darwin-v27.zip zeno-darwin-x64
+          zip -r darwin-v28.zip zeno-darwin-x64
 
 
       # Uploading a Release file
@@ -182,6 +182,6 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/darwin-v27.zip
-          asset_name: darwin-v27.zip
+          asset_path: ./release-builds/darwin-v28.zip
+          asset_name: darwin-v28.zip
           asset_content_type: application/zip

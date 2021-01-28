@@ -5,7 +5,7 @@ const pluginUpdater = require("./featureModules/plugins/updater");
 
 // ** REMEMBER THIS EVERY UPDATE, JUST INCREASE +1, TO TEST, DECREASE -1 **
 
-const version = 27;
+const version = 28;
 var downloadBtn, cancelBtn, status;
 let tips = [
     "You can press F5 to restart the client",
@@ -13,7 +13,7 @@ let tips = [
     "Press F7 to open Developer Tools",
     "Press F11 to toggle Fullscreen Mode",
     "Use F4 to Reload Same Lobby",
-    "Double Click the Zeno button to open the plugin browser"
+    "Double click the Zeno button to open the plugin browser"
 ]
 
 document.addEventListener('DOMContentLoaded', (event) => {
