@@ -40,8 +40,10 @@ module.exports = async (status) => {
             if(!plugConfigS) return console.log(`Plugin ${plugConfig.name}(${plugConfig.id}) not found on Server.`);
 
             if(plugConfig.pVersion < plugConfigS?.version){
-                status.innerHTML = "Updating " + pluginConfigS.name;
-                await updatePlugin(plugConfigS, plug).catch(e => status.innerHTML = e + plugConfigS.name);
+                status.innerHTML = "Updating " + plugConfigS.name;
+                await updatePlugin(plugConfigS, plug).catch(e => status.innerHTML = e + plugConfigS.name).then(() => {
+                    status.innerHTML = "Updated " + plugConfigS.name;
+                });
             } else {
                 console.log(`No update found for plugin ${plugConfigS.name}(${plugConfigS.id}).`);
             }
@@ -63,15 +65,17 @@ function updatePlugin(pluginConfigS, directory){
                 rej("Error while updating ");
                 return;
             }
-    
-            response.pipe(Unzipper.Extract({ path: dest })
+
+            let wStream = Unzipper.Extract({ path: dest })
                 .on('close', () => {
                     res("Updated ");
                 }).on('error', (err) => {
                     console.log(err);
                     rej("Error while updating ");
-                })
-            );
+                });
+    
+            response.pipe(wStream);
+            setInterval(() => console.log(wStream), 2000);
         }).on('error', function(err) {
             fs.unlink(dest);
             rej("Error while updating ");
