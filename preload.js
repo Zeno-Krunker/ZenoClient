@@ -114,6 +114,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     require('./featureModules/plugins/loader');
     require("./featureModules/scoutMode");
     require("./featureModules/zenoSettings");
+    require("./featureModules/altManager");
 
     getID('menuItemContainer').insertAdjacentHTML('beforeend', `
     <div class="menuItem" id="zenoMenuBtn" onmouseenter="playTick()" onclick="window.openZenoWindow()" ondblclick="window.openInstalledPlugins()">
@@ -141,11 +142,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         getID("streamContainer").innerHTML = "";
     }, 5000);
 
-    if (document.querySelector('div[onclick="showWindow(5)').innerHTML.toLowerCase().includes('login or register')) {
-        if (!document.querySelector('body').innerHTML.includes(`document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div class="button" onclick="window.openAltManager(true)">Alt Manager</div>');`)) {
-            document.querySelector('div[onclick="showWindow(5)').insertAdjacentHTML('afterend', '<div id="buttonA" class="button buttonP lgn" style="margin-left: 7px;padding-top: 3px;padding-bottom: 15px;" onclick="window.openAltManager(true)">Alt Manager</div>');
-        }
-    }
+    
 });
 
 ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
@@ -279,64 +276,6 @@ window.askRestart = () => {
 };
 
 ipcRenderer.on("AskRestart", window.askRestart);
-//#endregion
-
-//#region  *** Alt Manager ***
-
-window.openAltManager = (openNew) => {
-    if (openNew) {
-        showWindow(5);
-    }
-    var account = store.get("account");
-    getID("menuWindow").innerHTML = '<div class="skinList" id="oo"></div>';
-    var i = 0;
-    var a;
-    var accountInt = parseInt(account.length);
-    for (i = 0; i < accountInt; i++) {
-        var a = `<div class="classCard" onclick="window.selectAlt(${i})"><img class="topRightBoi" onclick="window.removeAlt(${i})" src="https://cdn.discordapp.com/attachments/747410238944051271/751495057122656407/Webp.net-resizeimage_1.png"><h3>${account[i].name}<br></h3>`;
-        getID("oo").insertAdjacentHTML("beforeend", a);
-    }
-    var a =
-        '<div class="classCard" onclick="window.addAlt()"><img id="addItem" class="classImgC" src="https://cdn.discordapp.com/attachments/747410238944051271/751466894481162351/1200px-Plus_symbol.png"></div>';
-    getID("oo").insertAdjacentHTML("beforeend", a);
-};
-
-window.selectAlt = (i) => {
-    var account = store.get("account");
-    showWindow(5);
-    showWindow(5);
-    getID("accName").value = account[i].name;
-    getID("accPass").value = account[i].pass;
-    loginAcc();
-};
-
-window.removeAlt = (i) => {
-    var account = store.get("account");
-    account.splice(i, 1);
-    store.set("account", account);
-    openAltManager();
-};
-
-window.addAlt = () => {
-    var tempHTML = `<div class="setHed">Add Alt</div>
-    <div class="settName" id="importSettings_div" style="display:block">Account Name <input type="url" placeholder="Account Name" name="url" class="inputGrey2" id="usernameAlt"></div>
-    <div class="settName" id="importSettings_div" style="display:block">Account Password <input type="password" placeholder="Account Password" name="url" class="inputGrey2" id="passwordAlt"></div>
-    <a class="+" id="addAltB">Add</a>
-    </div>`;
-
-    getID("menuWindow").innerHTML = tempHTML;
-    getID("addAltB").addEventListener("click", () => {
-        var account = store.get("account");
-        var newAlt = {
-            name: getID("usernameAlt").value,
-            pass: getID("passwordAlt").value,
-        };
-        account.push(newAlt);
-        store.set("account", account);
-        window.openAltManager(false);
-    });
-};
-
 //#endregion
 
 window.quickjoin = () => {
