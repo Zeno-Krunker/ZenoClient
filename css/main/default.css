@@ -1132,7 +1132,7 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 }
 
 #popupContent {
-	background-color: var(--ui-bg);
+	background-color: var(--menu-hover-bg-color) !important;
 	/* border-radius: 0px; */
 }
 
