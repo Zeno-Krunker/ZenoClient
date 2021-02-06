@@ -32,7 +32,7 @@ function initDiscord() {
 
         discordClient.setActivity(defaultActivity);
 
-        discordClient.subscribe("ACTIVITY_INVITE", (para) => {
+        discordClient.subscribe("ACTIVITY_JOIN", (para) => {
             window.location.href = `https://krunker.io/?game=${para.activity.party.id}`;
         });
 
