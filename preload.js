@@ -87,17 +87,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             initMute();
         };
 
-        // *** Run the Main Function ***
         var init = () => {
-
-            // Inserting Custom CSS
             insertCSS();
-
-            // Discord Presence
             if (store.get("DiscordPresence", true)) {
-                const {
-                    initDiscord
-                } = require("./featureModules/discordRPC");
+                const { initDiscord } = require("./featureModules/discordRPC");
                 initDiscord();
             }
         };
@@ -141,20 +134,15 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         if (!store.get("StreamOverlay")) return;
         getID("streamContainer").innerHTML = "";
     }, 5000);
-
-    
 });
 
 ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
     // Badges
     if (store.get("Badges")) {
         const { initBadges } = require("./featureModules/badges");
-        try {
-            initBadges();
-        } catch (err) {
-            console.log(err);
-        }
+        try { initBadges() } catch (err) { console.log(err) };
     }
+    swapGameJoin();
 });
 
 //#region *** Custom Import Settings Menu ***
@@ -277,6 +265,37 @@ window.askRestart = () => {
 
 ipcRenderer.on("AskRestart", window.askRestart);
 //#endregion
+
+function swapGameJoin(){
+    function getGameCode(string){
+        let gamecode = string;
+        // If its the whole URL, filter out just the game code
+        try {
+            let url = new URL(string);
+            if(url.hostname != "krunker.io") return false;
+            if(!url.search) return false;
+            gamecode = url.search.slice(6, url.search.length);
+        } catch {}
+        if(/(BLR|BHN|SIN|TOK|AFR|SV|NY|SYD|FRA|BRZ|DAL|MIA|SEO):\w\w\w\w\w/.test(gamecode)) return gamecode;
+        else return false;
+    }
+
+    getID("menuBtnJoin").onclick = undefined;
+    getID("menuBtnJoin").addEventListener("click", () => {
+        if(window.navigator.clipboard){
+            window.navigator.clipboard.readText().then(url => {
+                let gamecode = getGameCode(url);
+                if(gamecode) window.location.href = "https://krunker.io/?game=" + gamecode;
+                else showWindow(0x18);
+            });
+        } else showWindow(0x18);
+    });
+
+    window.joinGame = () => {
+        let gamecode = getGameCode(getID("gameURL").value);
+        if(gamecode) window.location.href = "https://krunker.io/?game=" + gamecode;
+    }
+}
 
 window.quickjoin = () => {
     window.location.href = "https://krunker.io/";

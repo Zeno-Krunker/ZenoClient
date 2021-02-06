@@ -218,7 +218,7 @@ function initMainWindow() {
                 }
             );
 
-            if (s.filter.urls.length) {
+            if (s?.filter.urls.length) {
                 newWin.webContents.session.webRequest.onBeforeRequest(
                     s.filter,
                     (details, callback) => {
