@@ -12,6 +12,8 @@ module.exports = (ZenoEmitter) => {
         });
     }
 
+    if(disabled === undefined) store.set("DisabledPlugins", []);
+
     var directories = getDirectories(pluginDIR);
     let ZenoPlugins = [];
     directories.forEach(plug => {
