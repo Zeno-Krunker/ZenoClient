@@ -4,16 +4,23 @@
 */
 
 // *** Import Modules ***
-const { ipcRenderer: ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
 const { readFile } = require('fs');
 
-ipcRenderer.on('home', () => {
-    window.location.href = 'https://krunker.io/social.html';
-});
+window.home = () => window.location.href = 'https://krunker.io/social.html';
+
+ipcRenderer.on('home', window.home);
+
+window.addEventListener("keydown", e => {
+    switch (e.key) {
+        case "F3": window.home(); break
+        case "F4": window.location.reload(); break;
+        case "F7": ipcRenderer.send("devtools"); break;
+        default: break;
+    }
+})
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    var socialCSS = "";
-
     (function() {
         'use strict';
         // *** Add CSS ***

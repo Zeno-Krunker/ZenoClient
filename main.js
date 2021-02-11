@@ -138,6 +138,8 @@ ipcMain.on("ClearCache", () => {
     });
 });
 
+ipcMain.on("devtools", e => e.sender.webContents.openDevTools());
+
 function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
@@ -155,7 +157,6 @@ function initMainWindow() {
     if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
-
     win.webContents.on(
         "new-window",
         (event, url, frameName, disposition, options) => {
@@ -187,22 +188,8 @@ function initMainWindow() {
 
             if (devTools) newWin.webContents.openDevTools();
 
-            globalShortcut.register("F11", () => {
-                win.setSimpleFullScreen(!win.isSimpleFullScreen());
-            });
-            globalShortcut.register("F3", () => {
-                win.webContents.send("home");
-            });
-            globalShortcut.register("F5", () => {
-                app.relaunch();
-                app.quit();
-            });
-            globalShortcut.register("F7", () => {
-                newWin.webContents.openDevTools();
-            }); 
             if (!options.webContents) {
                 newWin.loadURL(url);
-
                 newWin.webContents.once("dom-ready", function() {
                     setTimeout(() => {
                         newWin.show();
@@ -234,35 +221,15 @@ function initMainWindow() {
         }
     }
 
-    function isSocial(rawUrl) {
-        return new URL(rawUrl).pathname == "/social.html" ? true : false;
-    }
-
     // *** Set the Shortcuts ***
     globalShortcut.register("F11", () => {
         win.setSimpleFullScreen(!win.isSimpleFullScreen());
     });
-    globalShortcut.register("F3", () => {
-        win.webContents.send("home");
-    });
+
     globalShortcut.register("F5", () => {
         app.relaunch();
         app.quit();
     });
-
-    globalShortcut.register("F4", () => {win.webContents.reload()});
-
-    globalShortcut.register("F7", () => {
-        win.webContents.openDevTools();
-    });
-
-    globalShortcut.register("Esc", () => {
-        win.webContents.send("Escape");
-    });
-
-    globalShortcut.register("F12", () => {
-        console.log(win.getContentSize());
-    })
 
     win.on('close', () => {
         app.quit();
@@ -293,8 +260,6 @@ function initSwapper() {
             } else {
                 filePath = dir + "/" + file;
             }
-            // bc mac gay
-            // if (filePath === ".DS_Store") return;
             if (statSync(filePath).isDirectory()) {
                 if (!/\\(docs)$/.test(filePath)) afs(filePath);
             } else {
@@ -328,4 +293,8 @@ function initSwapper() {
             }
         );
     }
+}
+
+function isSocial(rawUrl) {
+    return new URL(rawUrl).pathname == "/social.html" ? true : false;
 }

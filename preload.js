@@ -18,8 +18,9 @@ const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
 const { ZenoEmitter, ZenoEvents } = require("./events");
 
-// *** Do Some Stuff **
-ipcRenderer.on("Escape", () => {
+window.home = () => window.location.href = "https://krunker.io/";
+
+let escapeHandler = () => {
     if (!(endUI.style.display === "none")) {
         menuHolder.style.display = "block";
         menuHider.style.display = "block";
@@ -32,12 +33,19 @@ ipcRenderer.on("Escape", () => {
             document.exitPointerLock || document.mozExitPointerLock;
         document.exitPointerLock();
     }
-});
+};
 
-// *** Set Page HREF ***
-ipcRenderer.on("home", () => {
-    window.location.href = "https://krunker.io/";
-});
+window.addEventListener("keydown", e => {
+    switch (e.key) {
+        case "F3": window.home(); break
+        case "F4": window.location.reload(); break;
+        case "F7": ipcRenderer.send("devtools"); break;
+        case "Escape": escapeHandler(); break;
+        default: break;
+    }
+})
+
+ipcRenderer.on("home", window.home);
 
 function tryModule(moduleName) {
     const module = require("./featureModules/" + moduleName);
@@ -123,7 +131,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
     );
     getID("mapInfoHolder").children[3].insertAdjacentHTML(
         "beforeend",
-        '<div class="terms" href="/" onclick="window.quickjoin()">QuickJoin</div>'
+        '<div class="terms" href="/" onclick="window.home()">QuickJoin</div>'
     );
     getID("menuClassContainer").insertAdjacentHTML(
         "beforeend",
@@ -295,8 +303,4 @@ function swapGameJoin(){
         let gamecode = getGameCode(getID("gameURL").value);
         if(gamecode) window.location.href = "https://krunker.io/?game=" + gamecode;
     }
-}
-
-window.quickjoin = () => {
-    window.location.href = "https://krunker.io/";
 }
