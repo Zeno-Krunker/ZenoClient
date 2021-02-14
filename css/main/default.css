@@ -216,6 +216,10 @@ input:checked+.sliderSml {
 	text-shadow: -1px -1px 0 #202020,1px -1px 0 #202020,-1px 1px 0 #202020,1px 1px 0 #202020,-2px -2px 0 #202020,2px -2px 0 #202020,-2px 2px 0 #202020,2px 2px 0 #202020,-3px -3px 0 #202020,3px -3px 0 #202020,-3px 3px 0 #202020,3px 3px 0 #202020
 }
 
+.mailObj {
+	color: var(--blue-shadow);
+}
+
 .mailText {
     color: var(--blue-shadow);
 }
@@ -385,6 +389,10 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 
 #skinList > div[style*="margin-bottom:10px;color:rgba(0,0,0,0.5);"] {
 	color: var(--blue-shadow)!important
+}
+
+#itemSearchH {
+	background-color: var(--ui-bg);
 }
 
 .lnkTw {
