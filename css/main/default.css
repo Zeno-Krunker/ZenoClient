@@ -1,42 +1,42 @@
 /* Zeno CSS by AlphaX / Meso remastered by Feb / causedegarcons */
 
 :root {
-	--blue-shadow: #2ea1a1;
-	--main-blue: #3ccfcf;
+	--shadow: #2ea1a1;
+	--main: #3ccfcf;
 	--button: #282e3e;
 	--main-ui: #1a1d28;
-	--menu-hover-bg-color: #1b1d29;
+	--menu-hover: #1b1d29;
 	--ui-bg: #13141b;
 }
 
 /* Universal */
 
 * {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 a {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 a:hover {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 a:visited {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .grey {
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 .grey:active {
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 .grey:visited {
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 select {
@@ -56,7 +56,7 @@ select {
 }
 
 i.material-icons[style*="color=var(--red)"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 /* Instruction */
@@ -65,18 +65,18 @@ i.material-icons[style*="color=var(--red)"] {
 
 .button {
 	background-color: var(--button)!important;
-    box-shadow: inset 0 -7px 0 0 var(--main-blue)!important;
-    color: var(--main-blue)
+    box-shadow: inset 0 -7px 0 0 var(--main)!important;
+    color: var(--main)
 }
 
 .button:hover {
 	background-color: var(--button)!important;
-    box-shadow: inset 0 -7px 0 0 var(--main-blue)!important;
+    box-shadow: inset 0 -7px 0 0 var(--main)!important;
 }
 
 .buttonB:hover {
 	background-color: var(--button)!important;
-    box-shadow: inset 0 -7px 0 0 var(--main-blue)!important;
+    box-shadow: inset 0 -7px 0 0 var(--main)!important;
 }
 
 .button.lgn > span.material-icons {
@@ -85,7 +85,7 @@ i.material-icons[style*="color=var(--red)"] {
 
 .speechBox {
 	background-color: var(--ui-bg);
-	color: var(--main-blue);
+	color: var(--main);
 }
 
 .sb1:before {
@@ -100,7 +100,7 @@ i.material-icons[style*="color=var(--red)"] {
 }
 
 div[style*="color:rgba(0,0,0,0.6);font-size:19px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 /* Header */
@@ -110,7 +110,7 @@ div[style*="color:rgba(0,0,0,0.6);font-size:19px"] {
 }
 
 .headerBar div {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .verticalSeparator {
@@ -119,7 +119,7 @@ div[style*="color:rgba(0,0,0,0.6);font-size:19px"] {
 }
 
 #menuKRCount {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .krSocial {
@@ -128,7 +128,7 @@ div[style*="color:rgba(0,0,0,0.6);font-size:19px"] {
 
 #mLevelCont {
 	background-color: var(--ui-bg);
-	color: var(--main-blue);
+	color: var(--main);
 	height: 70px
 }
 
@@ -153,27 +153,27 @@ input:checked+.sliderSml {
 
 .menuItem {
 	background-color: var(--ui-bg);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .menuItem:hover {
-	border-left-color: var(--main-blue)
+	border-left-color: var(--main)
 }
 
 .menuItem .menuItemTitle {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 #menuFPS {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #menuPingIcon {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .progressBarInner {
-	background-color: var(--blue-shadow);
+	background-color: var(--shadow);
 }
 
 #termsInfo {
@@ -181,11 +181,11 @@ input:checked+.sliderSml {
 }
 
 .terms {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 .standout {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 #uiBase.onMenu #voiceDisplay {
@@ -193,7 +193,7 @@ input:checked+.sliderSml {
 }
 
 .strmViews {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 .strmViews[style*="color:#d72ded"] {
@@ -203,29 +203,29 @@ input:checked+.sliderSml {
 /* Message Tab */
 
 #mailIcon {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 #mailList {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 .readAll {
 	background-color: var(--button);
-	color: var(--main-blue);
+	color: var(--main);
 	text-shadow: -1px -1px 0 #202020,1px -1px 0 #202020,-1px 1px 0 #202020,1px 1px 0 #202020,-2px -2px 0 #202020,2px -2px 0 #202020,-2px 2px 0 #202020,2px 2px 0 #202020,-3px -3px 0 #202020,3px -3px 0 #202020,-3px 3px 0 #202020,3px 3px 0 #202020
 }
 
 .mailObj {
-	color: var(--blue-shadow);
+	color: var(--shadow);
 }
 
 .mailText {
-    color: var(--blue-shadow);
+    color: var(--shadow);
 }
 
 .mailDate {
-    color: var(--blue-shadow);
+    color: var(--shadow);
 }
 
 /* Menu Window */
@@ -238,48 +238,48 @@ input:checked+.sliderSml {
 }
 
 #accResp {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 #accResp span {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .accountInput {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .accountButton {
 	background-color: var(--main-ui);
-	color: var(--main-blue);
+	color: var(--main);
 }
 
 #menuWindow > div[style*="color:rgba(0,0,0,0.3);margin-top:-5px;margin-bottom:10px"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .plusOrMinus {
-	background: linear-gradient(180deg, rgba(60,207,207,1) 50%, rgba(46,161,161,1) 50%);
+	background: linear-gradient(180deg, var(--main) 50%, var(--shadow) 50%);
     -webkit-background-clip: text;
     color: transparent;
 }
 
 .setHed {
-    background: linear-gradient(180deg, rgba(60,207,207,1) 50%, rgba(46,161,161,1) 50%);
+    background: linear-gradient(180deg, var(--main) 50%, var(--shadow) 50%);
     -webkit-background-clip: text;
     color: transparent;
 }
 
 .setHed span[style*="color:#000"]{
-	color: var(--main-blue) !important;
+	color: var(--main) !important;
 }
 
 .settName, .settNameSmall {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .settName > .floatR > span[style*="color:rgba(0,0,0,0.5)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #settingsTabLayout {
@@ -293,7 +293,7 @@ input:checked+.sliderSml {
 
 .settingTab:hover {
     border-bottom: unset;
-    color: var(--main-blue)
+    color: var(--main)
 
 }
 
@@ -303,7 +303,7 @@ input:checked+.sliderSml {
 }
 
 .xpBarB {
-	background-color: var(--blue-shadow)
+	background-color: var(--shadow)
 }
 
 .menuTabNew {
@@ -313,12 +313,12 @@ input:checked+.sliderSml {
 
 .menuTabNew:hover {
     border-bottom: unset;
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 .tabANew {
     border-bottom: solid 4px;
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 .menuTabsNew {
@@ -326,15 +326,15 @@ input:checked+.sliderSml {
 }
 
 div[style*="color:rgba(0,0,0,0.6);margin-bottom:20px"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .partnerItem {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .inputGrey {
@@ -343,7 +343,7 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 }
 
 .inputGrey::placeholder {
-	color: var(--main-blue);
+	color: var(--main);
 }
 
 .inputGrey2 {
@@ -352,26 +352,26 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 }
 
 .inputGrey2::placeholder {
-    color: var(--main-blue);
+    color: var(--main);
     opacity: 0.75;
 }
 
 div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .smlInput {
 	background-color: var(--button)!important;
-    color: var(--main-blue)!important;
+    color: var(--main)!important;
 }
 
 .smlInput::placeholder {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 .updDisN {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .updDisN:hover {
@@ -380,7 +380,7 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 
 .subPassChg {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .subPassChg:hover {
@@ -388,7 +388,7 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 }
 
 #skinList > div[style*="margin-bottom:10px;color:rgba(0,0,0,0.5);"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #itemSearchH {
@@ -433,15 +433,15 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 /* Shop */
 
 .reqWIcon {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .reqWLvl {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .reqWTxt {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .shopCard {
@@ -449,47 +449,47 @@ div[style*="font-size:17px;color:rgba(0,0,0,0.4);margin-top:5px"] {
 }
 
 #premTime {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 div[style*="color:rgba(0,0,0,0.3);margin-bottom:10px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 div[style*="color:rgba(0,0,0,0.3);font-size:19px;margin-bottom:5px"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 div[style*="color:rgba(0,0,0,0.3);font-size:19px;margin-bottom:-3px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .redVouchBtn {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 #vouchRes {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 /* Spin */
 
 .spinVal {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .spinVal > span[style*="color:#fff"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .spinVal[style*="color:#fff"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .button.btnRespin {
     background-color: var(--button)!important;
-    box-shadow: inset 0 -7px 0 0 var(--main-blue)!important;
+    box-shadow: inset 0 -7px 0 0 var(--main)!important;
 }
 
 /* Input */
@@ -497,28 +497,28 @@ div[style*="color:rgba(0,0,0,0.3);font-size:19px;margin-bottom:-3px"] {
 input[type=text] {
 	background-color: var(--button)!important;
 	/* border-radius: 0px; !important; */
-	color: var(--main-blue)!important;
+	color: var(--main)!important;
 }
 
 input[type=text]::placeholder {
-	color: var(--main-blue)!important;
+	color: var(--main)!important;
 	opacity: 0.75!important
 }
 
 input[type=password] {
 	background-color: var(--button)!important;
 	/* border-radius: 0px!important; */
-	color: var(--main-blue)!important;
+	color: var(--main)!important;
 }
 
 input[type=password]::placeholder {
 	/* border-radius: 0px; */
-	color: var(--blue-shadow)!important;
+	color: var(--shadow)!important;
 }
 
 input[type=number] {
 	background-color: var(--button)!important;
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 input[type=color] {
@@ -531,19 +531,19 @@ input[type=color] {
 /* Mods & Maps */
 
 div > span[style*="color:rgba(0,0,0,0.2);font-size:15px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 span[style*="color:rgba(0,0,0,0.6)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .mapActionB > span.material-icons {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .mapByTxt {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 #modDropper {
@@ -567,11 +567,11 @@ span[style*="color:rgba(0,0,0,0.6)"] {
 }
 
 .chalXPBarC {
-	background-color: var(--blue-shadow)
+	background-color: var(--shadow)
 }
 
 .floatR > span[style*="color: rgba(0, 0, 0, 0.5);"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 /* Setting */
@@ -581,11 +581,11 @@ span[style*="color:rgba(0,0,0,0.6)"] {
 }
 
 #requiresRestart {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 span[style*="color: #eb5656"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .settingsTab {
@@ -597,7 +597,7 @@ span[style*="color: #eb5656"] {
 }
 
 #settSearch::placeholder {
-    color: var(--main-blue);
+    color: var(--main);
 }
 
 .slider {
@@ -605,7 +605,7 @@ span[style*="color: #eb5656"] {
 }
 
 .slider:before {
-	background-color: var(--main-blue)
+	background-color: var(--main)
 }
 
 input:checked+.slider {
@@ -619,11 +619,11 @@ input:focus+.slider {
 .settingsBtn {
 	background-color: var(--button);
 	/* border-radius: 0px; */;
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .settingsBtn:hover {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .sliderM {
@@ -631,11 +631,11 @@ input:focus+.slider {
 }
 
 .sliderM::-webkit-slider-thumb {
-	background-color: var(--main-blue)
+	background-color: var(--main)
 }
 
 .sliderM::-moz-range-thumb {
-	background-color: var(--main-blue)
+	background-color: var(--main)
 }
 
 .slidecontainer {
@@ -680,17 +680,17 @@ input:focus+.slider {
 }
 
 .b {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .hostToggle {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .hostToggle:hover {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .hostOpt {
@@ -723,24 +723,24 @@ input:hover+.optCheck {
 }
 
 #hostGameMsg {
-	color: var(--blue-shadow)!important;
+	color: var(--shadow)!important;
 }
 
 #teamLink1 {
-	color: var(--blue-shadow)!important;
+	color: var(--shadow)!important;
 }
 
 #teamLink2 {
-	color: var(--blue-shadow)!important;
+	color: var(--shadow)!important;
 }
 
 .sliderVal {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .settNameSmall > span[style*="float:right;margin-right:10px;color:rgba(0,0,0,0.5)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #presetSelect {
@@ -750,20 +750,20 @@ input:hover+.optCheck {
 .hostPresetBtn {
 	background-color: var(--button);
 	/* border-radius: 0px; */;
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .hostPresetBtn:hover {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 div > span[style*="float:right;color:rgba(0,0,0,0.3)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #hCustCost {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 /* Server Tab */
@@ -781,7 +781,7 @@ div > span[style*="float:right;color:rgba(0,0,0,0.3)"] {
 }
 
 .slider2:before {
-	background-color: var(--main-blue)
+	background-color: var(--main)
 }
 
 input:checked+.slider2 {
@@ -794,21 +794,21 @@ input:focus+.slider2 {
 
 .quickJoin {
 	background-color: var(--button);
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 b[style*="color:rgba(0,0,0,0.6)"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 b > span[style*="float:right;color:rgba(0,0,0,0.6)"] {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 /* Ranked Tab */
 
 .joinQueue {
-	color: var(--main-blue);
+	color: var(--main);
     box-shadow: inset 0 -10px 0 0 #1e222f;
     background-color: var(--button);
     /* border-radius: 0px; */
@@ -819,7 +819,7 @@ b > span[style*="float:right;color:rgba(0,0,0,0.6)"] {
 }
 
 div[style*="display:inline-block;float:right;vertical-align:top;color:rgba(0,0,0,0.3)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .jQR {
@@ -956,11 +956,11 @@ div[style*="display:inline-block;float:right;vertical-align:top;color:rgba(0,0,0
 .loadoutBtn {
 	background-color: var(--button);
 	/* border-radius: 0px; */;
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .loadoutBtn:hover {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .skinColorItem {
@@ -968,15 +968,15 @@ div[style*="display:inline-block;float:right;vertical-align:top;color:rgba(0,0,0
 }
 
 .settText {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .wepLink[style*="color:rgba(0,0,0,0.3)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .classWeap {
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 .settText[style*="color:rgba(0,0,0,0.3)"] {
@@ -984,7 +984,7 @@ div[style*="display:inline-block;float:right;vertical-align:top;color:rgba(0,0,0
 }
 
 i.material-icons.premiumSkinCol {
-    color: var(--main-blue)!important;
+    color: var(--main)!important;
 }
 
 .classXPBar {
@@ -992,7 +992,7 @@ i.material-icons.premiumSkinCol {
 }
 
 .clsXPBarC {
-	background-color: var(--blue-shadow)
+	background-color: var(--shadow)
 }
 
 #customizeButton > span.material-icons {
@@ -1031,11 +1031,11 @@ i.material-icons.premiumSkinCol {
 }
 
 #ingameFPS {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #pingIcon {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #voiceDisplay {
@@ -1043,7 +1043,7 @@ i.material-icons.premiumSkinCol {
 }
 
 .leaderName, .newLeaderName, .newLeaderNameF, .endTableN[style*='color: #eb5656;'] {
-	color: var(--main-blue)!important;
+	color: var(--main)!important;
 }
 
 .leaderNameM, .newLeaderNameM, .endTableN[style*='color: #fff;'] {
@@ -1067,40 +1067,40 @@ i.material-icons.premiumSkinCol {
 /* Contact */
 
 div[style*="color:rgba(0,0,0,0.4);margin-top:0px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 div[style*="color:rgba(0,0,0,0.4);margin-top:10px"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 div[style*="color:rgba(0,0,0,0.5)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 /* Advertise */
 
 div[style*="color:rgba(0,0,0,0.3)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 div[style*="color:rgba(0,0,0,0.4)"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 textarea {
 	background-color: var(--button)!important;
-    color: var(--main-blue)!important;
+    color: var(--main)!important;
 }
 
 span[style*="color:rgba(0,0,0,0.3);float:right"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 #bidPrevBtn {
 	background-color: var(--button)!important;
 	/* border-radius: 0px; */;
-	color: var(--main-blue);
+	color: var(--main);
 	transition: .2s all
 }
 
@@ -1110,17 +1110,17 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 }
 
 #bidTextBB::placeholder {
-    color: var(--main-blue)
+    color: var(--main)
 }
 
 /* Changelog */
 
 .mailFrom {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .changeText {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 /* Ads */
@@ -1140,7 +1140,7 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 }
 
 #popupContent {
-	background-color: var(--menu-hover-bg-color) !important;
+	background-color: var(--menu-hover) !important;
 	/* border-radius: 0px; */
 }
 
@@ -1154,7 +1154,7 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 }
 
 #freeKRClaimTxt {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 /* Spectating */
@@ -1164,15 +1164,15 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 }
 
 #specGameInfo {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .specContrI {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 .specKPDContrI {
-	color: var(--main-blue)
+	color: var(--main)
 }
 
 /* Clan */
@@ -1182,7 +1182,7 @@ span[style*="color:rgba(0,0,0,0.3);float:right"] {
 /* Misc */
 
 .loadMoreW {
-	color: var(--blue-shadow)
+	color: var(--shadow)
 }
 
 hr {
@@ -1194,12 +1194,12 @@ div[style*="background-color:gainsboro;border-radius:6px;padding:5px"] {
 }
 
 span[style*="color:#353535"] {
-	color: var(--blue-shadow)!important
+	color: var(--shadow)!important
 }
 
 .punishButton {
 	background-color: var(--button)!important;
-	color: var(--main-blue)!important
+	color: var(--main)!important
 }
 
 /* Zeno Stuff */
@@ -1224,9 +1224,9 @@ span[style*="color:#353535"] {
 }
 
 #seasonLabel {
-	color: var(--blue-shadow);
+	color: var(--shadow);
 }
 
 #seasonLabel span {
-	color: var(--main-blue)!important;
+	color: var(--main)!important;
 }

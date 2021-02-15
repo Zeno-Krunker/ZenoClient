@@ -24,7 +24,7 @@ let HTMLGen = {
         let value = store.get(s.storeKey) ? `value="${store.get(s.storeKey)}"` : ``;
         return `<div class="settName zenoSetting"style="display:block"><span>${s.label}${s.requireRestart ? "*" : ""}</span><a class="+" id="${s.buttonId}">${s.buttonLabel}</a><input type="text" placeholder="${s.inputLabel}" ${value} name="url" class="inputGrey2" id="${s.inputId}"></div>`
     },
-    COLOR: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<input type="color" name="color" id="${s.buttonId}" style="float:right" value="${store.get(s.storeKey)}"></div>`,
+    COLOR: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<input type="color" name="color" id="${s.buttonId}" style="float:right" value="${s.value instanceof Function ? s.value() : store.get(s.storeKey)}"></div>`,
     TOGGLE: (s, store) => `<div class="settName">${s.label}${s.requireRestart ? "*" : ""}<label class="switch" style="margin-left:10px"><input type="checkbox" id="${s.buttonId}" ${(store.get(s.storeKey) == true) ? "checked" : ""}><span class="slider"></span></label></div>`,
     RANGE: (s, store) => `<div class="settName" title="">${s.label}${s.requireRestart ? "*" : ""}<input type="number" class="sliderVal" id="slid_input_${s.id}" min="${s.min}" max="${s.max}" value="${store.get(s.storeKey) || s.value}" style="margin-right:0px;border-width:0px"><div class="slidecontainer" style=""><input type="range" id="slid_${s.id}" min="${s.min}" max="${s.max}" step="${s.step}" value="${store.get(s.storeKey) || s.value}" class="sliderM"></div></div>`
 }
@@ -230,6 +230,85 @@ let Settings = [
                 buttonLabel: "Link",
                 buttonId: "LinkTwitch_btn",
                 cb: (value) => initTwitch(value)
+            }
+        ]
+    }, { // Appearance
+        label: "Appearance",
+        id: "appearance",
+        items: [
+            { // Custom Theme Toggle
+                type: Types.TOGGLE,
+                label: "Use Custom Theme Colors",
+                buttonId: "ThemeToggle_btn",
+                storeKey: "theme_enabled",
+                cb: (checked) => store.set("theme_enabled", checked),
+                requireRestart: true,
+            }, { // Main
+                type: Types.COLOR,
+                label: "Main Color",
+                buttonId: "theme_main",
+                storeKey: "theme_main",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--main").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_main", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--main", value);
+                }
+            }, { // Shadow
+                type: Types.COLOR,
+                label: "Shadow Color",
+                buttonId: "theme_shadow",
+                storeKey: "theme_shadow",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--shadow").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_shadow", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--shadow", value);
+                }
+            }, { // Button
+                type: Types.COLOR,
+                label: "Button Color",
+                buttonId: "theme_button",
+                storeKey: "theme_button",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--button").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_button", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--button", value);
+                }
+            }, { // Main UI
+                type: Types.COLOR,
+                label: "Main UI Color",
+                buttonId: "theme_mainui",
+                storeKey: "theme_mainui",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--main-ui").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_mainui", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--main-ui", value);
+                }
+            }, { // Menu Hover
+                type: Types.COLOR,
+                label: "Main Hover Color",
+                buttonId: "theme_menuhover",
+                storeKey: "theme_menuhover",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--menu-hover").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_menuhover", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--menu-hover", value);
+                }
+            }, { // UI Background
+                type: Types.COLOR,
+                label: "UI Background Color",
+                buttonId: "theme_uibg",
+                storeKey: "theme_uibg",
+                value: () => window.getComputedStyle(document.documentElement).getPropertyValue("--ui-bg").replace(/ /, ""),
+                cb: (value) => {
+                    store.set("theme_uibg", value);
+                    if(!store.get("theme_enabled")) return;
+                    document.documentElement.style.setProperty("--ui-bg", value);
+                }
             }
         ]
     }

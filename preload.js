@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 }
             });
 
+            loadCustomTheme();
 
             // CSS for Custom Zeno UI
             fs.readFile(__dirname + "/css/main/zeno-defaults.css", "utf-8", (error, data) => {
@@ -303,4 +304,14 @@ function swapGameJoin(){
         let gamecode = getGameCode(getID("gameURL").value);
         if(gamecode) window.location.href = "https://krunker.io/?game=" + gamecode;
     }
+}
+
+function loadCustomTheme() {
+    if(!store.get("theme_enabled")) return;
+    store.get("theme_main") ? document.documentElement.style.setProperty("--main", store.get("theme_main")) : 0;
+    store.get("theme_shadow") ? document.documentElement.style.setProperty("--shadow", store.get("theme_shadow")) : 0;
+    store.get("theme_button") ? document.documentElement.style.setProperty("--button", store.get("theme_button")) : 0;
+    store.get("theme_mainui") ? document.documentElement.style.setProperty("--main-ui", store.get("theme_mainui")) : 0;
+    store.get("theme_menuhover") ? document.documentElement.style.setProperty("--menu-hover", store.get("theme_menuhover")) : 0;
+    store.get("theme_uibg") ? document.documentElement.style.setProperty("--ui-bg", store.get("theme_uibg")) : 0;
 }
