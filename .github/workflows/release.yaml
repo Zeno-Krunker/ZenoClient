@@ -15,8 +15,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
-          tag_name: v30
-          release_name: Release v30
+          tag_name: v31
+          release_name: Release v31
 
   linux-build:
     needs: create_release
@@ -52,7 +52,7 @@ jobs:
       - name: Compressing Build
         run: |
             cd release-builds
-            zip -r linux-v30.zip Zeno-linux-x64
+            zip -r linux-v31.zip Zeno-linux-x64
       
       - name: Uploading ZIP
         id: upload_zip
@@ -61,8 +61,8 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/linux-v30.zip
-          asset_name: linux-v30.zip
+          asset_path: ./release-builds/linux-v31.zip
+          asset_name: linux-v31.zip
           asset_content_type: application/zip
 
   windows-build:
@@ -89,7 +89,7 @@ jobs:
         id: compressing-build
         run: |
           cd release-builds
-          Compress-Archive -Path ./Zeno-win32-x64 -DestinationPath ./win32-v30.zip
+          Compress-Archive -Path ./Zeno-win32-x64 -DestinationPath ./win32-v31.zip
       
       # Uploading a Release file
       - name: Uploading ZIP
@@ -99,8 +99,8 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/win32-v30.zip
-          asset_name: win32-v30.zip
+          asset_path: ./release-builds/win32-v31.zip
+          asset_name: win32-v31.zip
           asset_content_type: application/zip
 
   macos-build:
@@ -128,7 +128,7 @@ jobs:
         id: compressing-build
         run: |
           cd release-builds
-          zip -r darwin-v30.zip zeno-darwin-x64
+          zip -r darwin-v31.zip zeno-darwin-x64
 
 
       # Uploading a Release file
@@ -139,6 +139,6 @@ jobs:
           GITHUB_TOKEN: ${{ SECRETS.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./release-builds/darwin-v30.zip
-          asset_name: darwin-v30.zip
+          asset_path: ./release-builds/darwin-v31.zip
+          asset_name: darwin-v31.zip
           asset_content_type: application/zip
