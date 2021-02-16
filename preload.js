@@ -43,7 +43,7 @@ window.addEventListener("keydown", e => {
         case "Escape": escapeHandler(); break;
         default: break;
     }
-})
+});
 
 ipcRenderer.on("home", window.home);
 
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             window.customCSS = "";
             fs.readFile(__dirname + "/css/main/default.css", "utf-8", (error, data) => {
                 if (!error) {
+                    window.customCSSRaw = data;
                     window.customCSS = data.replace(/\s{2,10}/g, " ").trim();
                     document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);
                     if (!store.get("ZenoCSS")) {
@@ -73,6 +74,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
                     }
                 }
             });
+
+            // CSS Editor Event
+            ipcRenderer.on("css-change", (e, css) => getID("custom-css").innerHTML = css);
 
             loadCustomTheme();
 
@@ -89,7 +93,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             try {
                 if (!store.get("imgTag")) store.set("imgTag", "");
                 if (!store.get("account")) store.set("account", []);
-                if (!store.get("scopesCurrent")) store.set("scopesCurrent", scopeTemp);
             } catch (err) {}
 
             // *** Mute Feature ***

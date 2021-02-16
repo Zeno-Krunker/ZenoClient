@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Zeno CSS Editor</title>
+        <style>
+            body {
+                margin: 0;
+            }
+            .CodeMirror {
+                width: 100%;
+                height: 100vh !important;
+            }
+        </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.css">
+        <link rel="stylesheet" href="https://codemirror.net/theme/ayu-dark.css">
+    </head>
+    <body onload="window.loadEditor()">
+        <textarea id="editor"></textarea>
+        <script src="./index.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/codemirror.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.58.3/mode/css/css.min.js"></script>
+    </body>
+</html>

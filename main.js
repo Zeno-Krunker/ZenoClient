@@ -57,6 +57,7 @@ if (cpus()[0].model.includes("AMD")) {
 
 var win = null;
 var PopupWin = null;
+var cssWin = null;
 
 function createGameWindow() {
     // *** Create the Game Window ***
@@ -86,25 +87,7 @@ var init = () => {
 };
 
 app.whenReady().then(() => {
-
-    //#region Zeno Protocol
-
-    // protocol.registerFileProtocol("zeno", (request, cb) => {
-    //     const url = request.url.substr(basePath.length + 1);
-    //     cb({ path: path.normalize(`${__dirname}/${url}`) });
-    // });
-    
-    // protocol.interceptFileProtocol('file', (_, cb) => { cb(null); });
-    
-    // protocol.registerFileProtocol("zeno", (request, callback) => {
-    //     const url = request.url.substr(7);
-    //     console.log(path.normalize(url));
-    //     callback({ path: path.normalize(url) });
-    // });
-    //#endregion
-
     init();
-
     app.on("activate", function() {
         if (BrowserWindow.getAllWindows().length === 0) init();
     });
@@ -140,10 +123,28 @@ ipcMain.on("ClearCache", () => {
 
 ipcMain.on("devtools", e => e.sender.webContents.openDevTools());
 
+ipcMain.on("css-editor", (e, css) => {
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    cssWin = new BrowserWindow({
+        icon: `${__dirname}/icon/icon.ico`,
+        height: Math.round(height * 0.75),
+        width: Math.round(width * 0.75),
+        webPreferences: {
+            nodeIntergration: true,
+            preload: `${__dirname}/cssEditor/preload.js`,
+            webSecurity: false,
+            allowRunningInsecureContent: true,
+        },
+    });
+    cssWin.removeMenu();
+    cssWin.loadFile(`${__dirname}/cssEditor/index.html`);
+    cssWin.webContents.on("dom-ready", () => cssWin.webContents.send("cur-css", css));
+});
+
 function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     win = new BrowserWindow({
-        icon: `${__dirname}/assets/icon/icon.ico`,
+        icon: `${__dirname}/icon/icon.ico`,
         height: Math.round(height * 0.75),
         width: Math.round(width * 0.75),
         backgroundColor: "#000000",

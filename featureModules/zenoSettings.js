@@ -1,6 +1,5 @@
 const { getID, getClass } = require("../consts");
 const { initTwitch } = require("./twitch");
-const fs = require("fs");
 const { ipcRenderer } = require("electron");
 const Store = require("electron-store");
 const store = new Store();
@@ -153,6 +152,12 @@ let Settings = [
                 buttonLabel: "Open",
                 buttonId: "PluginBrowser_btn",
                 cb: window.openPluginBrowser
+            }, {
+                type: Types.BUTTON,
+                label: "CSS Editor",
+                buttonLabel: "Open",
+                buttonId: "CSSEditor_btn",
+                cb: () => ipcRenderer.send("css-editor", window.customCSSRaw)
             }, { // Clear Cache
                 type: Types.BUTTON,
                 label: "Clear Cache",
