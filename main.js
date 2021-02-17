@@ -4,12 +4,13 @@
 */
 
 // *** The Modules ***
-const { screen, app, BrowserWindow, shell, globalShortcut, ipcMain, protocol } = require("electron");
+const { screen, app, BrowserWindow, shell, globalShortcut, ipcMain } = require("electron");
 var { cpus } = require("os");
 const { format } = require("url");
 const { readdirSync, mkdir, statSync } = require("fs");
 const path = require("path");
 const Store = require("electron-store");
+const { initCSSWin } = require("./cssEditor/main");
 const store = new Store();
 var s;
 
@@ -82,12 +83,8 @@ function createGameWindow() {
 
 // *** Run the Main Function ***
 
-var init = () => {
-    createGameWindow();
-};
-
 app.whenReady().then(() => {
-    init();
+    createGameWindow();
     app.on("activate", function() {
         if (BrowserWindow.getAllWindows().length === 0) init();
     });
@@ -123,23 +120,7 @@ ipcMain.on("ClearCache", () => {
 
 ipcMain.on("devtools", e => e.sender.webContents.openDevTools());
 
-ipcMain.on("css-editor", (e, css) => {
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    cssWin = new BrowserWindow({
-        icon: `${__dirname}/icon/icon.ico`,
-        height: Math.round(height * 0.75),
-        width: Math.round(width * 0.75),
-        webPreferences: {
-            nodeIntergration: true,
-            preload: `${__dirname}/cssEditor/preload.js`,
-            webSecurity: false,
-            allowRunningInsecureContent: true,
-        },
-    });
-    cssWin.removeMenu();
-    cssWin.loadFile(`${__dirname}/cssEditor/index.html`);
-    cssWin.webContents.on("dom-ready", () => cssWin.webContents.send("cur-css", css));
-});
+ipcMain.on("css-editor", (e, css) => { cssWin = initCSSWin(e.sender.id, css) });
 
 function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
