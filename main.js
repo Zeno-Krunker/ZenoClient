@@ -6,13 +6,11 @@
 // *** The Modules ***
 const { screen, app, BrowserWindow, shell, globalShortcut, ipcMain } = require("electron");
 var { cpus } = require("os");
-const { format } = require("url");
-const { readdirSync, mkdir, statSync } = require("fs");
-const path = require("path");
 const Store = require("electron-store");
 const { initCSSWin } = require("./cssEditor/main");
+const { initSwapper, attachSwapper } = require("./featureModules/swapper");
 const store = new Store();
-var s;
+var swapperList;
 
 // *** Options ***
 const devTools = false;
@@ -58,7 +56,6 @@ if (cpus()[0].model.includes("AMD")) {
 
 var win = null;
 var PopupWin = null;
-var cssWin = null;
 
 function createGameWindow() {
     // *** Create the Game Window ***
@@ -139,12 +136,7 @@ function initMainWindow() {
     if (devTools) win.webContents.openDevTools();
 
     // *** If New window is Social ***
-    win.webContents.on(
-        "new-window",
-        (event, url, frameName, disposition, options) => {
-            initWin(event, url, frameName, disposition, options);
-        }
-    );
+    win.webContents.on("new-window", initWin);
 
     function initWin(event, url, frameName, disposition, options) {
         if (!url) return;
@@ -172,41 +164,17 @@ function initMainWindow() {
 
             if (!options.webContents) {
                 newWin.loadURL(url);
-                newWin.webContents.once("dom-ready", function() {
-                    setTimeout(() => {
-                        newWin.show();
-                    }, 600);
-                });
+                newWin.webContents.once("dom-ready", () => setTimeout(newWin.show, 600));
             }
             event.newGuest = newWin;
             newWin.removeMenu();
-            newWin.webContents.on(
-                "new-window",
-                (event, url, frameName, disposition, options) => {
-                    initWin(event, url, frameName, disposition, options);
-                }
-            );
-
-            if (s?.filter.urls.length) {
-                newWin.webContents.session.webRequest.onBeforeRequest(
-                    s.filter,
-                    (details, callback) => {
-                        console.log(`Swapping ${details.url} with ${s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")]}`);
-                        callback({
-                            cancel: false,
-                            redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||
-                                details.url,
-                        });
-                    }
-                );
-            }
+            newWin.webContents.on("new-window", initWin);
+            attachSwapper(newWin, swapperList);
         }
     }
 
     // *** Set the Shortcuts ***
-    globalShortcut.register("F11", () => {
-        win.setSimpleFullScreen(!win.isSimpleFullScreen());
-    });
+    globalShortcut.register("F11", () => { win.setSimpleFullScreen(!win.isSimpleFullScreen()) });
 
     globalShortcut.register("F5", () => {
         app.relaunch();
@@ -220,60 +188,10 @@ function initMainWindow() {
     win.setSimpleFullScreen(fullscreenOnload);
     win.loadURL("https://krunker.io/");
     win.removeMenu();
+    win.webContents.on("did-finish-load", () => { win.setTitle("Krunker - Zeno Client") });
 
-    win.webContents.on("did-finish-load", () => {
-        win.setTitle("Krunker - Zeno Client");
-    });
-    if(store.get("RS")) initSwapper();
-}
-
-function initSwapper() {
-    let sf = `${app.getPath("documents")}/ZenoSwapper`;
-
-    try {
-        mkdir(sf, { recursive: true }, (e) => {});
-    } catch (e) {}
-    s = { filter: { urls: [] }, files: {} };
-    const afs = (dir, fileList = []) => {
-        readdirSync(dir).forEach((file) => {
-            var filePath;
-            if (dir.endsWith("/")) {
-                filePath = dir + file;
-            } else {
-                filePath = dir + "/" + file;
-            }
-            if (statSync(filePath).isDirectory()) {
-                if (!/\\(docs)$/.test(filePath)) afs(filePath);
-            } else {
-                if (!/\.(html|js)/g.test(file)) {
-                    let k;
-                    if(/\.(mp3)/g.test(file)){
-                        k = "*://krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
-                    } else {
-                        k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
-                    }
-                    s.filter.urls.push(k);
-                    s.files[k.replace(/\*/g, "")] = format({
-                        pathname: filePath,
-                        protocol: "file:",
-                        slashes: true,
-                    });
-                }
-            }
-        });
-    };
-    afs(sf);
-    if (s.filter.urls.length) {
-        win.webContents.session.webRequest.onBeforeRequest(
-            s.filter,
-            (details, callback) => {
-                callback({
-                    cancel: false,
-                    redirectURL: s.files[details.url.replace(/https|http|(\?.*)|(#.*)/gi, "")] ||details.url,
-                });
-            }
-        );
-    }
+    if(store.get("RS")) swapperList = initSwapper(app);
+    attachSwapper(win, swapperList);
 }
 
 function isSocial(rawUrl) {
