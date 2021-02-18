@@ -3,8 +3,9 @@ const { ipcRenderer, remote } = require("electron");
 const { getResourceSwapper } = require("../consts");
 let parentId;
 
-ipcRenderer.on("cur-css", (e, css, id) => {
-    window.editor.getDoc().setValue(css);
+ipcRenderer.on("css", (e, css) => { window.editor.getDoc().setValue(css) });
+ipcRenderer.on("init", (e, id) => {
+    ipcRenderer.sendTo(id, "css");
     parentId = id;
 });
 

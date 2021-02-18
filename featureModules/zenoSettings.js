@@ -152,12 +152,12 @@ let Settings = [
                 buttonLabel: "Open",
                 buttonId: "PluginBrowser_btn",
                 cb: window.openPluginBrowser
-            }, {
+            }, { // CSS Editor
                 type: Types.BUTTON,
                 label: "CSS Editor",
                 buttonLabel: "Open",
                 buttonId: "CSSEditor_btn",
-                cb: () => ipcRenderer.send("css-editor", window.customCSSRaw)
+                cb: () => ipcRenderer.send("css-editor")
             }, { // Clear Cache
                 type: Types.BUTTON,
                 label: "Clear Cache",
@@ -179,21 +179,6 @@ let Settings = [
                 storeKey: "RS",
                 cb: (checked) => store.set("RS", checked),
                 requireRestart: true
-            }, { // Disable Zeno CSS
-                type: Types.TOGGLE,
-                label: "Disable Zeno CSS",
-                buttonId: "ZenoCSSToggle_btn",
-                storeKey: "ZenoCSS",
-                cb: (checked) => {
-                    store.set("ZenoCSS", checked);
-                    try {        
-                        if(checked) {
-                            getID("custom-css").innerHTML = "";
-                        } else {
-                            getID("custom-css").innerHTML = window.customCSS;
-                        }
-                    } catch (error) {console.log(error)}
-                }
             }, { // Float Button Toggle
                 type: Types.TOGGLE,
                 label: "Show Cookie Button",
@@ -321,7 +306,6 @@ let Settings = [
 
 
 window.openZenoWindow = e => {
-    console.log(e);
     openHostWindow();
     loadSettings(Settings);
 }

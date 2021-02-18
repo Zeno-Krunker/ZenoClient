@@ -120,7 +120,7 @@ ipcMain.on("ClearCache", () => {
 
 ipcMain.on("devtools", e => e.sender.webContents.openDevTools());
 
-ipcMain.on("css-editor", (e, css) => { cssWin = initCSSWin(e.sender.id, css) });
+ipcMain.on("css-editor", e => { cssWin = initCSSWin(e.sender.id) });
 
 function initMainWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -247,13 +247,12 @@ function initSwapper() {
             } else {
                 if (!/\.(html|js)/g.test(file)) {
                     let k;
-                    if(/\.(mp3|css)/g.test(file)){
+                    if(/\.(mp3)/g.test(file)){
                         k = "*://krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
                     } else {
                         k = "*://assets.krunker.io" + filePath.replace(sf, "").replace(/\\/g, "/") + "*";
                     }
                     s.filter.urls.push(k);
-                    //s.files[k.replace(/\*/g, "")] = "zeno:\\\\" + filePath.replace(new RegExp("/", "g"), "\\");
                     s.files[k.replace(/\*/g, "")] = format({
                         pathname: filePath,
                         protocol: "file:",
