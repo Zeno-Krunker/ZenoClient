@@ -164,7 +164,7 @@ function initMainWindow() {
 
             if (!options.webContents) {
                 newWin.loadURL(url);
-                newWin.webContents.once("dom-ready", () => setTimeout(newWin.show, 600));
+                newWin.webContents.once("dom-ready", () => setTimeout(() => newWin.show(), 600));
             }
             event.newGuest = newWin;
             newWin.removeMenu();

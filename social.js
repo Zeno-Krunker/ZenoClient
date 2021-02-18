@@ -4,8 +4,11 @@
 */
 
 // *** Import Modules ***
-const { ipcRenderer } = require('electron');
-const { readFile } = require('fs');
+const { ipcRenderer, remote } = require('electron');
+const { getID, getResourceSwapper } = require("./consts");
+const fs = require("fs");
+const Store = require("electron-store");
+const store = new Store();
 
 window.home = () => window.location.href = 'https://krunker.io/social.html';
 
@@ -20,22 +23,14 @@ window.addEventListener("keydown", e => {
     }
 })
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     (function() {
         'use strict';
-        // *** Add CSS ***
-        var insertCSS = () => {
-            readFile(__dirname + '/css/social/social.css', "utf-8", (error, data) => {
-                if (error) console.log(error);
-                window.document.getElementsByTagName("head")[0].innerHTML += `<style>${data.replace(/\s{2,10}/g, ' ').trim()}</style>`;
-            })
-        }
-
-        // *** Call Main Function ***
-
-        var init = () => {
-            insertCSS();
-        }
-        init();
+        let cssFile = (store.get("RS") && fs.existsSync(getResourceSwapper(remote) + "css/social_custom.css")) ? getResourceSwapper(remote) + "css/social_custom.css" : __dirname + "/css/social/social.css";
+            fs.readFile(cssFile, "utf-8", (e, data) => {
+                if (e) return console.log(e);
+                document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);
+                getID("custom-css").innerHTML = data;
+        });
     })();
 });
