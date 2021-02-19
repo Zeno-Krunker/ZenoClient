@@ -44,7 +44,7 @@ async function updateDiscord() {
     try {
         let gameActivity = window.getGameActivity();
         let { mode, map, time, user, id } = gameActivity;
-        let className = gameActivity.class.name;
+        let className = gameActivity.class.name.replace(/ /g, "");
 
         let playerCount, playerMax;
         await fetch(getGame(id))
