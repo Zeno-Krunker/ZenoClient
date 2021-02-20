@@ -9,20 +9,17 @@ var { cpus } = require("os");
 const Store = require("electron-store");
 const { initCSSWin } = require("./cssEditor/main");
 const { initSwapper, attachSwapper } = require("./featureModules/swapper");
+const { writeFile } = require("fs");
 const store = new Store();
 var swapperList;
+var logger = [];
 
 // *** Options ***
 const devTools = false;
 const fullscreenOnload = false;
-let VSync = false;
 
 //#region Do Some FPS Tricks
-try {
-    VSync = store.get("VSync", false);
-} catch (err) {}
-
-if(!VSync){
+if(!store.get("VSync", false)){
     app.commandLine.appendSwitch("disable-frame-rate-limit");
     app.commandLine.appendSwitch("disable-gpu-vsync");
 }
@@ -94,6 +91,13 @@ app.on("window-all-closed", function() {
     }
 });
 
+app.on("before-quit", () => {
+    if(logger.length > 0){
+        let log = JSON.stringify(logger);
+        writeFile(app.getPath("desktop") + "/zeno-log.txt", log, { encoding: "utf-8" }, console.log);
+    }
+});
+
 ipcMain.on("restart-client", () => {
     if (PopupWin) PopupWin.hide();
     app.relaunch();
@@ -133,7 +137,8 @@ function initMainWindow() {
             allowRunningInsecureContent: true,
         },
     });
-    if (devTools) win.webContents.openDevTools();
+    if(devTools) win.webContents.openDevTools();
+    if(store.get("logger")) win.webContents.on("console-message", (e, l, m ,n, s) => { if(s && !m.includes("WebGL")) logger.push([l, m, n, s]) });
 
     // *** If New window is Social ***
     win.webContents.on("new-window", initWin);
