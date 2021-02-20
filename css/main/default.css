@@ -542,6 +542,10 @@ span[style*="color:rgba(0,0,0,0.6)"] {
 	color: var(--main)!important
 }
 
+.mapActionOvrl {
+	height: 100px;
+}
+
 .mapByTxt {
 	color: var(--shadow)
 }
