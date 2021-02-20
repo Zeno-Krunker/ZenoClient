@@ -233,7 +233,16 @@ let Settings = [
         label: "Appearance",
         id: "appearance",
         items: [
-            { // Custom Theme Toggle
+            {
+                type: Types.TOGGLE,
+                label: "Disable Custom CSS",
+                buttonId: "ZenoCSSToggle_btn",
+                storeKey: "ZenoCSS",
+                cb: (checked) => {
+                    getID("custom-css").disabled = checked;
+                    store.set("ZenoCSS", checked);
+                }
+            }, { // Custom Theme Toggle
                 type: Types.TOGGLE,
                 label: "Use Custom Theme Colors",
                 buttonId: "ThemeToggle_btn",
