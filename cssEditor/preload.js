@@ -1,9 +1,18 @@
 const fs = require("fs");
 const { ipcRenderer, remote } = require("electron");
-const { getResourceSwapper } = require("../consts");
-let parentId;
+const { getResourceSwapper, getID } = require("../consts");
+let parentId, cssDir = getResourceSwapper(remote) + "css/";
 
-ipcRenderer.on("css", (e, css) => { window.editor.getDoc().setValue(css) });
+// On recieving the loaded CSS from parent window
+ipcRenderer.on("css", (e, css) => {
+    fs.readFile(cssDir + "main_custom.css", { encoding: "utf-8" }, (e, d) => {
+        if(e) window.savedCSS = "";
+        else window.savedCSS = d;
+        window.editor.getDoc().setValue(css);
+    });
+});
+
+// Requesting CSS from parent window
 ipcRenderer.on("init", (e, id) => {
     ipcRenderer.sendTo(id, "css");
     parentId = id;
@@ -21,15 +30,16 @@ window.updatePreview = css => { if(parentId) ipcRenderer.sendTo(parentId, "css-c
 
 ipcRenderer.on("save", () => {
     let css = window.editor.getValue().toString();
-    let dir = getResourceSwapper(remote);
 
-    if(!fs.existsSync(dir + "css")){
-        fs.mkdirSync(dir + "css", {recursive: true});
-    }
+    if(!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, {recursive: true});
 
-    fs.writeFile(dir + "css/main_custom.css", css, { encoding: "utf-8" }, (err) => {
+    fs.writeFile(cssDir + "main_custom.css", css, { encoding: "utf-8" }, (err) => {
         console.log(err);
-        if(err) window.alert("Couldn't save the file! Check console for more info!");    
+        if(err) window.alert("Couldn't save the file! Check console for more info!");
+        else {
+            window.savedCSS = css;
+            getID("status-save").style.opacity = 0;
+        }
     });
 });
 
