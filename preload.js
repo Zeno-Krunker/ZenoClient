@@ -12,7 +12,7 @@ const store = new Store();
 
 // Local module / file imports
 const rsData = require("./assets/rsData.json");
-const { getID, getResourceSwapper, scopeTemp } = require('./consts.js');
+const { getID, getResourceSwapper, tryModule } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
 const { initExit } = require("./featureModules/exit");
@@ -48,14 +48,6 @@ window.addEventListener("keydown", e => {
 ipcRenderer.on("home", window.home);
 ipcRenderer.on("css", e => ipcRenderer.sendTo(e.senderId, "css", getID("custom-css").innerHTML.toString()));
 
-function tryModule(moduleName) {
-    const module = require("./featureModules/" + moduleName);
-    try {
-        module();
-    } catch (err) {
-        console.log(err)
-    }
-}
 tryModule("sky");
 
 document.addEventListener("DOMContentLoaded", (event) => {

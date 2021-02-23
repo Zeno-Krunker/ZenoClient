@@ -33,3 +33,8 @@ module.exports.badgeUrls = new Map()
     .set("booster", "https://cdn.discordapp.com/attachments/756142725262213180/756341309425451100/Zeno_Booster.png")
     .set("yendis-staff", "https://media.discordapp.net/attachments/756142725262213180/756335806901125130/Zeno_YS.png")
     .set("comp", "https://cdn.discordapp.com/attachments/756142725262213180/783365605041373214/badge_comp.png");
+
+module.exports.tryModule = function (moduleName) {
+    const module = require("./featureModules/" + moduleName);
+    try { module() } catch (err) { console.log(err) };
+}
