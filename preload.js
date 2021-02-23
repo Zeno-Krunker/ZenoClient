@@ -11,7 +11,7 @@ const Store = require("electron-store");
 const store = new Store();
 
 // Local module / file imports
-const rsData = require("./rsData.json");
+const rsData = require("./assets/rsData.json");
 const { getID, getResourceSwapper, scopeTemp } = require('./consts.js');
 const { initMute } = require('./featureModules/mute.js')
 const randomClassInit = require("./featureModules/randomClass");
