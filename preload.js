@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
         var insertCSS = () => {
             // Zeno Theme CSS
-            let cssFile = (store.get("RS") && fs.existsSync(getResourceSwapper(remote) + "css/main_custom.css")) ? getResourceSwapper(remote) + "css/main_custom.css" : __dirname + "/css/main/default.css";
+            let cssFile = (store.get("RS") && fs.existsSync(getResourceSwapper(remote) + "css/main_custom.css")) ? getResourceSwapper(remote) + "css/main_custom.css" : __dirname + "/assets/css/main/default.css";
             fs.readFile(cssFile, "utf-8", (e, data) => {
                 if (e) return console.log(e);
                 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             loadCustomTheme();
 
             // CSS for Custom Zeno UI
-            fs.readFile(__dirname + "/css/main/zeno-defaults.css", "utf-8", (e, data) => {
+            fs.readFile(__dirname + "/assets/css/main/zeno-defaults.css", "utf-8", (e, data) => {
                 if (e) return console.log(e);
                 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='zeno-defaults'>${data.replace(/\s{2,10}/g, " ").trim()}</style>`);
             });

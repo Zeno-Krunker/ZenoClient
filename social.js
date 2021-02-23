@@ -24,7 +24,7 @@ window.addEventListener("keydown", e => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    let cssFile = (store.get("RS") && fs.existsSync(getResourceSwapper(remote) + "css/social_custom.css")) ? getResourceSwapper(remote) + "css/social_custom.css" : __dirname + "/css/social/social.css";
+    let cssFile = (store.get("RS") && fs.existsSync(getResourceSwapper(remote) + "css/social_custom.css")) ? getResourceSwapper(remote) + "css/social_custom.css" : __dirname + "/assets/css/social/social.css";
         fs.readFile(cssFile, "utf-8", (e, data) => {
             if (e) return console.log(e);
             document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<style id='custom-css'></style>`);

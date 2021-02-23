@@ -72,7 +72,7 @@ function createGameWindow() {
             // webSecurity: false,
         },
     });
-    PopupWin.loadFile(`${__dirname}/AutoUpdater/splash.html`);
+    PopupWin.loadFile(`${__dirname}/autoUpdater/splash.html`);
 }
 
 // *** Run the Main Function ***
