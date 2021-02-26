@@ -1,27 +1,55 @@
 {
-    "name": "zeno",
-    "version": "1.0.0",
-    "description": "Zeno Krunker Client",
-    "main": "main.js",
-    "scripts": {
-        "start": "electron .",
-        "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=release-builds --asar=true",
-        "package-win": "electron-packager . Zeno --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icons/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Zeno Krunker --version-string.FileDescription=1.0.0 --version-string.ProductName=\"Zeno\"",
-        "package-linux": "electron-packager . Zeno --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/icon.png --prune=true --out=release-builds"
-    },
-    "author": "AryaveerSR",
-    "license": "ISC",
-    "devDependencies": {
-        "electron-builder": "^22.8.0"
-    },
-    "dependencies": {
-        "discord-rpc": "^3.1.4",
-        "electron": "^8.5.1",
-        "electron-packager": "^15.1.0",
-        "electron-store": "^6.0.1",
-        "fs-extra": "^9.0.1",
-        "msgpack-lite": "^0.1.26",
-        "tmi.js": "^1.5.0",
-        "unzipper": "^0.10.11"
+  "name": "zeno",
+  "version": "1.0.0",
+  "description": "Zeno Krunker Client",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=release-builds --asar",
+    "package-win": "electron-packager . Zeno --overwrite --asar=true --platform=win32 --arch=x64 --icon=assets/icons/icon.ico --prune=true --out=release-builds --version-string.CompanyName=Zeno Krunker --version-string.FileDescription=1.0.0 --version-string.ProductName=\"Zeno\"",
+    "package-linux": "electron-packager . Zeno --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/icon.png --prune=true --out=release-builds",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "author": "AryaveerSR",
+  "license": "ISC",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.54",
+    "@electron-forge/maker-deb": "^6.0.0-beta.54",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.54",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
+    "@electron-forge/maker-zip": "^6.0.0-beta.54",
+    "electron": "^8.5.5"
+  },
+  "dependencies": {
+    "discord-rpc": "^3.1.4",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^6.0.1",
+    "fs-extra": "^9.0.1",
+    "msgpack-lite": "^0.1.26",
+    "tmi.js": "^1.5.0",
+    "unzipper": "^0.10.11"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+          "asar": true,
+          "prune": true
+      },
+      "makers": [
+        {
+            "name": "@electron-forge/maker-zip"
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {
+              "options" : {
+                  "homepage": "https://github.com/Zeno-Krunker/ZenoClient",
+                  "icon": "assets/icons/icon.ico"
+              }
+          }
+        }
+      ]
     }
+  }
 }
