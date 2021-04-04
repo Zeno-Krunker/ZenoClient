@@ -129,6 +129,13 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
         '<div id="scopeSelect customizeButton" class="button bigShadowT mycustomButton" onclick="window.rs()" onmouseenter="playTick()">RS</div>'
     );
 
+    // Link preview
+    if(store.get("linkprev")){
+        getID("menuHolder").insertAdjacentHTML("beforeend", `<div id="hrefprev" style="position:absolute;left:0;bottom:0;height:30px;background-color:var(--ui-bg);z-index:9999;font-family:sans-serif;font-size:30px;line-height:30px;padding-left:5px;padding-right:5px;"></div>`)
+        let hrefprev = getID("hrefprev");
+        window.addEventListener("mousemove", e => { hrefprev.innerHTML = e.target?.href || "" });
+    }
+
     setInterval(() => {
         if (!store.get("StreamOverlay")) return;
         getID("streamContainer").innerHTML = "";

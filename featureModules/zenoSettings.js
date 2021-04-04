@@ -220,7 +220,14 @@ let Settings = [
                 buttonLabel: "Link",
                 buttonId: "LinkTwitch_btn",
                 cb: (value) => initTwitch(value)
-            }, { // VSync Toggle
+            }, { // Link Preview
+                type: Types.TOGGLE,
+                label: "Preview Links",
+                buttonId: "linkprevToggle_btn",
+                storeKey: "linkprev",
+                cb: (checked) => store.set("linkprev", checked),
+                requireRestart: true
+            }, { // Log Toggle
                 type: Types.TOGGLE,
                 label: "Save Logs",
                 buttonId: "loggingToggle_btn",

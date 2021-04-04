@@ -29,8 +29,6 @@ app.commandLine.appendSwitch("disable-component-update");
 app.commandLine.appendSwitch("disable-print-preview");
 app.commandLine.appendSwitch("disable-metrics");
 app.commandLine.appendSwitch("disable-metrics-repo");
-app.commandLine.appendSwitch("use-angle", "d3d9");
-app.commandLine.appendSwitch("smooth-scrolling");
 app.commandLine.appendSwitch("enable-javascript-harmony");
 app.commandLine.appendSwitch("enable-future-v8-vm-features");
 app.commandLine.appendSwitch("enable-webgl2-compute-context");
