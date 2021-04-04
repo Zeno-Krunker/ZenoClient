@@ -3,7 +3,7 @@ const https = require('https');
 const fs = require('fs');
 const pluginUpdater = require("./featureModules/plugins/updater");
 
-const version = 32;
+const version = 33;
 var downloadBtn, cancelBtn, status;
 let tips = [
     "You can press F5 to restart the client",
