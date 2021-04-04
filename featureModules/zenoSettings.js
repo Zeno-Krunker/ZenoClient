@@ -227,6 +227,12 @@ let Settings = [
                 storeKey: "linkprev",
                 cb: (checked) => store.set("linkprev", checked),
                 requireRestart: true
+            }, {
+                type: Types.TOGGLE,
+                label: "Disable YouTube / Twitch Links",
+                buttonId: "linkBlockerToggle_btn",
+                storeKey: "linkBlocker",
+                cb: (checked) => store.set("linkBlocker", checked)
             }, { // Log Toggle
                 type: Types.TOGGLE,
                 label: "Save Logs",

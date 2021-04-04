@@ -103,7 +103,7 @@ ZenoEmitter.on(ZenoEvents.GAME_LOADED, () => {
 
     randomClassInit();
     initExit();
-    require('./featureModules/plugins/loader')(ZenoEmitter);
+    require("./featureModules/plugins/loader")(ZenoEmitter);
     require("./featureModules/scoutMode");
     require("./featureModules/zenoSettings");
     require("./featureModules/altManager");
@@ -149,6 +149,7 @@ ZenoEmitter.on(ZenoEvents.GAME_ACTIVITY_LOADED, () => {
         try { initBadges() } catch (err) { console.log(err) };
     }
     swapGameJoin();
+    require("./featureModules/linkBlocker")(store);
 });
 
 //#region *** Custom Import Settings Menu ***
