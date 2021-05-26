@@ -78,7 +78,7 @@ function downloadPluginItem(plugin) {
                 </div>
             </div>
         </div>
-        <div style="height:100px;width:220px;overflow: hidden;">
+        <div style="overflow: hidden;">
             <img class="mapListThumb" loading="lazy" src="${plugin.thumb}">
         </div>
         <div style="margin-top:1px">
@@ -111,7 +111,7 @@ function installedPluginItem(plugin) {
                 </div>
             </div>
         </div>
-        <div style="height:100px;width:220px;overflow: hidden;">
+        <div style="overflow: hidden;">
             <img class="mapListThumb" loading="lazy" src="${plugx?.thumb || plugin.thumb}">
         </div>
         <div style="margin-top:1px">
