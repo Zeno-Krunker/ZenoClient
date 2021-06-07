@@ -5,3 +5,4 @@ installers/
 ignored/
 krunkerCode
 *.DS_Store
+out/
