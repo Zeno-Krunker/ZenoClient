@@ -4,8 +4,8 @@ const store = new Store();
 
 module.exports = () => {
     if (store.get("SkyColorToggle")) {
-        Object.defineProperty(Object.prototype, "skyC", {
-            value: store.get("SkyColor"),
+        Object.defineProperty(Object.prototype, "skyCol", {
+             value: store.get("SkyColor"),
             writable: false
         })
     }
